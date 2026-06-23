@@ -10,6 +10,16 @@ const fr = {
   "common.loading": "Chargement…",
   "common.cancel": "Annuler",
   "common.back": "Retour",
+  "common.close": "Fermer",
+
+  // Assistant d'installation (PWA)
+  "install.title": "Installer l'application",
+  "install.subtitle": "Accès en 1 tap, plein écran",
+  "install.button": "Installer",
+  "install.iosTitle": "Ajoutez-nous à votre écran d'accueil",
+  "install.iosStep1": "Appuyez sur",
+  "install.iosStep2": "puis",
+  "install.iosAction": "« Sur l'écran d'accueil »",
 
   // Navigation (barre du bas)
   "nav.home": "Accueil",
@@ -221,6 +231,15 @@ const nl: Dict = {
   "common.loading": "Laden…",
   "common.cancel": "Annuleren",
   "common.back": "Terug",
+  "common.close": "Sluiten",
+
+  "install.title": "App installeren",
+  "install.subtitle": "Eén tik, volledig scherm",
+  "install.button": "Installeren",
+  "install.iosTitle": "Voeg ons toe aan je beginscherm",
+  "install.iosStep1": "Tik op",
+  "install.iosStep2": "daarna",
+  "install.iosAction": "« Zet op beginscherm »",
 
   "nav.home": "Home",
   "nav.menu": "Menu",
@@ -410,6 +429,15 @@ const en: Dict = {
   "common.loading": "Loading…",
   "common.cancel": "Cancel",
   "common.back": "Back",
+  "common.close": "Close",
+
+  "install.title": "Install the app",
+  "install.subtitle": "One tap, full screen",
+  "install.button": "Install",
+  "install.iosTitle": "Add us to your home screen",
+  "install.iosStep1": "Tap",
+  "install.iosStep2": "then",
+  "install.iosAction": "“Add to Home Screen”",
 
   "nav.home": "Home",
   "nav.menu": "Menu",

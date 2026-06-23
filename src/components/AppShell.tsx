@@ -6,6 +6,7 @@
 
 import { usePathname } from "next/navigation";
 import BottomNav from "./BottomNav";
+import InstallPrompt from "./InstallPrompt";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -16,7 +17,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <>
       {/* pb-20 = espace réservé pour la barre de navigation fixe */}
-      <div className="pb-20">{children}</div>
+      <div className="pb-20">
+        <InstallPrompt />
+        {children}
+      </div>
       <BottomNav />
     </>
   );
