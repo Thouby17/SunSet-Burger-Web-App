@@ -14,10 +14,10 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#0a0a0a",
     theme_color: "#0a0a0a",
     icons: [
-      { src: "/logo.png", sizes: "512x512", type: "image/png", purpose: "any" },
-      // Le SVG (soleil plein cadre) sert d'icône "maskable" : le logo PNG, avec
-      // son texte autour du cercle, serait rogné par le masque circulaire.
-      { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "maskable" },
+      // Emblème central recadré : net en petit, et l'objet (burger) reste
+      // centré donc compatible avec le masque "maskable" (Android).
+      { src: "/icon-app.png", sizes: "1024x1024", type: "image/png", purpose: "any" },
+      { src: "/icon-app.png", sizes: "1024x1024", type: "image/png", purpose: "maskable" },
     ],
   };
 }

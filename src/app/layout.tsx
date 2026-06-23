@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   title: "SunSet Burger — Commander",
   description: "Commandez à distance vos burgers SunSet. Paiement sur place.",
   applicationName: "SunSet Burger",
-  // Logo PNG fourni par le client (public/logo.png) pour favicon + icône iOS.
-  icons: { icon: "/logo.png", apple: "/logo.png" },
+  // Icône nette (emblème recadré) pour favicon + icône iOS / écran d'accueil.
+  icons: { icon: "/icon-app.png", apple: "/icon-app.png" },
   // Plein écran + titre sous l'icône lors de l'ajout à l'écran d'accueil iOS.
   appleWebApp: {
     capable: true,
