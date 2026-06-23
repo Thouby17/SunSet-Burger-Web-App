@@ -5,10 +5,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Palette "Brooklyn" : fond sombre, accent jaune/ambre street food.
+        // Palette "SunSet" : fond sombre, accent orange coucher de soleil.
         brand: {
-          DEFAULT: "#f5b301",
-          dark: "#d99a00",
+          DEFAULT: "#ff6b35",
+          dark: "#e65100",
         },
       },
     },

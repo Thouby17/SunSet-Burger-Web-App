@@ -7,8 +7,10 @@
 
 import { useState } from "react";
 import type { OrderDTO } from "@/lib/types";
-import { formatPrice, modeLabel, STATUS_META } from "@/lib/format";
+import { formatPrice, modeKey, relabelOption, statusKey, STATUS_EMOJI } from "@/lib/format";
 import { formatBeMobile } from "@/lib/phone";
+import { useI18n } from "@/i18n/client";
+import { LOCALE_BCP47 } from "@/i18n/config";
 
 // Couleur de bordure selon le statut (repère visuel rapide).
 const BORDER: Record<OrderDTO["status"], string> = {
@@ -25,29 +27,16 @@ const QUICK_TIMES = [10, 15, 20, 30];
 const WARN_MIN = 5;
 const URGENT_MIN = 10;
 
-function timeLabel(iso: string): string {
-  return new Date(iso).toLocaleTimeString("fr-FR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
 /** Minutes écoulées depuis `iso`. */
 function minutesSince(iso: string): number {
   return Math.floor((Date.now() - new Date(iso).getTime()) / 60_000);
-}
-
-/** "à l'instant", "il y a 3 min"… */
-function elapsedLabel(iso: string): string {
-  const m = minutesSince(iso);
-  if (m < 1) return "à l'instant";
-  return `il y a ${m} min`;
 }
 
 export default function StaffOrderCard({
   order,
   defaultWaitTime,
   onAction,
+  labelMap,
 }: {
   order: OrderDTO;
   defaultWaitTime: number;
@@ -55,9 +44,22 @@ export default function StaffOrderCard({
     id: number,
     body: { action: string; waitTime?: number; message?: string },
   ) => void;
+  labelMap?: Record<string, string>;
 }) {
+  const { t, locale } = useI18n();
   const [wait, setWait] = useState(String(defaultWaitTime));
-  const meta = STATUS_META[order.status];
+
+  const clockTime = (iso: string | Date) =>
+    new Date(iso).toLocaleTimeString(LOCALE_BCP47[locale], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+  /** "à l'instant", "il y a 3 min"… (traduit) */
+  const elapsedLabel = (iso: string) => {
+    const m = minutesSince(iso);
+    return m < 1 ? t("card.justNow") : t("card.minAgo", { n: m });
+  };
 
   // Alerte d'ancienneté : uniquement pour les commandes encore en attente.
   const waiting = order.status === "pending";
@@ -93,12 +95,12 @@ export default function StaffOrderCard({
         <div>
           <span className="text-xl font-extrabold text-brand">#{order.id}</span>
           <span className="ml-2 rounded-full bg-neutral-800 px-2 py-0.5 text-xs">
-            {modeLabel(order.mode)}
+            {t(modeKey(order.mode))}
           </span>
         </div>
         <div className="text-right text-sm text-neutral-400">
           <div>
-            {timeLabel(order.createdAt)}
+            {clockTime(order.createdAt)}
             {waiting && (
               <span
                 className={`ml-1 ${
@@ -110,7 +112,7 @@ export default function StaffOrderCard({
             )}
           </div>
           <div className="font-medium text-neutral-300">
-            {meta.emoji} {meta.label}
+            {STATUS_EMOJI[order.status]} {t(statusKey(order.status))}
           </div>
         </div>
       </div>
@@ -133,7 +135,7 @@ export default function StaffOrderCard({
             {l.options.length > 0 && (
               <span className="text-neutral-400">
                 {" "}
-                ({l.options.map((o) => o.label).join(", ")})
+                ({l.options.map((o) => relabelOption(o.id, o.label, labelMap)).join(", ")})
               </span>
             )}
             {l.note && (
@@ -144,8 +146,8 @@ export default function StaffOrderCard({
       </ul>
 
       <div className="mt-3 flex justify-between border-t border-neutral-800 pt-2 font-bold">
-        <span>Total</span>
-        <span className="text-brand">{formatPrice(order.total)}</span>
+        <span>{t("cart.total")}</span>
+        <span className="text-brand">{formatPrice(order.total, locale)}</span>
       </div>
 
       {/* Actions selon le statut */}
@@ -154,16 +156,16 @@ export default function StaffOrderCard({
           <div className="flex flex-col gap-2">
             {/* Acceptation rapide en un clic */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm text-neutral-400">Accepter sous :</span>
-              {QUICK_TIMES.map((t) => (
+              <span className="text-sm text-neutral-400">{t("card.acceptWithin")}</span>
+              {QUICK_TIMES.map((mins) => (
                 <button
-                  key={t}
+                  key={mins}
                   onClick={() =>
-                    onAction(order.id, { action: "accept", waitTime: t })
+                    onAction(order.id, { action: "accept", waitTime: mins })
                   }
                   className="rounded-lg bg-green-600 px-3 py-1.5 text-sm font-bold text-white transition active:scale-[0.98]"
                 >
-                  {t} min
+                  {mins} {t("card.min")}
                 </button>
               ))}
             </div>
@@ -183,22 +185,22 @@ export default function StaffOrderCard({
                 }
                 className="flex-1 rounded-lg bg-green-700 px-4 py-2 font-bold text-white transition active:scale-[0.98]"
               >
-                Accepter (perso)
+                {t("card.acceptCustom")}
               </button>
             </div>
 
             <button
               onClick={() => {
                 // Confirmation explicite avant un refus.
-                if (!window.confirm(`Refuser la commande #${order.id} ?`)) return;
-                const message = window.prompt("Motif du refus (optionnel) :", "");
+                if (!window.confirm(t("card.refuseConfirm", { id: order.id }))) return;
+                const message = window.prompt(t("card.refuseReason"), "");
                 if (message !== null) {
                   onAction(order.id, { action: "refuse", message });
                 }
               }}
               className="rounded-lg bg-red-600/90 px-4 py-2 font-medium text-white transition active:scale-[0.98]"
             >
-              Refuser
+              {t("card.refuse")}
             </button>
           </div>
         )}
@@ -210,21 +212,13 @@ export default function StaffOrderCard({
               <div className="text-sm">
                 {late ? (
                   <span className="font-bold text-red-400">
-                    ⚠ En retard de {lateMin} min (prévu{" "}
-                    {readyAt.toLocaleTimeString("fr-FR", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                    )
+                    {t("card.lateBy", { n: lateMin, time: clockTime(readyAt) })}
                   </span>
                 ) : (
                   <span className="text-neutral-400">
-                    Prêt vers{" "}
+                    {t("card.readyAround")}{" "}
                     <span className="font-semibold text-neutral-200">
-                      {readyAt.toLocaleTimeString("fr-FR", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      {clockTime(readyAt)}
                     </span>
                   </span>
                 )}
@@ -235,11 +229,11 @@ export default function StaffOrderCard({
                 onClick={() => onAction(order.id, { action: "ready" })}
                 className="flex-1 rounded-lg bg-blue-600 px-4 py-2 font-bold text-white transition active:scale-[0.98]"
               >
-                Marquer “Prête”
+                {t("card.markReady")}
               </button>
             <button
               onClick={() => onAction(order.id, { action: "revert" })}
-              title="Revenir à « En attente »"
+              title={t("card.revertToPending")}
               className="rounded-lg bg-neutral-800 px-3 py-2 text-sm text-neutral-300 transition active:scale-[0.98]"
             >
               ↩
@@ -250,25 +244,25 @@ export default function StaffOrderCard({
 
         {order.status === "ready" && (
           <div className="flex items-center justify-between gap-2">
-            <span className="text-sm text-blue-400">Commande prête ✓</span>
+            <span className="text-sm text-blue-400">{t("card.orderReady")}</span>
             <button
               onClick={() => onAction(order.id, { action: "revert" })}
               className="rounded-lg bg-neutral-800 px-3 py-1.5 text-sm text-neutral-300 transition active:scale-[0.98]"
             >
-              ↩ Annuler « Prête »
+              {t("card.cancelReady")}
             </button>
           </div>
         )}
         {order.status === "refused" && (
           <div className="flex items-center justify-between gap-2">
             <span className="text-sm text-red-400">
-              Refusée{order.staffMessage ? ` — ${order.staffMessage}` : ""}
+              {t("card.refused")}{order.staffMessage ? ` — ${order.staffMessage}` : ""}
             </span>
             <button
               onClick={() => onAction(order.id, { action: "revert" })}
               className="shrink-0 rounded-lg bg-neutral-800 px-3 py-1.5 text-sm text-neutral-300 transition active:scale-[0.98]"
             >
-              ↩ Rétablir
+              {t("card.restore")}
             </button>
           </div>
         )}

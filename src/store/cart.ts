@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { CartLine, SelectedChoice, SelectedOption } from "@/lib/types";
 
-const STORAGE_KEY = "brooklyn-food-cart";
+const STORAGE_KEY = "sunset-burger-cart";
 
 /** Suppléments + choix d'une ligne réunis pour l'affichage (label + prix). */
 export function lineExtras(line: CartLine): { label: string; price: number }[] {

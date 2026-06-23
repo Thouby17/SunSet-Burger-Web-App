@@ -4,7 +4,7 @@
 // son propre navigateur (localStorage). On stocke les jetons (non devinables),
 // pas les ids séquentiels. Le restaurant ne stocke rien de plus.
 
-const STORAGE_KEY = "brooklyn-food-my-orders-v2";
+const STORAGE_KEY = "sunset-burger-my-orders-v2";
 
 /** Renvoie les jetons mémorisés sur cet appareil (plus récents d'abord). */
 export function getMyOrderTokens(): string[] {

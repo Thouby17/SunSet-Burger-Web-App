@@ -5,8 +5,9 @@
 
 import { useState } from "react";
 import type { OrderMode } from "@/lib/types";
-import { formatPrice, modeLabel } from "@/lib/format";
+import { formatPrice, modeKey } from "@/lib/format";
 import { isValidBeMobile } from "@/lib/phone";
+import { useI18n } from "@/i18n/client";
 
 export default function CheckoutForm({
   mode,
@@ -25,6 +26,7 @@ export default function CheckoutForm({
   onBack: () => void;
   onSubmit: (customerName: string, phone: string) => void;
 }) {
+  const { t, locale } = useI18n();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   // L'erreur de format ne s'affiche qu'après une première saisie (évite de
@@ -38,24 +40,25 @@ export default function CheckoutForm({
   return (
     <div className="flex flex-col gap-5">
       <button onClick={onBack} className="self-start text-sm text-neutral-400">
-        ← Retour au panier
+        {t("checkout.back")}
       </button>
 
       <div>
-        <h2 className="text-xl font-bold">Vos coordonnées</h2>
+        <h2 className="text-xl font-bold">{t("checkout.title")}</h2>
         <p className="mt-1 text-sm text-neutral-400">
-          Mode : <span className="text-neutral-200">{modeLabel(mode)}</span>
+          {t("checkout.mode")}{" "}
+          <span className="text-neutral-200">{t(modeKey(mode))}</span>
         </p>
       </div>
 
       <div>
         <label className="mb-1.5 block text-sm font-medium text-neutral-300">
-          Prénom
+          {t("checkout.firstName")}
         </label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Ex. Julie"
+          placeholder={t("checkout.firstNamePlaceholder")}
           maxLength={60}
           className="w-full rounded-xl border border-neutral-800 bg-neutral-950 px-4 py-3 outline-none focus:border-brand"
         />
@@ -63,13 +66,13 @@ export default function CheckoutForm({
 
       <div>
         <label className="mb-1.5 block text-sm font-medium text-neutral-300">
-          Téléphone
+          {t("checkout.phone")}
         </label>
         <input
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           onBlur={() => setPhoneTouched(true)}
-          placeholder="Ex. 0467 44 07 18"
+          placeholder={t("checkout.phonePlaceholder")}
           inputMode="tel"
           maxLength={20}
           className={`w-full rounded-xl border bg-neutral-950 px-4 py-3 outline-none focus:border-brand ${
@@ -77,10 +80,7 @@ export default function CheckoutForm({
           }`}
         />
         {showPhoneError ? (
-          <p className="mt-1.5 text-xs text-red-400">
-            Numéro de mobile belge invalide. Format attendu : 04XX XX XX XX ou
-            +324XX XX XX XX.
-          </p>
+          <p className="mt-1.5 text-xs text-red-400">{t("checkout.phoneError")}</p>
         ) : (
           <p className="mt-1.5 text-xs text-neutral-500">{phoneDisclaimer}</p>
         )}
@@ -97,11 +97,11 @@ export default function CheckoutForm({
         onClick={() => onSubmit(name.trim(), phone.trim())}
         className="w-full rounded-2xl bg-brand px-6 py-4 text-lg font-bold text-neutral-950 transition active:scale-[0.98] disabled:opacity-40"
       >
-        {submitting ? "Envoi…" : `Envoyer la commande — ${formatPrice(total)}`}
+        {submitting
+          ? t("checkout.submitting")
+          : t("checkout.submit", { price: formatPrice(total, locale) })}
       </button>
-      <p className="text-center text-xs text-neutral-500">
-        Paiement sur place. Aucun paiement en ligne.
-      </p>
+      <p className="text-center text-xs text-neutral-500">{t("checkout.payNote")}</p>
     </div>
   );
 }

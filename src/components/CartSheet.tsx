@@ -6,6 +6,7 @@
 import type { CartLine } from "@/lib/types";
 import { formatPrice } from "@/lib/format";
 import { lineExtras, lineTotal } from "@/store/cart";
+import { useI18n } from "@/i18n/client";
 
 export default function CartSheet({
   lines,
@@ -24,6 +25,7 @@ export default function CartSheet({
   onClear: () => void;
   onCheckout: () => void;
 }) {
+  const { t, locale } = useI18n();
   return (
     <div
       className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60"
@@ -36,15 +38,15 @@ export default function CartSheet({
         <div className="p-5 pb-2">
           <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-neutral-700" />
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold">Votre panier</h2>
+            <h2 className="text-xl font-bold">{t("cart.title")}</h2>
             {lines.length > 0 && (
               <button
                 onClick={() => {
-                  if (confirm("Vider le panier ?")) onClear();
+                  if (confirm(t("cart.clearConfirm"))) onClear();
                 }}
                 className="text-sm text-red-400"
               >
-                Vider
+                {t("cart.clear")}
               </button>
             )}
           </div>
@@ -54,7 +56,7 @@ export default function CartSheet({
         <div className="flex-1 overflow-y-auto px-5">
           {lines.length === 0 ? (
             <p className="py-10 text-center text-neutral-500">
-              Votre panier est vide.
+              {t("cart.empty")}
             </p>
           ) : (
             <ul className="flex flex-col gap-3">
@@ -66,7 +68,7 @@ export default function CartSheet({
                   <div className="flex justify-between gap-2">
                     <span className="font-semibold">{l.name}</span>
                     <span className="font-semibold text-brand">
-                      {formatPrice(lineTotal(l))}
+                      {formatPrice(lineTotal(l), locale)}
                     </span>
                   </div>
 
@@ -86,7 +88,7 @@ export default function CartSheet({
                       <button
                         onClick={() => onUpdateQty(l.lineId, l.qty - 1)}
                         className="h-8 w-8 rounded-full bg-neutral-800 text-lg font-bold"
-                        aria-label="Diminuer"
+                        aria-label={t("item.decrease")}
                       >
                         −
                       </button>
@@ -94,7 +96,7 @@ export default function CartSheet({
                       <button
                         onClick={() => onUpdateQty(l.lineId, l.qty + 1)}
                         className="h-8 w-8 rounded-full bg-neutral-800 text-lg font-bold"
-                        aria-label="Augmenter"
+                        aria-label={t("item.increase")}
                       >
                         +
                       </button>
@@ -103,7 +105,7 @@ export default function CartSheet({
                       onClick={() => onRemove(l.lineId)}
                       className="text-sm text-neutral-500"
                     >
-                      Retirer
+                      {t("cart.remove")}
                     </button>
                   </div>
                 </li>
@@ -115,21 +117,21 @@ export default function CartSheet({
         {/* Pied : total + actions */}
         <div className="border-t border-neutral-800 p-5">
           <div className="mb-3 flex items-center justify-between text-lg">
-            <span className="font-medium text-neutral-300">Total</span>
-            <span className="font-bold text-brand">{formatPrice(total)}</span>
+            <span className="font-medium text-neutral-300">{t("cart.total")}</span>
+            <span className="font-bold text-brand">{formatPrice(total, locale)}</span>
           </div>
           <button
             disabled={lines.length === 0}
             onClick={onCheckout}
             className="w-full rounded-2xl bg-brand px-6 py-4 text-lg font-bold text-neutral-950 transition active:scale-[0.98] disabled:opacity-40"
           >
-            Continuer
+            {t("cart.continue")}
           </button>
           <button
             onClick={onClose}
             className="mt-2 w-full rounded-2xl px-6 py-3 text-sm text-neutral-400"
           >
-            Ajouter d'autres plats
+            {t("cart.addMore")}
           </button>
         </div>
       </div>

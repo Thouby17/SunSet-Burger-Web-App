@@ -9,8 +9,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { OrderDTO } from "@/lib/types";
-import { formatPrice, modeLabel, STATUS_META } from "@/lib/format";
+import { formatPrice, modeKey, relabelOption, statusKey, STATUS_EMOJI } from "@/lib/format";
 import { formatBeMobile } from "@/lib/phone";
+import { useI18n } from "@/i18n/client";
+import { LOCALE_BCP47 } from "@/i18n/config";
+import type { MessageKey } from "@/i18n/messages";
 
 /** Date du jour au format YYYY-MM-DD (pour les <input type="date">). */
 function todayStr(): string {
@@ -19,29 +22,35 @@ function todayStr(): string {
   return new Date(d.getTime() - tz).toISOString().slice(0, 10);
 }
 
-function dateTimeLabel(iso: string): string {
-  return new Date(iso).toLocaleString("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
-/** Résumé textuel des items d'une commande (pour table + CSV). */
-function itemsSummary(o: OrderDTO): string {
-  return o.items
-    .map((l) => {
-      const opts = l.options.length ? ` (${l.options.map((x) => x.label).join(", ")})` : "";
-      const note = l.note ? ` [${l.note}]` : "";
-      return `${l.qty}× ${l.name}${opts}${note}`;
-    })
-    .join(" ; ");
-}
-
-export default function HistoryView() {
+export default function HistoryView({
+  labelMap,
+}: {
+  labelMap?: Record<string, string>;
+}) {
   const router = useRouter();
+  const { t, locale } = useI18n();
+
+  const dateTimeLabel = (iso: string) =>
+    new Date(iso).toLocaleString(LOCALE_BCP47[locale], {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+  /** Résumé textuel des items d'une commande (pour table + CSV). */
+  const itemsSummary = (o: OrderDTO): string =>
+    o.items
+      .map((l) => {
+        const opts = l.options.length
+          ? ` (${l.options.map((x) => relabelOption(x.id, x.label, labelMap)).join(", ")})`
+          : "";
+        const note = l.note ? ` [${l.note}]` : "";
+        return `${l.qty}× ${l.name}${opts}${note}`;
+      })
+      .join(" ; ");
+
   const [from, setFrom] = useState(todayStr());
   const [to, setTo] = useState(todayStr());
   const [orders, setOrders] = useState<OrderDTO[]>([]);
@@ -77,16 +86,18 @@ export default function HistoryView() {
     .reduce((s, o) => s + o.total, 0);
 
   function exportCsv() {
-    const header = [
-      "Numero",
-      "Date",
-      "Mode",
-      "Prenom",
-      "Telephone",
-      "Statut",
-      "Total_EUR",
-      "Articles",
-    ];
+    const header = (
+      [
+        "csv.number",
+        "csv.date",
+        "csv.mode",
+        "csv.firstName",
+        "csv.phone",
+        "csv.status",
+        "csv.totalEur",
+        "csv.items",
+      ] as MessageKey[]
+    ).map((k) => t(k));
     const escape = (v: string | number) => {
       let s = String(v);
       // Neutralise l'injection de formules : un champ commençant par = + - @
@@ -99,10 +110,10 @@ export default function HistoryView() {
       [
         o.id,
         dateTimeLabel(o.createdAt),
-        modeLabel(o.mode),
+        t(modeKey(o.mode)),
         o.customerName,
         formatBeMobile(o.phone),
-        STATUS_META[o.status].label,
+        t(statusKey(o.status)),
         o.total.toFixed(2),
         itemsSummary(o),
       ]
@@ -125,20 +136,20 @@ export default function HistoryView() {
     <main className="mx-auto max-w-6xl px-6 py-6">
       <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-extrabold">
-          Historique <span className="text-brand">— Staff</span>
+          {t("history.title")} <span className="text-brand">{t("staff.staffSuffix")}</span>
         </h1>
         <Link
           href="/staff"
           className="rounded-full bg-neutral-800 px-3 py-1.5 text-sm text-neutral-300 hover:text-white"
         >
-          ← Écran live
+          {t("history.liveScreen")}
         </Link>
       </header>
 
       {/* Filtres */}
       <div className="mb-6 flex flex-wrap items-end gap-3">
         <label className="flex flex-col text-sm text-neutral-400">
-          Du
+          {t("history.from")}
           <input
             type="date"
             value={from}
@@ -148,7 +159,7 @@ export default function HistoryView() {
           />
         </label>
         <label className="flex flex-col text-sm text-neutral-400">
-          Au
+          {t("history.to")}
           <input
             type="date"
             value={to}
@@ -161,52 +172,52 @@ export default function HistoryView() {
           onClick={load}
           className="rounded-lg bg-brand px-4 py-2 font-bold text-neutral-950 transition active:scale-[0.98]"
         >
-          Filtrer
+          {t("history.filter")}
         </button>
         <button
           onClick={exportCsv}
           disabled={orders.length === 0}
           className="rounded-lg bg-neutral-800 px-4 py-2 font-medium text-neutral-200 transition active:scale-[0.98] disabled:opacity-40"
         >
-          ⬇ Export CSV
+          {t("history.exportCsv")}
         </button>
       </div>
 
       {/* Totaux */}
       <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
         <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4">
-          <div className="text-sm text-neutral-400">Commandes</div>
+          <div className="text-sm text-neutral-400">{t("history.ordersCount")}</div>
           <div className="text-2xl font-extrabold">{count}</div>
         </div>
         <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4">
-          <div className="text-sm text-neutral-400">Dont refusées</div>
+          <div className="text-sm text-neutral-400">{t("history.refusedOf")}</div>
           <div className="text-2xl font-extrabold text-red-400">{refusedCount}</div>
         </div>
         <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-4">
-          <div className="text-sm text-neutral-400">Chiffre d&apos;affaires</div>
+          <div className="text-sm text-neutral-400">{t("history.revenue")}</div>
           <div className="text-2xl font-extrabold text-brand">
-            {formatPrice(revenue)}
+            {formatPrice(revenue, locale)}
           </div>
         </div>
       </div>
 
       {/* Tableau */}
       {loading ? (
-        <p className="text-neutral-500">Chargement…</p>
+        <p className="text-neutral-500">{t("common.loading")}</p>
       ) : orders.length === 0 ? (
-        <p className="text-neutral-500">Aucune commande sur cette période.</p>
+        <p className="text-neutral-500">{t("history.none")}</p>
       ) : (
         <div className="overflow-x-auto rounded-xl border border-neutral-800">
           <table className="w-full text-sm">
             <thead className="bg-neutral-900 text-left text-neutral-400">
               <tr>
                 <th className="px-3 py-2">#</th>
-                <th className="px-3 py-2">Date</th>
-                <th className="px-3 py-2">Mode</th>
-                <th className="px-3 py-2">Client</th>
-                <th className="px-3 py-2">Statut</th>
-                <th className="px-3 py-2 text-right">Total</th>
-                <th className="px-3 py-2">Articles</th>
+                <th className="px-3 py-2">{t("history.colDate")}</th>
+                <th className="px-3 py-2">{t("history.colMode")}</th>
+                <th className="px-3 py-2">{t("history.colClient")}</th>
+                <th className="px-3 py-2">{t("history.colStatus")}</th>
+                <th className="px-3 py-2 text-right">{t("history.colTotal")}</th>
+                <th className="px-3 py-2">{t("history.colItems")}</th>
               </tr>
             </thead>
             <tbody>
@@ -216,7 +227,7 @@ export default function HistoryView() {
                   <td className="px-3 py-2 whitespace-nowrap text-neutral-300">
                     {dateTimeLabel(o.createdAt)}
                   </td>
-                  <td className="px-3 py-2 text-neutral-300">{modeLabel(o.mode)}</td>
+                  <td className="px-3 py-2 text-neutral-300">{t(modeKey(o.mode))}</td>
                   <td className="px-3 py-2 text-neutral-300">
                     {o.customerName}
                     <span className="block text-xs text-neutral-500">
@@ -224,10 +235,10 @@ export default function HistoryView() {
                     </span>
                   </td>
                   <td className="px-3 py-2">
-                    {STATUS_META[o.status].emoji} {STATUS_META[o.status].label}
+                    {STATUS_EMOJI[o.status]} {t(statusKey(o.status))}
                   </td>
                   <td className="px-3 py-2 text-right font-semibold">
-                    {formatPrice(o.total)}
+                    {formatPrice(o.total, locale)}
                   </td>
                   <td className="px-3 py-2 text-neutral-400">{itemsSummary(o)}</td>
                 </tr>

@@ -4,9 +4,11 @@
 // À placer en haut à gauche des sous-pages.
 
 import { useRouter } from "next/navigation";
+import { useI18n } from "@/i18n/client";
 
 export default function BackButton({ fallback = "/" }: { fallback?: string }) {
   const router = useRouter();
+  const { t } = useI18n();
 
   function goBack() {
     // Si on a un historique, on revient ; sinon on va sur la page de repli.
@@ -17,7 +19,7 @@ export default function BackButton({ fallback = "/" }: { fallback?: string }) {
   return (
     <button
       onClick={goBack}
-      aria-label="Retour"
+      aria-label={t("common.back")}
       className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-800 text-neutral-200 transition active:scale-90 hover:bg-neutral-700"
     >
       <svg

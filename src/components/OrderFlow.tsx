@@ -6,7 +6,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Menu, MenuItem, OrderMode } from "@/lib/types";
-import { formatPrice, modeLabel } from "@/lib/format";
+import { formatPrice, modeKey } from "@/lib/format";
+import { useI18n } from "@/i18n/client";
 import { useCart, toOrderLines } from "@/store/cart";
 import { addMyOrderToken } from "@/store/myOrders";
 import BackButton from "./BackButton";
@@ -29,6 +30,7 @@ export default function OrderFlow({
 }) {
   const router = useRouter();
   const cart = useCart();
+  const { t, locale } = useI18n();
 
   const [mode, setMode] = useState<OrderMode | null>(null);
   const [view, setView] = useState<"menu" | "checkout">("menu");
@@ -84,12 +86,10 @@ export default function OrderFlow({
     return (
       <div className="mx-auto flex min-h-[calc(100dvh-5rem)] max-w-md flex-col items-center justify-center gap-4 px-6 text-center">
         <span className="text-4xl">😴</span>
-        <h1 className="text-2xl font-bold">Nous sommes fermés</h1>
-        <p className="text-neutral-400">
-          Revenez pendant nos horaires d&apos;ouverture pour passer commande.
-        </p>
+        <h1 className="text-2xl font-bold">{t("closed.title")}</h1>
+        <p className="text-neutral-400">{t("closed.text")}</p>
         <a href="/" className="mt-2 text-sm text-brand underline underline-offset-4">
-          Retour à l&apos;accueil
+          {t("closed.backHome")}
         </a>
       </div>
     );
@@ -124,13 +124,13 @@ export default function OrderFlow({
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error ?? "Échec de l'envoi.");
+        throw new Error(data.error ?? t("checkout.sendFailed"));
       }
       cart.clear();
       addMyOrderToken(data.token); // mémorise la commande (jeton) sur l'appareil du client
       router.push(`/suivi/${data.token}`);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Une erreur est survenue.");
+      setError(e instanceof Error ? e.message : t("checkout.genericError"));
       setSubmitting(false);
     }
   }
@@ -165,7 +165,7 @@ export default function OrderFlow({
           onClick={() => setMode(null)}
           className="rounded-full bg-neutral-800 px-3 py-1 text-xs text-neutral-300"
         >
-          {modeLabel(mode)} ✎
+          {t(modeKey(mode))} ✎
         </button>
       </header>
 
@@ -213,9 +213,9 @@ export default function OrderFlow({
               <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-neutral-950 px-1.5 text-sm text-brand">
                 {cart.count}
               </span>
-              Voir le panier
+              {t("cart.view")}
             </span>
-            <span>{formatPrice(cart.total)}</span>
+            <span>{formatPrice(cart.total, locale)}</span>
           </button>
         </div>
       )}

@@ -7,23 +7,32 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import BackButton from "./BackButton";
 import type { OrderDTO } from "@/lib/types";
-import { formatPrice, modeLabel, STATUS_META } from "@/lib/format";
+import { formatPrice, modeKey, relabelOption, statusKey, STATUS_EMOJI } from "@/lib/format";
 import { ensureNotifyPermission, playBeep, showNotification } from "@/lib/notify";
+import { useI18n } from "@/i18n/client";
+import { LOCALE_BCP47 } from "@/i18n/config";
 
 const POLL_MS = 5000;
 
-/** Heure formatée "19h45" à partir d'une Date. */
-function clock(d: Date): string {
-  return d
-    .toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
-    .replace(":", "h");
-}
-
-export default function OrderTracker({ token }: { token: string }) {
+export default function OrderTracker({
+  token,
+  labelMap,
+}: {
+  token: string;
+  labelMap?: Record<string, string>;
+}) {
+  const { t, locale } = useI18n();
   const [order, setOrder] = useState<OrderDTO | null>(null);
   const [notFound, setNotFound] = useState(false);
   // Statut précédent : sert à détecter le passage à "prête" pour notifier.
   const prevStatus = useRef<string | null>(null);
+
+  /** Heure formatée "19h45" à partir d'une Date (selon la langue). */
+  function clock(d: Date): string {
+    return d
+      .toLocaleTimeString(LOCALE_BCP47[locale], { hour: "2-digit", minute: "2-digit" })
+      .replace(":", "h");
+  }
 
   // On demande l'autorisation de notifier dès l'arrivée sur la page.
   useEffect(() => {
@@ -38,11 +47,11 @@ export default function OrderTracker({ token }: { token: string }) {
     if (prev && prev !== order.status && order.status === "ready") {
       playBeep();
       showNotification(
-        `Commande #${order.id} prête !`,
-        "Votre commande vous attend. Bon appétit !",
+        t("track.notifyReadyTitle", { id: order.id }),
+        t("track.readyNote"),
       );
     }
-  }, [order]);
+  }, [order, t]);
 
   useEffect(() => {
     let active = true;
@@ -77,9 +86,9 @@ export default function OrderTracker({ token }: { token: string }) {
     return (
       <div className="mx-auto flex min-h-[calc(100dvh-5rem)] max-w-md flex-col items-center justify-center gap-3 px-6 text-center">
         <span className="text-4xl">🔎</span>
-        <h1 className="text-xl font-bold">Commande introuvable</h1>
+        <h1 className="text-xl font-bold">{t("track.notFound")}</h1>
         <a href="/commander" className="text-sm text-brand underline underline-offset-4">
-          Passer une commande
+          {t("track.placeOrder")}
         </a>
       </div>
     );
@@ -88,12 +97,10 @@ export default function OrderTracker({ token }: { token: string }) {
   if (!order) {
     return (
       <div className="mx-auto flex min-h-[calc(100dvh-5rem)] max-w-md items-center justify-center text-neutral-500">
-        Chargement…
+        {t("common.loading")}
       </div>
     );
   }
-
-  const meta = STATUS_META[order.status];
 
   return (
     <main className="mx-auto max-w-md px-5 py-6">
@@ -101,31 +108,31 @@ export default function OrderTracker({ token }: { token: string }) {
         <BackButton />
       </div>
       <header className="mb-6 text-center">
-        <p className="text-sm text-neutral-400">Commande</p>
+        <p className="text-sm text-neutral-400">{t("track.order")}</p>
         <h1 className="text-3xl font-extrabold text-brand">#{order.id}</h1>
         <p className="mt-1 text-sm text-neutral-400">
-          {modeLabel(order.mode)} · {order.customerName}
+          {t(modeKey(order.mode))} · {order.customerName}
         </p>
       </header>
 
       {/* Bloc statut */}
       <section className="mb-6 rounded-2xl border border-neutral-800 bg-neutral-900 p-6 text-center">
-        <div className="text-5xl">{meta.emoji}</div>
-        <h2 className="mt-3 text-xl font-bold">{meta.label}</h2>
+        <div className="text-5xl">{STATUS_EMOJI[order.status]}</div>
+        <h2 className="mt-3 text-xl font-bold">{t(statusKey(order.status))}</h2>
 
         {order.status === "pending" && (
-          <p className="mt-1 text-sm text-neutral-400">
-            Le restaurant examine votre commande…
-          </p>
+          <p className="mt-1 text-sm text-neutral-400">{t("track.pendingNote")}</p>
         )}
         {order.status === "accepted" && order.waitTime != null && (
           <div className="mt-1">
             <p className="text-lg text-neutral-200">
-              Temps d&apos;attente estimé :{" "}
-              <span className="font-bold text-brand">{order.waitTime} min</span>
+              {t("track.waitEstimated")}{" "}
+              <span className="font-bold text-brand">
+                {order.waitTime} {t("track.min")}
+              </span>
             </p>
             <p className="mt-0.5 text-sm text-neutral-400">
-              Prêt vers{" "}
+              {t("track.readyAround")}{" "}
               <span className="font-semibold text-neutral-200">
                 {clock(
                   new Date(
@@ -138,15 +145,11 @@ export default function OrderTracker({ token }: { token: string }) {
           </div>
         )}
         {order.status === "ready" && (
-          <p className="mt-1 text-sm text-neutral-400">
-            Votre commande vous attend. Bon appétit !
-          </p>
+          <p className="mt-1 text-sm text-neutral-400">{t("track.readyNote")}</p>
         )}
         {order.status === "refused" && (
           <p className="mt-1 text-sm text-neutral-400">
-            {order.staffMessage
-              ? order.staffMessage
-              : "Votre commande n'a pas pu être acceptée."}
+            {order.staffMessage ? order.staffMessage : t("track.refusedDefault")}
           </p>
         )}
       </section>
@@ -154,7 +157,7 @@ export default function OrderTracker({ token }: { token: string }) {
       {/* Récapitulatif */}
       <section className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
         <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
-          Récapitulatif
+          {t("track.summary")}
         </h3>
         <ul className="flex flex-col gap-3">
           {order.items.map((l, i) => (
@@ -165,7 +168,9 @@ export default function OrderTracker({ token }: { token: string }) {
                 </span>
                 {l.options.length > 0 && (
                   <span className="block text-neutral-400">
-                    {l.options.map((o) => o.label).join(", ")}
+                    {l.options
+                      .map((o) => relabelOption(o.id, o.label, labelMap))
+                      .join(", ")}
                   </span>
                 )}
                 {l.note && (
@@ -173,17 +178,17 @@ export default function OrderTracker({ token }: { token: string }) {
                 )}
               </div>
               <span className="shrink-0 text-neutral-300">
-                {formatPrice(l.lineTotal)}
+                {formatPrice(l.lineTotal, locale)}
               </span>
             </li>
           ))}
         </ul>
         <div className="mt-4 flex justify-between border-t border-neutral-800 pt-3 text-lg font-bold">
-          <span>Total</span>
-          <span className="text-brand">{formatPrice(order.total)}</span>
+          <span>{t("cart.total")}</span>
+          <span className="text-brand">{formatPrice(order.total, locale)}</span>
         </div>
         <p className="mt-3 text-center text-xs text-neutral-500">
-          Paiement sur place. Cette page se met à jour automatiquement.
+          {t("track.payAutoUpdate")}
         </p>
       </section>
 
@@ -192,7 +197,7 @@ export default function OrderTracker({ token }: { token: string }) {
           href="/mes-commandes"
           className="text-sm text-neutral-400 underline underline-offset-4 hover:text-neutral-200"
         >
-          Voir toutes mes commandes
+          {t("track.viewAll")}
         </Link>
       </div>
     </main>

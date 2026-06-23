@@ -26,7 +26,9 @@ export async function buildOrderLines(
   const lines: OrderLine[] = [];
 
   for (const raw of incoming) {
-    const item = await findMenuItem(raw.menuItemId);
+    // Libellés figés en FR (langue de référence). À l'affichage, ils sont
+    // ré-traduits dans la langue du lecteur via getOrderLabelMap().
+    const item = await findMenuItem(raw.menuItemId, "fr");
     if (!item) {
       throw new Error(`Plat inconnu : ${raw.menuItemId}`);
     }

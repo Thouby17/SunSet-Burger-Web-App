@@ -2,6 +2,8 @@
 
 import { notFound } from "next/navigation";
 import OrderTracker from "@/components/OrderTracker";
+import { getOrderLabelMap } from "@/lib/menu";
+import { getLocale } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -13,5 +15,6 @@ export default async function SuiviPage({
   const { token } = await params;
   if (!token) notFound();
 
-  return <OrderTracker token={token} />;
+  const labelMap = await getOrderLabelMap(await getLocale());
+  return <OrderTracker token={token} labelMap={labelMap} />;
 }

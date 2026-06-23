@@ -7,21 +7,23 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import BackButton from "./BackButton";
 import type { OrderDTO } from "@/lib/types";
-import { formatPrice, modeLabel, STATUS_META } from "@/lib/format";
+import { formatPrice, modeKey, statusKey, STATUS_EMOJI } from "@/lib/format";
 import { getMyOrderTokens } from "@/store/myOrders";
-
-function dateLabel(iso: string): string {
-  return new Date(iso).toLocaleString("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
+import { useI18n } from "@/i18n/client";
+import { LOCALE_BCP47 } from "@/i18n/config";
 
 export default function MyOrders() {
+  const { t, locale } = useI18n();
   const [orders, setOrders] = useState<OrderDTO[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const dateLabel = (iso: string) =>
+    new Date(iso).toLocaleString(LOCALE_BCP47[locale], {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
   useEffect(() => {
     const tokens = getMyOrderTokens();
@@ -47,48 +49,43 @@ export default function MyOrders() {
     <main className="mx-auto max-w-md px-5 py-8">
       <header className="mb-6 flex items-center gap-3">
         <BackButton />
-        <h1 className="text-2xl font-extrabold text-brand">Mes commandes</h1>
+        <h1 className="text-2xl font-extrabold text-brand">{t("myorders.title")}</h1>
       </header>
 
       {loading ? (
-        <p className="text-neutral-500">Chargement…</p>
+        <p className="text-neutral-500">{t("common.loading")}</p>
       ) : orders.length === 0 ? (
         <div className="flex flex-col items-center gap-3 py-16 text-center">
           <span className="text-4xl">🧾</span>
-          <p className="text-neutral-400">
-            Aucune commande sur cet appareil pour le moment.
-          </p>
+          <p className="text-neutral-400">{t("myorders.empty")}</p>
           <Link href="/commander" className="text-sm text-brand underline underline-offset-4">
-            Passer une commande
+            {t("track.placeOrder")}
           </Link>
         </div>
       ) : (
         <ul className="flex flex-col gap-3">
-          {orders.map((o) => {
-            const meta = STATUS_META[o.status];
-            return (
-              <li key={o.id}>
-                <Link
-                  href={`/suivi/${o.token}`}
-                  className="flex items-center justify-between rounded-2xl border border-neutral-800 bg-neutral-900 p-4 transition active:scale-[0.99] hover:border-neutral-700"
-                >
-                  <div>
-                    <div className="font-bold">
-                      Commande <span className="text-brand">#{o.id}</span>
-                    </div>
-                    <div className="text-sm text-neutral-400">
-                      {dateLabel(o.createdAt)} · {modeLabel(o.mode)} ·{" "}
-                      {formatPrice(o.total)}
-                    </div>
+          {orders.map((o) => (
+            <li key={o.id}>
+              <Link
+                href={`/suivi/${o.token}`}
+                className="flex items-center justify-between rounded-2xl border border-neutral-800 bg-neutral-900 p-4 transition active:scale-[0.99] hover:border-neutral-700"
+              >
+                <div>
+                  <div className="font-bold">
+                    {t("myorders.order")} <span className="text-brand">#{o.id}</span>
                   </div>
-                  <div className="text-right text-sm">
-                    <div>{meta.emoji}</div>
-                    <div className="text-neutral-300">{meta.label}</div>
+                  <div className="text-sm text-neutral-400">
+                    {dateLabel(o.createdAt)} · {t(modeKey(o.mode))} ·{" "}
+                    {formatPrice(o.total, locale)}
                   </div>
-                </Link>
-              </li>
-            );
-          })}
+                </div>
+                <div className="text-right text-sm">
+                  <div>{STATUS_EMOJI[o.status]}</div>
+                  <div className="text-neutral-300">{t(statusKey(o.status))}</div>
+                </div>
+              </Link>
+            </li>
+          ))}
         </ul>
       )}
     </main>

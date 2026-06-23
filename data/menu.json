@@ -1,570 +1,125 @@
 {
   "sharedChoiceGroups": {
-    "viande": {
-      "id": "viande",
-      "label": "Viande",
+    "portions-tenders": {
+      "id": "portions-tenders",
+      "label": { "fr": "Nombre de pièces", "nl": "Aantal stuks", "en": "Number of pieces" },
       "min": 1,
       "max": 1,
       "choices": [
-        { "id": "viande-hachee", "label": "Viande hachée", "price": 0 },
-        { "id": "poulet-pane", "label": "Poulet pané", "price": 0 },
-        { "id": "poulet-grille", "label": "Poulet grillé", "price": 0 },
-        { "id": "merguez", "label": "Merguez", "price": 0 }
+        { "id": "4-pieces", "label": { "fr": "4 pièces", "nl": "4 stuks", "en": "4 pieces" }, "price": 0 },
+        { "id": "8-pieces", "label": { "fr": "8 pièces", "nl": "8 stuks", "en": "8 pieces" }, "price": 7.5 }
       ]
     },
-    "sauce": {
-      "id": "sauce",
-      "label": "Sauce",
+    "portions-wings": {
+      "id": "portions-wings",
+      "label": { "fr": "Nombre de pièces", "nl": "Aantal stuks", "en": "Number of pieces" },
       "min": 1,
       "max": 1,
       "choices": [
-        { "id": "andalouse", "label": "Andalouse", "price": 0 },
-        { "id": "samourai", "label": "Samouraï", "price": 0 },
-        { "id": "geant", "label": "Géant", "price": 0 },
-        { "id": "blanche", "label": "Blanche", "price": 0 },
-        { "id": "mayonnaise", "label": "Mayonnaise", "price": 0 },
-        { "id": "mayo-truffe", "label": "Mayonnaise truffe", "price": 0 },
-        { "id": "pili-pili", "label": "Pili pili", "price": 0 },
-        { "id": "poivre", "label": "Poivre", "price": 0 },
-        { "id": "curry", "label": "Curry", "price": 0 },
-        { "id": "ketchup", "label": "Ketchup", "price": 0 },
-        { "id": "jammie", "label": "Jammie", "price": 0 },
-        { "id": "algerienne", "label": "Algérienne", "price": 0 },
-        { "id": "americaine", "label": "Américaine", "price": 0 },
-        { "id": "cocktail", "label": "Cocktail", "price": 0 },
+        { "id": "5-pieces", "label": { "fr": "5 pièces", "nl": "5 stuks", "en": "5 pieces" }, "price": 0 },
+        { "id": "10-pieces", "label": { "fr": "10 pièces", "nl": "10 stuks", "en": "10 pieces" }, "price": 7.0 }
+      ]
+    },
+    "sauce-incluse": {
+      "id": "sauce-incluse",
+      "label": { "fr": "Sauce", "nl": "Saus", "en": "Sauce" },
+      "min": 1,
+      "max": 1,
+      "choices": [
         { "id": "barbecue", "label": "Barbecue", "price": 0 },
-        { "id": "curry-ketchup", "label": "Curry ketchup", "price": 0 },
-        { "id": "biggy", "label": "Biggy", "price": 0 },
-        { "id": "ail", "label": "Ail", "price": 0 },
-        { "id": "barbecue-piquante", "label": "Barbecue piquante", "price": 0 },
-        { "id": "brazil", "label": "Brazil", "price": 0 },
-        { "id": "curry-jaune", "label": "Curry jaune", "price": 0 },
-        { "id": "harissa", "label": "Harissa", "price": 0 },
-        { "id": "moutarde", "label": "Moutarde", "price": 0 },
-        { "id": "salsa", "label": "Salsa", "price": 0 },
-        { "id": "cheddar", "label": "Sauce cheddar", "price": 0 },
-        { "id": "tartare", "label": "Tartare", "price": 0 }
+        { "id": "spicy-mango", "label": "Spicy mango", "price": 0 },
+        { "id": "buffalo", "label": "Buffalo", "price": 0 },
+        { "id": "habanero", "label": "Habanero", "price": 0 }
       ]
     },
-    "accompagnement": {
-      "id": "accompagnement",
-      "label": "Accompagnement",
+    "frites-taille": {
+      "id": "frites-taille",
+      "label": { "fr": "Taille", "nl": "Maat", "en": "Size" },
       "min": 1,
       "max": 1,
       "choices": [
-        { "id": "frites", "label": "Frites", "price": 0 },
-        { "id": "potatoes", "label": "Potatoes", "price": 0 }
+        { "id": "petit", "label": { "fr": "Petit paquet", "nl": "Klein pak", "en": "Small portion" }, "price": 0 },
+        { "id": "grand", "label": { "fr": "Grand paquet", "nl": "Groot pak", "en": "Large portion" }, "price": 1.0 }
       ]
     },
-    "supplements": {
-      "id": "supplements",
-      "label": "Suppléments",
+    "sauces-supp": {
+      "id": "sauces-supp",
+      "label": { "fr": "Sauces supplémentaires", "nl": "Extra sauzen", "en": "Extra sauces" },
       "min": 0,
-      "max": 2,
+      "max": 8,
       "choices": [
-        { "id": "raclette", "label": "Fromage raclette", "price": 1.3 },
-        { "id": "bacon", "label": "Bacon", "price": 1.3 },
-        { "id": "jalapenos", "label": "Jalapenos", "price": 1.3 },
-        { "id": "galette", "label": "Galette", "price": 1.5 },
-        { "id": "oeuf", "label": "Œuf", "price": 1.5 },
-        { "id": "aubergine", "label": "Aubergine", "price": 1.5 },
-        { "id": "cheddar", "label": "Fromage cheddar", "price": 1.5 },
-        { "id": "poivron", "label": "Poivron", "price": 1.5 }
-      ]
-    },
-    "supplement-assiette": {
-      "id": "supplement-assiette",
-      "label": "Supplément",
-      "min": 0,
-      "max": 1,
-      "choices": [
-        { "id": "raclette", "label": "Fromage raclette", "price": 1.5 }
+        { "id": "ketchup", "label": "Ketchup", "price": 0.5 },
+        { "id": "mayonnaise", "label": "Mayonnaise", "price": 0.5 },
+        { "id": "curry-mango", "label": "Curry mango", "price": 0.5 },
+        { "id": "sweet-chili", "label": "Sweet chili", "price": 0.5 },
+        { "id": "barbecue", "label": "Barbecue", "price": 0.5 },
+        { "id": "poivre", "label": { "fr": "Poivre", "nl": "Peper", "en": "Pepper" }, "price": 0.5 },
+        { "id": "samourai", "label": "Samouraï", "price": 0.5 },
+        { "id": "ranch", "label": "Ranch", "price": 0.5 }
       ]
     }
   },
   "categories": [
     {
-      "id": "salades",
-      "label": "Salades",
+      "id": "sides",
+      "label": { "fr": "Sides — 100% maison", "nl": "Sides — 100% huisgemaakt", "en": "Sides — 100% homemade" },
       "items": [
         {
-          "id": "salade-cesar",
-          "name": "Salade César",
-          "description": "Salade, maïs, carotte, tomate, poulet, parmesan, croûtons et sauce César.",
-          "price": 10.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "salade-chevre",
-          "name": "Salade de chèvre",
-          "description": "Salade, tomates, concombre, fromage de chèvre, miel, noix et sauce vinaigrette.",
-          "price": 8.0,
-          "image": null,
-          "badges": ["veggie"],
-          "options": []
-        },
-        {
-          "id": "salade-thon",
-          "name": "Salade de thon",
-          "description": "Salade, tomates, concombre, thon, feta, olives, œufs et vinaigrette.",
-          "price": 7.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "salade-campagnarde",
-          "name": "Salade campagnarde",
-          "description": "Salade, tomates, concombre, pommes de terre, lardons et vinaigrette.",
-          "price": 7.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        }
-      ]
-    },
-    {
-      "id": "entrees-chaudes",
-      "label": "Entrées chaudes",
-      "items": [
-        {
-          "id": "ailes-poulet-piquantes",
-          "name": "Ailes de poulet piquantes",
-          "description": "",
-          "price": 7.9,
-          "image": null,
-          "badges": ["spicy"],
-          "options": []
-        },
-        {
-          "id": "tenders",
-          "name": "Tenders",
-          "description": "",
-          "price": 6.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "tex-mex-potatoes",
-          "name": "Tex mex potatoes",
-          "description": "Potatoes, sauce nachos, lardons et jalapeños.",
-          "price": 7.0,
-          "image": null,
-          "badges": ["spicy"],
-          "options": []
-        },
-        {
-          "id": "nuggets",
-          "name": "Nuggets",
-          "description": "",
-          "price": 6.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "jalapenos-onion-rings",
-          "name": "Jalapeños et oignon rings",
-          "description": "Jalapeños (2 pièces) et oignon rings (4 pièces).",
-          "price": 6.0,
-          "image": null,
-          "badges": ["spicy"],
-          "options": []
-        },
-        {
-          "id": "croquettes-fromage",
-          "name": "Croquettes de fromage",
-          "description": "",
-          "price": 6.0,
-          "image": null,
-          "badges": ["veggie"],
-          "options": []
-        },
-        {
-          "id": "calamars-frits",
-          "name": "Calamars frits",
-          "description": "Servi avec sauce tartare.",
-          "price": 6.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "falafel-hommos-salade",
-          "name": "Falafel, hommos et salade",
-          "description": "",
-          "price": 6.0,
-          "image": null,
-          "badges": ["veggie"],
-          "options": []
-        }
-      ]
-    },
-    {
-      "id": "frites",
-      "label": "Frites",
-      "items": [
-        {
-          "id": "frites-patate-douce",
-          "name": "Paquet de frites de patate douce",
-          "description": "",
-          "price": 5.5,
-          "image": null,
-          "badges": ["veggie"],
-          "options": [],
-          "choiceGroupRefs": [{ "ref": "sauce", "min": 0 }]
-        },
-        {
-          "id": "paquet-frites",
-          "name": "Paquet de frites",
-          "description": "",
-          "price": 3.5,
-          "image": null,
-          "badges": ["veggie"],
-          "options": [],
-          "choiceGroupRefs": [{ "ref": "sauce", "min": 0 }]
-        },
-        {
-          "id": "paquet-potatoes",
-          "name": "Paquet de potatoes",
-          "description": "",
-          "price": 4.5,
-          "image": null,
-          "badges": ["veggie"],
-          "options": [],
-          "choiceGroupRefs": [{ "ref": "sauce", "min": 0 }]
-        }
-      ]
-    },
-    {
-      "id": "burritos",
-      "label": "Burritos",
-      "items": [
-        {
-          "id": "burrito-poulet-pane",
-          "name": "Burrito poulet pané",
-          "description": "Salade, tomates, oignons et sauce fromagère. Servi avec sauce et accompagnement au choix.",
-          "price": 10.5,
+          "id": "mega-tenders",
+          "name": "Mega tenders",
+          "description": {
+            "fr": "Tenders de poulet frais et faits maison, à base de poitrine de poulet de qualité. Servi avec sauce au choix.",
+            "nl": "Verse, huisgemaakte kiptenders op basis van kwaliteitskipfilet. Geserveerd met saus naar keuze.",
+            "en": "Fresh, homemade chicken tenders made from quality chicken breast. Served with your choice of sauce."
+          },
+          "price": 12.0,
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+          "choiceGroupRefs": ["portions-tenders", "sauce-incluse"]
         },
         {
-          "id": "burrito-pita",
-          "name": "Burrito pita",
-          "description": "Salade, tomates, oignons et sauce fromagère. Servi avec sauce et accompagnement au choix.",
-          "price": 10.5,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "burrito-kefta",
-          "name": "Burrito kefta",
-          "description": "Salade, tomates, oignons et sauce fromagère. Servi avec sauce et accompagnement au choix.",
-          "price": 10.5,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        }
-      ]
-    },
-    {
-      "id": "hot-dog",
-      "label": "Hot dog",
-      "items": [
-        {
-          "id": "hotdog-newyorkais",
-          "name": "Hot dog new-yorkais",
-          "description": "Sauce barbecue, bacon, oignons frits et cheddar.",
-          "price": 8.5,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }]
-        },
-        {
-          "id": "hotdog-chicago",
-          "name": "Hot dog Chicago",
-          "description": "Sauce maison, viande hachée, oignons caramélisés, cornichons et cheddar.",
-          "price": 8.5,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }]
-        },
-        {
-          "id": "hotdog-mexicain",
-          "name": "Hot dog mexicain",
-          "description": "Sauce piquante, bacon, jalapeños, oignons frits et cheddar.",
-          "price": 8.5,
-          "image": null,
-          "badges": ["spicy"],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }]
-        },
-        {
-          "id": "hotdog-bresilien",
-          "name": "Hot dog brésilien",
-          "description": "Sauce sucrée et ketchup, oignons caramélisés, bacon, cheddar et aubergines.",
-          "price": 8.5,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }]
-        },
-        {
-          "id": "hotdog-newyorkais-simple",
-          "name": "Hot dog new-yorkais simple",
-          "description": "",
-          "price": 7.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "hotdog-mexicain-simple",
-          "name": "Hot dog mexicain simple",
-          "description": "",
-          "price": 7.0,
-          "image": null,
-          "badges": ["spicy"],
-          "options": []
-        },
-        {
-          "id": "hotdog-bresilien-simple",
-          "name": "Hot dog brésilien simple",
-          "description": "",
-          "price": 7.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "hotdog-chicago-simple",
-          "name": "Hot dog Chicago simple",
-          "description": "",
-          "price": 8.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        }
-      ]
-    },
-    {
-      "id": "tacos",
-      "label": "Tacos",
-      "items": [
-        {
-          "id": "tacos-au-choix",
-          "name": "Tacos au choix",
-          "description": "Oignons caramélisés, salade, maïs, carotte, sauce fromagère et mozzarella.",
-          "price": 9.0,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["viande", "sauce"]
-        },
-        {
-          "id": "tacos-newyorkais",
-          "name": "Tacos new-yorkais",
-          "description": "Sauce barbecue, oignons caramélisés, salade, maïs, carotte, sauce fromagère, mozzarella et bacon.",
-          "price": 9.0,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["viande"]
-        },
-        {
-          "id": "tacos-manhattan",
-          "name": "Tacos Manhattan",
-          "description": "Sauce géant, oignons caramélisés, salade, maïs, carotte, bacon, sauce fromagère et mozzarella.",
-          "price": 9.0,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["viande"]
-        },
-        {
-          "id": "tacos-mexicain",
-          "name": "Tacos mexicain",
-          "description": "Sauce mexicaine, oignons caramélisés, salade, maïs, carotte, jalapeños, sauce fromagère et mozzarella.",
-          "price": 9.0,
-          "image": null,
-          "badges": ["spicy"],
-          "options": [],
-          "choiceGroupRefs": ["viande"]
-        }
-      ]
-    },
-    {
-      "id": "beef-burgers",
-      "label": "Beef Burgers",
-      "items": [
-        {
-          "id": "brooklyn-supreme-burger",
-          "name": "Brooklyn suprême burger",
-          "description": "150 g de bœuf, sauce au poivre, roquette, tomates, oignons caramélisés, bacon grillé et cheddar.",
-          "price": 11.99,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "manhattan-burger",
-          "name": "Manhattan burger",
-          "description": "150 g de bœuf, sauce géant, œufs, salade, tomates, oignons caramélisés, bacon, fromage et raclette.",
+          "id": "mega-wings",
+          "name": "Mega wings",
+          "description": {
+            "fr": "Ailes de poulet frites faites maison, à base de poulet frais de qualité. Servi avec sauce au choix.",
+            "nl": "Huisgemaakte gefrituurde kippenvleugels op basis van vers kwaliteitskip. Geserveerd met saus naar keuze.",
+            "en": "Homemade fried chicken wings made from fresh quality chicken. Served with your choice of sauce."
+          },
           "price": 12.5,
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
+          "choiceGroupRefs": ["portions-wings", "sauce-incluse"]
+        }
+      ]
+    },
+    {
+      "id": "salades",
+      "label": { "fr": "Salades", "nl": "Salades", "en": "Salads" },
+      "items": [
         {
-          "id": "burger-espagnol",
-          "name": "Burger espagnol",
-          "description": "150 g de bœuf, sauce andalouse sucrée, galette de pommes de terre, chorizo, salade, tomates, oignons caramélisés et cheddar.",
-          "price": 11.99,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "burger-newyorkais",
-          "name": "Burger new-yorkais",
-          "description": "150 g de bœuf, sauce barbecue, œufs, lardons, tomates, oignons caramélisés, bacon grillé et cheddar.",
-          "price": 11.99,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "burger-mexicain",
-          "name": "Burger mexicain",
-          "description": "150 g de bœuf, sauce piquante et nachos, salade, tomates, oignons caramélisés, jalapeños et nachos.",
-          "price": 11.99,
-          "image": null,
-          "badges": ["spicy"],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "chicago-burger",
-          "name": "Chicago burger",
-          "description": "150 g de bœuf, sauce barbecue, roquette, salade, tomates, oignons caramélisés et cheddar.",
-          "price": 11.99,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "harlem-burger",
-          "name": "Harlem burger",
-          "description": "150 g de bœuf, sauce maison, roquette, tomates, oignons, fromage de chèvre, noix et miel.",
-          "price": 11.99,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "burger-marocain",
-          "name": "Burger marocain",
-          "description": "150 g de bœuf, sauce algérienne, salade, tomates, oignons, cannelle, cheddar et aubergines grillées.",
-          "price": 11.99,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "burger-oriental",
-          "name": "Burger oriental",
-          "description": "Merguez, sauce piquante, salade, poivrons grillés, cheddar, tomates et oignons caramélisés.",
-          "price": 11.99,
-          "image": null,
-          "badges": ["spicy"],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "brooklyn-supreme-simple",
-          "name": "Brooklyn suprême simple",
-          "description": "150 g de bœuf, sauce au poivre, salade, tomate, oignons caramélisés, bacon halal et cheddar.",
-          "price": 8.5,
+          "id": "salade-cesar",
+          "name": { "fr": "Salade César", "nl": "Caesarsalade", "en": "Caesar Salad" },
+          "description": {
+            "fr": "Suprême de poulet frit, poivrons sautés, courgettes et aubergines grillées, tomates cerises, croûtons, vinaigrette grecque à l'ail et ciboulette, sur salade fraîche.",
+            "nl": "Gebakken kipfilet, gebakken paprika, gegrilde courgette en aubergine, kerstomaatjes, croutons, Griekse vinaigrette met look en bieslook, op verse salade.",
+            "en": "Fried chicken breast, sautéed peppers, grilled zucchini and eggplant, cherry tomatoes, croutons, Greek garlic-and-chive vinaigrette, on fresh salad."
+          },
+          "price": 12.0,
           "image": null,
           "badges": [],
           "options": []
         },
         {
-          "id": "manhattan-simple",
-          "name": "Manhattan simple",
-          "description": "Sauce géant.",
-          "price": 8.5,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "espagnol-simple",
-          "name": "L'espagnol simple",
-          "description": "Galette de pommes de terre et sauce andalouse.",
-          "price": 7.5,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "newyorkais-simple",
-          "name": "New-yorkais simple",
-          "description": "Sauce barbecue.",
-          "price": 7.5,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "mexicain-simple",
-          "name": "Le mexicain simple",
-          "description": "Sauce piquante.",
-          "price": 7.5,
-          "image": null,
-          "badges": ["spicy"],
-          "options": []
-        },
-        {
-          "id": "chicago-simple",
-          "name": "Chicago simple",
-          "description": "Sauce barbecue.",
-          "price": 7.5,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "harlem-simple",
-          "name": "Harlem simple",
-          "description": "Fromage de chèvre.",
-          "price": 7.5,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "marocain-simple",
-          "name": "Le marocain simple",
-          "description": "Sauce algérienne et aubergine.",
-          "price": 7.5,
+          "id": "salade-ocean-one",
+          "name": "Salade Ocean One",
+          "description": {
+            "fr": "Salade mixte, scampis sautés, tomates cerises, concombres, coleslaw, croûtons, oignons et vinaigrette grecque.",
+            "nl": "Gemengde salade, gebakken scampi, kerstomaatjes, komkommer, coleslaw, croutons, ui en Griekse vinaigrette.",
+            "en": "Mixed salad, sautéed scampi, cherry tomatoes, cucumber, coleslaw, croutons, onion and Greek vinaigrette."
+          },
+          "price": 12.5,
           "image": null,
           "badges": [],
           "options": []
@@ -576,236 +131,240 @@
       "label": "Chicken Burgers",
       "items": [
         {
-          "id": "chicken-indien",
-          "name": "L'Indien",
-          "description": "Sauce curry, poulet pané, salade, tomate, oignons caramélisés et cheddar.",
-          "price": 11.99,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "chicken-anglais",
-          "name": "L'Anglais",
-          "description": "Sauce BBQ, poulet pané, salade, tomate, oignons caramélisés, fromage, roquette et cornichon.",
-          "price": 13.0,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "chicken-exotique",
-          "name": "L'Exotique",
-          "description": "Sauce sucrée, poulet pané, salade, tomate, ananas, cheddar et oignon rings.",
-          "price": 11.99,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "chicken-pepper",
-          "name": "Chicken pepper",
-          "description": "Poulet pané croustillant, sauce poivre, salade, tomate, oignons caramélisés, bacon halal et tranche de cheddar.",
-          "price": 13.0,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        }
-      ]
-    },
-    {
-      "id": "fish-burgers",
-      "label": "Fish Burgers",
-      "items": [
-        {
-          "id": "fish-canadien",
-          "name": "Canadien",
-          "description": "Poisson 150 g, sauce maison, salade, tomate, oignons, tarama et cheddar.",
-          "price": 11.99,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        },
-        {
-          "id": "fish-norvegien",
-          "name": "Norvégien",
-          "description": "Saumon 150 g, sauce maison, salade, tomate, oignons et cheddar.",
-          "price": 11.99,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
-        }
-      ]
-    },
-    {
-      "id": "special-burgers",
-      "label": "Special burgers",
-      "items": [
-        {
-          "id": "mixte-brook-burger",
-          "name": "Mixte brook burger",
-          "description": "1 bœuf, 1 poulet, sauce piquante, salade, tomate, oignon rings et fromage raclette.",
-          "price": 12.99,
-          "image": null,
-          "badges": ["spicy"],
-          "options": []
-        },
-        {
-          "id": "big-brook-burger",
-          "name": "Big brook burger",
-          "description": "2 bœuf de 100 g, sauce maison, salade, tomate, oignon rings et fromage raclette.",
-          "price": 12.99,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "vegetarien-burger",
-          "name": "Végétarien burger",
-          "description": "Sauce maison, falafel, salade, tomate, oignons caramélisés, aubergines et fromage raclette.",
-          "price": 12.5,
-          "image": null,
-          "badges": ["veggie"],
-          "options": []
-        }
-      ]
-    },
-    {
-      "id": "burgers-simple-sans-menu",
-      "label": "Burgers simple (sans menu)",
-      "items": [
-        {
-          "id": "anglais-simple",
-          "name": "L'Anglais simple",
-          "description": "Pain brioché, sauce barbecue, salade, tomate, oignons caramélisés, cheddar et poulet pané.",
-          "price": 10.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        }
-      ]
-    },
-    {
-      "id": "nos-plats",
-      "label": "Nos Plats",
-      "items": [
-        {
-          "id": "assiette-mixte",
-          "name": "Assiette Mixte",
-          "description": "Toujours accompagnée de salade et de riz.",
+          "id": "crispy-chicken",
+          "name": "Le Crispy Chicken",
+          "description": {
+            "fr": "Bun brioché artisanal, escalope de poulet frit minute, sauce burger maison, galette de pommes de terre croustillante, cheddar, oignons frits et laitue croquante. Servi avec frites.",
+            "nl": "Ambachtelijke briochebun, vers gefrituurde kipfilet, huisgemaakte burgersaus, krokante aardappelkoek, cheddar, gefrituurde ui en knapperige sla. Geserveerd met frietjes.",
+            "en": "Artisanal brioche bun, freshly fried chicken fillet, homemade burger sauce, crispy potato rösti, cheddar, fried onions and crisp lettuce. Served with fries."
+          },
           "price": 16.0,
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
+          "choiceGroupRefs": ["sauces-supp"]
         },
         {
-          "id": "assiette-poulet-grille",
-          "name": "Assiette Poulet Grillé",
-          "description": "Toujours accompagnée de salade et de riz.",
-          "price": 15.5,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
-        },
-        {
-          "id": "assiette-poulet-pane",
-          "name": "Assiette Poulet Pané",
-          "description": "Toujours accompagnée de salade et de riz.",
-          "price": 15.5,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
-        },
-        {
-          "id": "assiette-merguez",
-          "name": "Assiette Merguez",
-          "description": "Toujours accompagnée de salade et de riz.",
-          "price": 15.5,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
-        },
-        {
-          "id": "assiette-pitta",
-          "name": "Assiette Pitta",
-          "description": "Toujours accompagnée de salade et de riz.",
+          "id": "guaca-chicken",
+          "name": "Guaca Chicken",
+          "description": {
+            "fr": "Bun artisanal, escalope de poulet frit maison, sauce secrète maison, guacamole frais du jour, cheddar, oignons braisés et caramélisés, tomates, jalapeño et laitue croquante. Servi avec frites.",
+            "nl": "Ambachtelijke bun, huisgemaakte gefrituurde kipfilet, geheime huissaus, verse guacamole van de dag, cheddar, gesmoorde en gekarameliseerde ui, tomaten, jalapeño en knapperige sla. Geserveerd met frietjes.",
+            "en": "Artisanal bun, homemade fried chicken fillet, secret house sauce, fresh guacamole of the day, cheddar, braised and caramelised onions, tomatoes, jalapeño and crisp lettuce. Served with fries."
+          },
           "price": 14.5,
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
+          "choiceGroupRefs": ["sauces-supp"]
         },
         {
-          "id": "assiette-calamar",
-          "name": "Assiette Calamar",
-          "description": "Toujours accompagnée de salade et de riz.",
+          "id": "hot-chicks",
+          "name": "Hot Chick's",
+          "description": {
+            "fr": "Bun brioché artisanal, escalope de poulet frit maison, sauce habanera (hot), oignons frits, cheddar, miel, oignons caramélisés, coleslaw maison et jalapeños. Servi avec frites.",
+            "nl": "Ambachtelijke briochebun, huisgemaakte gefrituurde kipfilet, habanerosaus (hot), gefrituurde ui, cheddar, honing, gekarameliseerde ui, huisgemaakte coleslaw en jalapeños. Geserveerd met frietjes.",
+            "en": "Artisanal brioche bun, homemade fried chicken fillet, habanero sauce (hot), fried onions, cheddar, honey, caramelised onions, homemade coleslaw and jalapeños. Served with fries."
+          },
+          "price": 14.5,
+          "image": null,
+          "badges": ["spicy"],
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
+        },
+        {
+          "id": "the-sunset",
+          "name": "The Sunset",
+          "description": {
+            "fr": "Bun brioché artisanal, escalope de poulet marinée, sauce barbecue maison, cheddar, ananas flambé, oignons frits et roquette. Servi avec frites.",
+            "nl": "Ambachtelijke briochebun, gemarineerde kipfilet, huisgemaakte barbecuesaus, cheddar, geflambeerde ananas, gefrituurde ui en rucola. Geserveerd met frietjes.",
+            "en": "Artisanal brioche bun, marinated chicken fillet, homemade barbecue sauce, cheddar, flambéed pineapple, fried onions and rocket. Served with fries."
+          },
           "price": 14.5,
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
-        },
-        {
-          "id": "assiette-kefta",
-          "name": "Assiette Kefta",
-          "description": "Toujours accompagnée de salade et de riz.",
-          "price": 13.5,
-          "image": null,
-          "badges": [],
-          "options": [],
-          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
+          "choiceGroupRefs": ["sauces-supp"]
         }
       ]
     },
     {
-      "id": "menus-enfant",
-      "label": "Menus enfant",
+      "id": "beef-burgers",
+      "label": "Beef Burgers",
       "items": [
         {
-          "id": "menu-enfant-cheeseburger",
-          "name": "Menu enfant cheeseburger",
-          "description": "Cheeseburger, servi avec frites et Capri-Sun.",
-          "price": 7.0,
+          "id": "smash-it",
+          "name": "Smash It!",
+          "description": {
+            "fr": "Bun artisanal, steak de bœuf, sauce burger maison, double tranche de cheddar, oignons caramélisés, tomates, laitue fraîche et pickles. Servi avec frites.",
+            "nl": "Ambachtelijke bun, rundsburger, huisgemaakte burgersaus, dubbele plak cheddar, gekarameliseerde ui, tomaten, verse sla en pickles. Geserveerd met frietjes.",
+            "en": "Artisanal bun, beef patty, homemade burger sauce, double cheddar slice, caramelised onions, tomatoes, fresh lettuce and pickles. Served with fries."
+          },
+          "price": 16.0,
           "image": null,
           "badges": [],
-          "options": []
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
         },
         {
-          "id": "menu-enfant-nuggets",
-          "name": "Menu enfant nuggets",
-          "description": "Nuggets, servis avec frites et Capri-Sun.",
-          "price": 7.0,
+          "id": "le-suisse",
+          "name": "Le Suisse",
+          "description": {
+            "fr": "Bun artisanal, steak de bœuf, sauce burger maison, fromage à raclette, pastrami, confit de figues maison et roquette. Servi avec frites.",
+            "nl": "Ambachtelijke bun, rundsburger, huisgemaakte burgersaus, raclettekaas, pastrami, huisgemaakte vijgenconfituur en rucola. Geserveerd met frietjes.",
+            "en": "Artisanal bun, beef patty, homemade burger sauce, raclette cheese, pastrami, homemade fig confit and rocket. Served with fries."
+          },
+          "price": 15.0,
           "image": null,
           "badges": [],
-          "options": []
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
         },
         {
-          "id": "menu-enfant-tenders",
-          "name": "Menu enfant tenders",
-          "description": "Tenders, servis avec frites et Capri-Sun.",
-          "price": 7.0,
+          "id": "le-pepps",
+          "name": "Le Pepp's",
+          "description": {
+            "fr": "Bun artisanal, steak de bœuf, sauce burger maison, cheddar, bacon croustillant, œuf, poivrons braisés, confit d'oignons et roquette. Servi avec frites.",
+            "nl": "Ambachtelijke bun, rundsburger, huisgemaakte burgersaus, cheddar, krokante bacon, ei, gesmoorde paprika, uienconfituur en rucola. Geserveerd met frietjes.",
+            "en": "Artisanal bun, beef patty, homemade burger sauce, cheddar, crispy bacon, egg, braised peppers, onion confit and rocket. Served with fries."
+          },
+          "price": 15.0,
           "image": null,
           "badges": [],
-          "options": []
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
         },
         {
-          "id": "menu-enfant-hotdog",
-          "name": "Menu enfant hot dog",
-          "description": "Hot dog, servi avec frites et Capri-Sun.",
-          "price": 7.0,
+          "id": "le-classico",
+          "name": "Le Classico",
+          "description": {
+            "fr": "Bun artisanal, steak de bœuf, sauce burger maison, cheddar, laitue croquante, tomates, oignons caramélisés et pickles. Servi avec frites.",
+            "nl": "Ambachtelijke bun, rundsburger, huisgemaakte burgersaus, cheddar, knapperige sla, tomaten, gekarameliseerde ui en pickles. Geserveerd met frietjes.",
+            "en": "Artisanal bun, beef patty, homemade burger sauce, cheddar, crisp lettuce, tomatoes, caramelised onions and pickles. Served with fries."
+          },
+          "price": 13.0,
           "image": null,
           "badges": [],
-          "options": []
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
+        },
+        {
+          "id": "the-smoke",
+          "name": "The Smoke",
+          "description": {
+            "fr": "Bun artisanal, double steak de bœuf, sauce barbecue maison, double tranche de pastrami fumé croustillant, cheddar, oignons caramélisés et pickles. Servi avec frites.",
+            "nl": "Ambachtelijke bun, dubbele rundsburger, huisgemaakte barbecuesaus, dubbele plak krokante gerookte pastrami, cheddar, gekarameliseerde ui en pickles. Geserveerd met frietjes.",
+            "en": "Artisanal bun, double beef patty, homemade barbecue sauce, double slice of crispy smoked pastrami, cheddar, caramelised onions and pickles. Served with fries."
+          },
+          "price": 16.0,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
+        },
+        {
+          "id": "cheeese",
+          "name": "Cheeese!",
+          "description": {
+            "fr": "Bun artisanal, steak de bœuf, sauce burger maison, cheddar, emmental et raclette, oignons caramélisés, tomates, roquette et pickles. Servi avec frites.",
+            "nl": "Ambachtelijke bun, rundsburger, huisgemaakte burgersaus, cheddar, emmentaler en raclette, gekarameliseerde ui, tomaten, rucola en pickles. Geserveerd met frietjes.",
+            "en": "Artisanal bun, beef patty, homemade burger sauce, cheddar, emmental and raclette, caramelised onions, tomatoes, rocket and pickles. Served with fries."
+          },
+          "price": 16.0,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
+        },
+        {
+          "id": "le-salsa",
+          "name": "Le Salsa",
+          "description": {
+            "fr": "Bun artisanal, steak de bœuf, sauce habanera maison, guacamole frais du jour, cheddar, oignons braisés et caramélisés, tomates et laitue croquante. Servi avec frites.",
+            "nl": "Ambachtelijke bun, rundsburger, huisgemaakte habanerosaus, verse guacamole van de dag, cheddar, gesmoorde en gekarameliseerde ui, tomaten en knapperige sla. Geserveerd met frietjes.",
+            "en": "Artisanal bun, beef patty, homemade habanero sauce, fresh guacamole of the day, cheddar, braised and caramelised onions, tomatoes and crisp lettuce. Served with fries."
+          },
+          "price": 15.0,
+          "image": null,
+          "badges": ["spicy"],
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
+        },
+        {
+          "id": "veggie-burger",
+          "name": "Veggie Burger",
+          "description": {
+            "fr": "Bun artisanal, galette de pommes de terre maison, mayonnaise maison, poivrons rôtis, aubergines à la parmigiana, courgettes grillées à l'ail, confit d'oignons, coleslaw, cornichons, tomates et laitue croquante. Servi avec frites.",
+            "nl": "Ambachtelijke bun, huisgemaakte aardappelkoek, huisgemaakte mayonaise, geroosterde paprika, aubergine alla parmigiana, met look gegrilde courgette, uienconfituur, coleslaw, augurken, tomaten en knapperige sla. Geserveerd met frietjes.",
+            "en": "Artisanal bun, homemade potato rösti, homemade mayonnaise, roasted peppers, eggplant parmigiana, garlic-grilled zucchini, onion confit, coleslaw, gherkins, tomatoes and crisp lettuce. Served with fries."
+          },
+          "price": 15.0,
+          "image": null,
+          "badges": ["veggie"],
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
+        },
+        {
+          "id": "litalien",
+          "name": "L'Italien",
+          "description": {
+            "fr": "Bun brioché artisanal, steak de bœuf, sauce burger maison, aubergines et courgettes grillées à l'ail, poivrons sautés, tomates, oignons caramélisés et roquette. Servi avec frites.",
+            "nl": "Ambachtelijke briochebun, rundsburger, huisgemaakte burgersaus, met look gegrilde aubergine en courgette, gebakken paprika, tomaten, gekarameliseerde ui en rucola. Geserveerd met frietjes.",
+            "en": "Artisanal brioche bun, beef patty, homemade burger sauce, garlic-grilled eggplant and zucchini, sautéed peppers, tomatoes, caramelised onions and rocket. Served with fries."
+          },
+          "price": 15.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
+        },
+        {
+          "id": "le-chevre",
+          "name": "Le Chèvre",
+          "description": {
+            "fr": "Bun artisanal, steak de bœuf, sauce barbecue maison, oignons caramélisés, chèvre chaud, émincé de pommes caramélisées, roquette et noix. Servi avec frites.",
+            "nl": "Ambachtelijke bun, rundsburger, huisgemaakte barbecuesaus, gekarameliseerde ui, warme geitenkaas, gekarameliseerde appelschijfjes, rucola en walnoten. Geserveerd met frietjes.",
+            "en": "Artisanal bun, beef patty, homemade barbecue sauce, caramelised onions, warm goat cheese, caramelised apple slices, rocket and walnuts. Served with fries."
+          },
+          "price": 15.0,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
+        },
+        {
+          "id": "fish-and-chips",
+          "name": "Fish and Chip's",
+          "description": {
+            "fr": "Bun artisanal, filet de sole limande légèrement pané, sauce tartare citronnée maison, cheddar, oignons caramélisés, pickles et coleslaw maison. Servi avec frites.",
+            "nl": "Ambachtelijke bun, licht gepaneerde tongscharfilet, huisgemaakte citroen-tartaarsaus, cheddar, gekarameliseerde ui, pickles en huisgemaakte coleslaw. Geserveerd met frietjes.",
+            "en": "Artisanal bun, lightly breaded lemon sole fillet, homemade lemon tartar sauce, cheddar, caramelised onions, pickles and homemade coleslaw. Served with fries."
+          },
+          "price": 15.0,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["sauces-supp"]
+        }
+      ]
+    },
+    {
+      "id": "accompagnements",
+      "label": { "fr": "Accompagnements", "nl": "Bijgerechten", "en": "Sides" },
+      "items": [
+        {
+          "id": "frites",
+          "name": { "fr": "Paquet de frites", "nl": "Pak frietjes", "en": "Portion of fries" },
+          "description": {
+            "fr": "Frites maison, taille au choix.",
+            "nl": "Huisgemaakte frietjes, maat naar keuze.",
+            "en": "Homemade fries, choice of size."
+          },
+          "price": 2.5,
+          "image": null,
+          "badges": ["veggie"],
+          "options": [],
+          "choiceGroupRefs": ["frites-taille", "sauces-supp"]
         }
       ]
     },
@@ -814,10 +373,41 @@
       "label": "Desserts",
       "items": [
         {
-          "id": "moelleux-chocolat",
-          "name": "Moelleux chocolat",
-          "description": "",
-          "price": 4.9,
+          "id": "apple-pie",
+          "name": "Tarte Apple Pie",
+          "description": {
+            "fr": "American Apple Pie : tarte à l'ancienne garnie de pommes épicées à la cannelle, nappée d'un caramel au beurre salé.",
+            "nl": "American Apple Pie: ouderwetse taart met kaneelappelen, overgoten met gezouten-botercaramel.",
+            "en": "American Apple Pie: old-fashioned tart filled with cinnamon-spiced apples, topped with salted-butter caramel."
+          },
+          "price": 5.0,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "tiramisu-speculoos",
+          "name": "Tiramisu spéculoos",
+          "description": { "fr": "Fait maison.", "nl": "Huisgemaakt.", "en": "Homemade." },
+          "price": 5.4,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "tiramisu-framboise",
+          "name": { "fr": "Tiramisu framboise", "nl": "Tiramisu framboos", "en": "Raspberry tiramisu" },
+          "description": { "fr": "Fait maison.", "nl": "Huisgemaakt.", "en": "Homemade." },
+          "price": 5.4,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "tiramisu-oreo",
+          "name": "Tiramisu Oreo",
+          "description": { "fr": "Fait maison.", "nl": "Huisgemaakt.", "en": "Homemade." },
+          "price": 5.4,
           "image": null,
           "badges": ["veggie"],
           "options": []
@@ -825,209 +415,208 @@
       ]
     },
     {
-      "id": "freakshake",
-      "label": "FreakShake",
+      "id": "milkshakes",
+      "label": "Milkshakes",
       "items": [
         {
-          "id": "freakshake-oreo",
-          "name": "FreakShake Oréo",
+          "id": "milkshake-oreo",
+          "name": "Milkshake Oreo",
           "description": "",
-          "price": 5.0,
+          "price": 6.5,
           "image": null,
           "badges": ["veggie"],
           "options": []
         },
         {
-          "id": "freakshake-fraise-choco-blanc",
-          "name": "FreakShake Fraise Chocolat blanc",
+          "id": "milkshake-caramel-beurre-sale",
+          "name": { "fr": "Milkshake caramel beurre salé", "nl": "Milkshake gezouten karamel", "en": "Salted caramel milkshake" },
           "description": "",
-          "price": 5.0,
+          "price": 6.5,
           "image": null,
           "badges": ["veggie"],
           "options": []
         },
         {
-          "id": "freakshake-banane-nutella",
-          "name": "FreakShake Banane Nutella",
+          "id": "milkshake-cookie-caramel",
+          "name": "Milkshake Cookie-Caramel",
           "description": "",
-          "price": 5.0,
+          "price": 6.5,
           "image": null,
           "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "milkshake-vanille",
+          "name": { "fr": "Milkshake vanille", "nl": "Milkshake vanille", "en": "Vanilla milkshake" },
+          "description": "",
+          "price": 6.5,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "milkshake-fraise",
+          "name": { "fr": "Milkshake fraise", "nl": "Milkshake aardbei", "en": "Strawberry milkshake" },
+          "description": "",
+          "price": 6.5,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "milkshake-banane",
+          "name": { "fr": "Milkshake banane", "nl": "Milkshake banaan", "en": "Banana milkshake" },
+          "description": "",
+          "price": 6.5,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "milkshake-bueno",
+          "name": "Milkshake Bueno",
+          "description": "",
+          "price": 6.5,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "mocktails",
+      "label": "Mocktails",
+      "items": [
+        {
+          "id": "mojito-fraise",
+          "name": { "fr": "Mojito fraise", "nl": "Mojito aardbei", "en": "Strawberry mojito" },
+          "description": "",
+          "price": 6.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "mojito-virgin",
+          "name": "Mojito virgin",
+          "description": "",
+          "price": 6.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "mojito-peche",
+          "name": { "fr": "Mojito pêche", "nl": "Mojito perzik", "en": "Peach mojito" },
+          "description": "",
+          "price": 6.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "mojito-violette",
+          "name": { "fr": "Mojito violette", "nl": "Mojito viooltje", "en": "Violet mojito" },
+          "description": "",
+          "price": 6.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "mojito-mango",
+          "name": "Mojito mango",
+          "description": "",
+          "price": 6.0,
+          "image": null,
+          "badges": [],
           "options": []
         }
       ]
     },
     {
       "id": "boissons",
-      "label": "Boissons",
+      "label": { "fr": "Boissons", "nl": "Dranken", "en": "Drinks" },
       "items": [
-        {
-          "id": "coca-cola",
-          "name": "Coca-Cola",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "coca-cola-zero",
-          "name": "Coca-Cola zéro",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "pepsi",
-          "name": "Pepsi",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "ice-tea",
-          "name": "Ice Tea",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
+        { "id": "coca-cola", "name": "Coca-Cola", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
+        { "id": "coca-cola-zero", "name": "Coca-Cola zéro", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
+        { "id": "fanta-orange", "name": "Fanta orange", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
+        { "id": "oasis", "name": "Oasis", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
         {
           "id": "ice-tea-peche",
-          "name": "Ice Tea pêche",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
+          "name": { "fr": "Ice tea pêche", "nl": "Ice tea perzik", "en": "Peach iced tea" },
+          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+        },
+        { "id": "sprite", "name": "Sprite", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
+        {
+          "id": "eau-petillante",
+          "name": { "fr": "Eau pétillante", "nl": "Bruiswater", "en": "Sparkling water" },
+          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+        },
+        { "id": "hawai", "name": "Hawaï", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
+        {
+          "id": "eau-plate",
+          "name": { "fr": "Eau plate", "nl": "Plat water", "en": "Still water" },
+          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+        },
+        {
+          "id": "soofty-fraise",
+          "name": { "fr": "Soofty fraise", "nl": "Soofty aardbei", "en": "Soofty strawberry" },
+          "description": "", "price": 3.5, "image": null, "badges": [], "options": []
+        },
+        {
+          "id": "soofty-peche",
+          "name": { "fr": "Soofty pêche", "nl": "Soofty perzik", "en": "Soofty peach" },
+          "description": "", "price": 3.5, "image": null, "badges": [], "options": []
+        },
+        {
+          "id": "ice-tea-petillant",
+          "name": { "fr": "Ice tea pétillant", "nl": "Bruisende ice tea", "en": "Sparkling iced tea" },
+          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+        },
+        {
+          "id": "oasis-fraise-framboise",
+          "name": { "fr": "Oasis fraise framboise", "nl": "Oasis aardbei framboos", "en": "Oasis strawberry raspberry" },
+          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+        },
+        {
+          "id": "soofty-lychee",
+          "name": "Soofty lychee",
+          "description": "", "price": 3.5, "image": null, "badges": [], "options": []
+        },
+        {
+          "id": "fanta-fraise-kiwi",
+          "name": { "fr": "Fanta fraise-kiwi", "nl": "Fanta aardbei-kiwi", "en": "Fanta strawberry-kiwi" },
+          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+        }
+      ]
+    },
+    {
+      "id": "menu-kids",
+      "label": "Menu Kids",
+      "items": [
+        {
+          "id": "cheese-kids",
+          "name": "Le Cheese Kid's",
+          "description": {
+            "fr": "Steak de bœuf, sauce burger, cheddar, salade, tomates, oignons caramélisés et pickles.",
+            "nl": "Rundsburger, burgersaus, cheddar, sla, tomaten, gekarameliseerde ui en pickles.",
+            "en": "Beef patty, burger sauce, cheddar, lettuce, tomatoes, caramelised onions and pickles."
+          },
+          "price": 11.0,
           "image": null,
           "badges": [],
           "options": []
         },
         {
-          "id": "fanta",
-          "name": "Fanta",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "fanta-vert",
-          "name": "Fanta vert",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "fanta-rouge",
-          "name": "Fanta rouge",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "oasis-tropical",
-          "name": "Oasis tropical",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "oasis-cassis",
-          "name": "Oasis cassis",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "tropico",
-          "name": "Tropico",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "schweppes-agrume",
-          "name": "Schweppes agrume",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "pales-peche",
-          "name": "Pales pêche",
-          "description": "Canette 33 cl.",
-          "price": 2.2,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "pales-grenadine",
-          "name": "Pales grenadine",
-          "description": "Canette 33 cl.",
-          "price": 2.2,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "pales-mojito",
-          "name": "Pales mojito",
-          "description": "Canette 33 cl.",
-          "price": 2.2,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "pales-cola",
-          "name": "Pales cola",
-          "description": "Canette 33 cl.",
-          "price": 2.0,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "eau-spa",
-          "name": "Eau plate Spa",
-          "description": "Bouteille 50 cl.",
-          "price": 1.5,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "eau-petillante-spa",
-          "name": "Eau pétillante Spa",
-          "description": "Bouteille 50 cl.",
-          "price": 2.2,
-          "image": null,
-          "badges": [],
-          "options": []
-        },
-        {
-          "id": "capri-sun",
-          "name": "Capri-Sun",
-          "description": "Gourde 20 cl.",
-          "price": 1.0,
+          "id": "chicken-kids",
+          "name": "Le Chicken Kid's",
+          "description": {
+            "fr": "Escalope de poulet frit, sauce barbecue, cheddar, oignons caramélisés, tomate, salade verte et cornichons.",
+            "nl": "Gefrituurde kipfilet, barbecuesaus, cheddar, gekarameliseerde ui, tomaat, groene sla en augurken.",
+            "en": "Fried chicken fillet, barbecue sauce, cheddar, caramelised onions, tomato, green salad and gherkins."
+          },
+          "price": 11.5,
           "image": null,
           "badges": [],
           "options": []

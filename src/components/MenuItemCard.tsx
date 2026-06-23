@@ -4,7 +4,8 @@
 // Le clic ouvre la fiche de personnalisation (ItemSheet) gérée par le parent.
 
 import type { MenuItem } from "@/lib/types";
-import { BADGES, formatPrice } from "@/lib/format";
+import { BADGE_EMOJI, badgeKey, formatPrice } from "@/lib/format";
+import { useI18n } from "@/i18n/client";
 
 export default function MenuItemCard({
   item,
@@ -13,6 +14,7 @@ export default function MenuItemCard({
   item: MenuItem;
   onAdd: (item: MenuItem) => void;
 }) {
+  const { t, locale } = useI18n();
   return (
     <button
       onClick={() => onAdd(item)}
@@ -35,21 +37,22 @@ export default function MenuItemCard({
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-center gap-2">
           <h3 className="font-bold leading-tight">{item.name}</h3>
-          {item.badges.map((b) =>
-            BADGES[b] ? (
-              <span key={b} title={BADGES[b].label} className="text-sm">
-                {BADGES[b].emoji}
+          {item.badges.map((b) => {
+            const key = badgeKey(b);
+            return BADGE_EMOJI[b] ? (
+              <span key={b} title={key ? t(key) : b} className="text-sm">
+                {BADGE_EMOJI[b]}
               </span>
-            ) : null,
-          )}
+            ) : null;
+          })}
         </div>
         <p className="mt-0.5 line-clamp-2 text-sm text-neutral-400">
           {item.description}
         </p>
         <div className="mt-auto flex items-center justify-between pt-2">
-          <span className="font-semibold text-brand">{formatPrice(item.price)}</span>
+          <span className="font-semibold text-brand">{formatPrice(item.price, locale)}</span>
           <span className="rounded-full bg-brand px-3 py-1 text-sm font-bold text-neutral-950">
-            + Ajouter
+            {t("item.addToCart")}
           </span>
         </div>
       </div>

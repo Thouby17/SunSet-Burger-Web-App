@@ -9,6 +9,8 @@ import { buildOrderLines, serializeOrder, type IncomingLine } from "@/lib/order"
 import { normalizeBeMobile } from "@/lib/phone";
 import { rateLimit } from "@/lib/rateLimit";
 import type { OrderMode } from "@/lib/types";
+import { getLocale } from "@/i18n/server";
+import { translate, type MessageKey } from "@/i18n/messages";
 
 // Garde-fous anti-spam : par numéro et par IP.
 const MAX_PER_PHONE = 5; // commandes max
@@ -19,6 +21,9 @@ const WINDOW_MS = 10 * 60 * 1000; // sur 10 minutes
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
+  const locale = await getLocale();
+  const err = (key: MessageKey) => translate(locale, key);
+
   let body: {
     mode?: OrderMode;
     customerName?: string;
@@ -28,37 +33,31 @@ export async function POST(req: Request) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
+    return NextResponse.json({ error: err("err.invalidRequest") }, { status: 400 });
   }
 
   // Restaurant fermé -> on refuse la création.
   const config = await getConfig();
   if (!isOpen(config)) {
-    return NextResponse.json(
-      { error: "Le restaurant est actuellement fermé." },
-      { status: 409 },
-    );
+    return NextResponse.json({ error: err("err.closed") }, { status: 409 });
   }
 
   // Validations de base.
   const mode = body.mode;
   if (mode !== "dine_in" && mode !== "takeaway") {
-    return NextResponse.json({ error: "Mode de retrait invalide." }, { status: 400 });
+    return NextResponse.json({ error: err("err.invalidMode") }, { status: 400 });
   }
   const customerName = (body.customerName ?? "").trim();
   if (!customerName) {
-    return NextResponse.json({ error: "Le prénom est requis." }, { status: 400 });
+    return NextResponse.json({ error: err("err.nameRequired") }, { status: 400 });
   }
   // Téléphone : on n'accepte qu'un mobile belge, stocké en forme canonique.
   const phone = normalizeBeMobile((body.phone ?? "").trim());
   if (!phone) {
-    return NextResponse.json(
-      { error: "Numéro de mobile belge invalide (format attendu : 04XX XX XX XX)." },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: err("err.invalidPhone") }, { status: 400 });
   }
   if (!Array.isArray(body.items) || body.items.length === 0) {
-    return NextResponse.json({ error: "Le panier est vide." }, { status: 400 });
+    return NextResponse.json({ error: err("err.emptyCart") }, { status: 400 });
   }
 
   // Anti-spam : on limite par numéro et par IP.
@@ -68,21 +67,15 @@ export async function POST(req: Request) {
     !rateLimit(`phone:${phone}`, MAX_PER_PHONE, WINDOW_MS) ||
     !rateLimit(`ip:${ip}`, MAX_PER_IP, WINDOW_MS)
   ) {
-    return NextResponse.json(
-      { error: "Trop de commandes en peu de temps. Réessayez plus tard." },
-      { status: 429 },
-    );
+    return NextResponse.json({ error: err("err.tooMany") }, { status: 429 });
   }
 
   // Recalcul des prix côté serveur (sécurité).
   let lines, total;
   try {
     ({ lines, total } = await buildOrderLines(body.items));
-  } catch (e) {
-    return NextResponse.json(
-      { error: e instanceof Error ? e.message : "Panier invalide." },
-      { status: 400 },
-    );
+  } catch {
+    return NextResponse.json({ error: err("err.invalidCart") }, { status: 400 });
   }
 
   const order = await prisma.order.create({

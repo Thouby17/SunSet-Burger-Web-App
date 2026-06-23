@@ -5,6 +5,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useI18n } from "@/i18n/client";
+import type { MessageKey } from "@/i18n/messages";
+import LangSwitcher from "./LangSwitcher";
 
 type IconProps = { className?: string };
 
@@ -39,32 +42,36 @@ function PhoneIcon({ className }: IconProps) {
   );
 }
 
-const items = [
-  { href: "/", label: "Accueil", Icon: HomeIcon },
-  { href: "/commander", label: "Menu", Icon: MenuIcon },
-  { href: "/mes-commandes", label: "Mes commandes", Icon: ReceiptIcon },
-  { href: "/contact", label: "Contact", Icon: PhoneIcon },
+const items: { href: string; labelKey: MessageKey; Icon: (p: IconProps) => React.ReactElement }[] = [
+  { href: "/", labelKey: "nav.home", Icon: HomeIcon },
+  { href: "/commander", labelKey: "nav.menu", Icon: MenuIcon },
+  { href: "/mes-commandes", labelKey: "nav.myOrders", Icon: ReceiptIcon },
+  { href: "/contact", labelKey: "nav.contact", Icon: PhoneIcon },
 ];
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const { t } = useI18n();
   if (pathname.startsWith("/staff")) return null;
 
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-neutral-800 bg-neutral-950/95 backdrop-blur">
       <div className="mx-auto flex max-w-md items-stretch justify-around">
-        {items.map(({ href, label, Icon }) => {
+        <div className="flex items-center pl-2 pr-1">
+          <LangSwitcher />
+        </div>
+        {items.map(({ href, labelKey, Icon }) => {
           const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
           return (
             <Link
               key={href}
               href={href}
-              className={`flex flex-1 flex-col items-center gap-0.5 py-2 text-[11px] transition ${
+              className={`flex flex-1 flex-col items-center gap-0.5 py-2 text-center text-[11px] leading-tight transition ${
                 active ? "text-brand" : "text-neutral-400 hover:text-neutral-200"
               }`}
             >
               <Icon className="h-6 w-6" />
-              {label}
+              {t(labelKey)}
             </Link>
           );
         })}

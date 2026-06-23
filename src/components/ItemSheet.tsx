@@ -9,6 +9,7 @@
 import { useMemo, useState } from "react";
 import type { MenuItem, SelectedChoice, SelectedOption } from "@/lib/types";
 import { formatPrice } from "@/lib/format";
+import { useI18n } from "@/i18n/client";
 
 export default function ItemSheet({
   item,
@@ -24,6 +25,7 @@ export default function ItemSheet({
     qty: number;
   }) => void;
 }) {
+  const { t, locale } = useI18n();
   const groups = item.choiceGroups ?? [];
 
   const [qty, setQty] = useState(1);
@@ -106,11 +108,12 @@ export default function ItemSheet({
                       missing ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400"
                     }`}
                   >
-                    {missing ? "Obligatoire" : "✓"}
+                    {missing ? t("item.required") : "✓"}
                   </span>
                 ) : (
                   <span className="text-xs text-neutral-500">
-                    facultatif{g.max > 1 ? ` · jusqu'à ${g.max}` : ""}
+                    {t("item.optional")}
+                    {g.max > 1 ? ` · ${t("item.upTo", { n: g.max })}` : ""}
                   </span>
                 )}
               </div>
@@ -155,7 +158,7 @@ export default function ItemSheet({
                       </span>
                       {c.price > 0 && (
                         <span className="text-sm text-neutral-400">
-                          +{formatPrice(c.price)}
+                          +{formatPrice(c.price, locale)}
                         </span>
                       )}
                     </button>
@@ -170,7 +173,7 @@ export default function ItemSheet({
         {item.options.length > 0 && (
           <div className="mt-5">
             <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-neutral-500">
-              Suppléments
+              {t("item.supplements")}
             </h3>
             <div className="flex flex-col gap-2">
               {item.options.map((o) => (
@@ -190,7 +193,7 @@ export default function ItemSheet({
                     {o.label}
                   </span>
                   <span className="text-sm text-neutral-400">
-                    +{formatPrice(o.price)}
+                    +{formatPrice(o.price, locale)}
                   </span>
                 </label>
               ))}
@@ -201,12 +204,12 @@ export default function ItemSheet({
         {/* Note libre */}
         <div className="mt-5">
           <label className="mb-2 block text-sm font-semibold uppercase tracking-wide text-neutral-500">
-            Note (optionnel)
+            {t("item.note")}
           </label>
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
-            placeholder="Ex. sans oignons, cuisson à point…"
+            placeholder={t("item.notePlaceholder")}
             maxLength={200}
             rows={2}
             className="w-full resize-none rounded-xl border border-neutral-800 bg-neutral-950 px-4 py-3 text-sm outline-none focus:border-brand"
@@ -216,13 +219,13 @@ export default function ItemSheet({
         {/* Quantité */}
         <div className="mt-5 flex items-center justify-between">
           <span className="text-sm font-semibold uppercase tracking-wide text-neutral-500">
-            Quantité
+            {t("item.quantity")}
           </span>
           <div className="flex items-center gap-4">
             <button
               onClick={() => setQty((q) => Math.max(1, q - 1))}
               className="h-10 w-10 rounded-full bg-neutral-800 text-xl font-bold"
-              aria-label="Diminuer"
+              aria-label={t("item.decrease")}
             >
               −
             </button>
@@ -230,7 +233,7 @@ export default function ItemSheet({
             <button
               onClick={() => setQty((q) => q + 1)}
               className="h-10 w-10 rounded-full bg-neutral-800 text-xl font-bold"
-              aria-label="Augmenter"
+              aria-label={t("item.increase")}
             >
               +
             </button>
@@ -250,13 +253,15 @@ export default function ItemSheet({
           }
           className="mt-6 w-full rounded-2xl bg-brand px-6 py-4 text-lg font-bold text-neutral-950 transition active:scale-[0.98] disabled:opacity-40"
         >
-          {groupsValid ? `Ajouter — ${formatPrice(total)}` : "Choix obligatoires manquants"}
+          {groupsValid
+            ? t("item.add", { price: formatPrice(total, locale) })
+            : t("item.missingChoices")}
         </button>
         <button
           onClick={onClose}
           className="mt-2 w-full rounded-2xl px-6 py-3 text-sm text-neutral-400"
         >
-          Annuler
+          {t("common.cancel")}
         </button>
       </div>
     </div>

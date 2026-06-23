@@ -9,12 +9,21 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { OrderDTO } from "@/lib/types";
 import { playBeep } from "@/lib/notify";
+import { useI18n } from "@/i18n/client";
 import StaffOrderCard from "./StaffOrderCard";
+import LangSwitcher from "./LangSwitcher";
 
 const POLL_MS = 4000;
 
-export default function StaffBoard({ defaultWaitTime }: { defaultWaitTime: number }) {
+export default function StaffBoard({
+  defaultWaitTime,
+  labelMap,
+}: {
+  defaultWaitTime: number;
+  labelMap?: Record<string, string>;
+}) {
   const router = useRouter();
+  const { t } = useI18n();
   const [orders, setOrders] = useState<OrderDTO[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
@@ -116,13 +125,17 @@ export default function StaffBoard({ defaultWaitTime }: { defaultWaitTime: numbe
       order={o}
       defaultWaitTime={defaultWaitTime}
       onAction={onAction}
+      labelMap={labelMap}
     />
   );
 
   // Titre d'onglet = nombre de commandes en attente (repère même hors écran).
   useEffect(() => {
-    document.title = pendingCount > 0 ? `(${pendingCount}) Commandes — Staff` : "Commandes — Staff";
-  }, [pendingCount]);
+    document.title =
+      pendingCount > 0
+        ? t("staff.tabTitleCount", { n: pendingCount })
+        : t("staff.tabTitle");
+  }, [pendingCount, t]);
 
   // Activer le son nécessite un geste utilisateur (politique navigateur).
   function toggleSound() {
@@ -141,7 +154,7 @@ export default function StaffBoard({ defaultWaitTime }: { defaultWaitTime: numbe
     <main className="mx-auto max-w-6xl px-6 py-6">
       <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-extrabold">
-          Commandes <span className="text-brand">— Staff</span>
+          {t("staff.orders")} <span className="text-brand">{t("staff.staffSuffix")}</span>
           {pendingCount > 0 && (
             <span className="ml-3 inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-amber-500 px-2 text-sm font-bold text-neutral-950">
               {pendingCount}
@@ -149,15 +162,16 @@ export default function StaffBoard({ defaultWaitTime }: { defaultWaitTime: numbe
           )}
         </h1>
         <div className="flex items-center gap-3 text-sm">
+          <LangSwitcher />
           <span className="flex items-center gap-2 text-neutral-400">
             <span className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
-            Temps réel
+            {t("staff.realtime")}
           </span>
           <Link
             href="/staff/historique"
             className="rounded-full bg-neutral-800 px-3 py-1.5 text-neutral-300 hover:text-white"
           >
-            📋 Historique
+            {t("staff.history")}
           </Link>
           <button
             onClick={toggleSound}
@@ -167,31 +181,31 @@ export default function StaffBoard({ defaultWaitTime }: { defaultWaitTime: numbe
                 : "bg-neutral-800 text-neutral-300"
             }`}
           >
-            {soundOn ? "🔔 Son activé" : "🔕 Activer le son"}
+            {soundOn ? t("staff.soundOn") : t("staff.soundOff")}
           </button>
           <button
             onClick={logout}
             className="rounded-full bg-neutral-800 px-3 py-1.5 text-neutral-300"
           >
-            Déconnexion
+            {t("staff.logout")}
           </button>
         </div>
       </header>
 
       {!loaded ? (
-        <p className="text-neutral-500">Chargement…</p>
+        <p className="text-neutral-500">{t("common.loading")}</p>
       ) : orders.length === 0 ? (
-        <p className="text-neutral-500">Aucune commande pour le moment.</p>
+        <p className="text-neutral-500">{t("staff.noOrders")}</p>
       ) : (
         <div className="space-y-8">
           {/* À traiter — deux colonnes par mode */}
           <div className="grid gap-6 md:grid-cols-2">
             <section>
               <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
-                🍽️ Sur place ({dineIn.length})
+                {t("staff.dineIn")} ({dineIn.length})
               </h2>
               {dineIn.length === 0 ? (
-                <p className="text-sm text-neutral-600">Aucune commande.</p>
+                <p className="text-sm text-neutral-600">{t("staff.none")}</p>
               ) : (
                 <div className="flex flex-col gap-4">{dineIn.map(renderCard)}</div>
               )}
@@ -199,10 +213,10 @@ export default function StaffBoard({ defaultWaitTime }: { defaultWaitTime: numbe
 
             <section>
               <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
-                🥡 À emporter ({takeaway.length})
+                {t("staff.takeaway")} ({takeaway.length})
               </h2>
               {takeaway.length === 0 ? (
-                <p className="text-sm text-neutral-600">Aucune commande.</p>
+                <p className="text-sm text-neutral-600">{t("staff.none")}</p>
               ) : (
                 <div className="flex flex-col gap-4">{takeaway.map(renderCard)}</div>
               )}
@@ -212,10 +226,10 @@ export default function StaffBoard({ defaultWaitTime }: { defaultWaitTime: numbe
           {/* Traitées */}
           <section>
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
-              Traitées ({handled.length})
+              {t("staff.handled")} ({handled.length})
             </h2>
             {handled.length === 0 ? (
-              <p className="text-sm text-neutral-600">Aucune.</p>
+              <p className="text-sm text-neutral-600">{t("staff.handledNone")}</p>
             ) : (
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {handled.map(renderCard)}

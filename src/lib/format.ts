@@ -1,34 +1,58 @@
-// Petits utilitaires de présentation (prix, badges, libellés).
+// Petits utilitaires de présentation (prix, badges, libellés), adaptés à la langue.
 
 import type { OrderMode, OrderStatus } from "./types";
+import { DEFAULT_LOCALE, LOCALE_BCP47, type Locale } from "@/i18n/config";
+import type { MessageKey } from "@/i18n/messages";
 
-/** Formate un montant en euros (ex. 11.5 -> "11,50 €"). */
-export function formatPrice(amount: number): string {
-  return new Intl.NumberFormat("fr-FR", {
+/** Formate un montant en euros selon la langue (ex. "11,50 €" / "€11.50"). */
+export function formatPrice(amount: number, locale: Locale = DEFAULT_LOCALE): string {
+  return new Intl.NumberFormat(LOCALE_BCP47[locale], {
     style: "currency",
     currency: "EUR",
   }).format(amount);
 }
 
-/** Métadonnées d'affichage des badges plats. */
-export const BADGES: Record<string, { label: string; emoji: string }> = {
-  veggie: { label: "Végé", emoji: "🌱" },
-  spicy: { label: "Épicé", emoji: "🌶️" },
-  new: { label: "Nouveau", emoji: "✨" },
+/** Emoji des badges plats (le libellé est traduit via la clé badge.*). */
+export const BADGE_EMOJI: Record<string, string> = {
+  veggie: "🌱",
+  spicy: "🌶️",
+  new: "✨",
 };
 
-/** Libellé lisible du mode de retrait. */
-export function modeLabel(mode: OrderMode): string {
-  return mode === "dine_in" ? "Sur place" : "À emporter";
+/** Clé de traduction du libellé d'un badge ("badge.veggie"…). */
+export function badgeKey(badge: string): MessageKey | null {
+  if (badge === "veggie") return "badge.veggie";
+  if (badge === "spicy") return "badge.spicy";
+  if (badge === "new") return "badge.new";
+  return null;
 }
 
-/** Métadonnées d'affichage des statuts de commande. */
-export const STATUS_META: Record<
-  OrderStatus,
-  { label: string; color: string; emoji: string }
-> = {
-  pending: { label: "En attente de validation", color: "amber", emoji: "⏳" },
-  accepted: { label: "Acceptée", color: "green", emoji: "✅" },
-  refused: { label: "Refusée", color: "red", emoji: "❌" },
-  ready: { label: "Prête", color: "blue", emoji: "🛍️" },
+/** Clé de traduction du mode de retrait ("mode.dineIn" / "mode.takeaway"). */
+export function modeKey(mode: OrderMode): MessageKey {
+  return mode === "dine_in" ? "mode.dineIn" : "mode.takeaway";
+}
+
+/** Emoji d'un statut de commande. */
+export const STATUS_EMOJI: Record<OrderStatus, string> = {
+  pending: "⏳",
+  accepted: "✅",
+  refused: "❌",
+  ready: "🛍️",
 };
+
+/** Clé de traduction du libellé d'un statut ("status.pending"…). */
+export function statusKey(status: OrderStatus): MessageKey {
+  return `status.${status}` as MessageKey;
+}
+
+/**
+ * Libellé d'une option de commande ré-traduit via la table id -> libellé
+ * (getOrderLabelMap). Repli sur le libellé figé si l'id n'est plus au menu.
+ */
+export function relabelOption(
+  id: string,
+  fallback: string,
+  map?: Record<string, string>,
+): string {
+  return (map && map[id]) || fallback;
+}
