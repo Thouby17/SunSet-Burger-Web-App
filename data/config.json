@@ -1,0 +1,22 @@
+{
+  "restaurantName": "Brooklyn Food",
+  "tagline": "NYC street food — fait maison",
+  "currency": "EUR",
+  "defaultWaitTime": 20,
+  "phoneDisclaimer": "Demandé uniquement pour vous contacter en cas de besoin.",
+  "contact": {
+    "phone": "+32 491 59 90 65",
+    "email": "contact@brooklynfood.be",
+    "address": "Rue de Wand 45, 1020 Bruxelles"
+  },
+  "hours": {
+    "comment": "Horaires par jour (format 24h HH:MM). Plusieurs créneaux possibles. Vide = fermé ce jour-là.",
+    "monday": [{ "open": "12:00", "close": "22:30" }],
+    "tuesday": [{ "open": "12:00", "close": "22:30" }],
+    "wednesday": [{ "open": "12:00", "close": "22:30" }],
+    "thursday": [{ "open": "12:00", "close": "22:30" }],
+    "friday": [{ "open": "12:00", "close": "23:00" }],
+    "saturday": [{ "open": "12:00", "close": "23:00" }],
+    "sunday": [{ "open": "16:00", "close": "22:30" }]
+  }
+}

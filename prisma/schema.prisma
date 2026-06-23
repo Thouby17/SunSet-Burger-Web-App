@@ -1,0 +1,31 @@
+// Schéma Prisma — modèle unique : Order (les commandes).
+//
+// Base de données : PostgreSQL (Neon), en local comme en production.
+// DATABASE_URL contient l'URL de connexion Neon (dans .env en local, et dans
+// les variables d'environnement Vercel en production).
+// Pour (re)créer les tables sur la base : `npx prisma db push`.
+// Les `items` sont stockés en JSON encodé dans une colonne String (texte).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id           Int      @id @default(autoincrement()) // numéro de commande lisible (#id), usage interne/staff
+  token        String   @unique @default(cuid())      // jeton aléatoire pour le suivi public (lien non devinable)
+  mode         String   // "dine_in" (sur place) | "takeaway" (à emporter)
+  customerName String   // prénom du client
+  phone        String   // téléphone (contact en cas de besoin)
+  items        String   // JSON encodé : [{ menuItemId, name, qty, note, options:[{label,price}], unitPrice, lineTotal }]
+  total        Float    // total recalculé côté serveur
+  status       String   @default("pending") // pending | accepted | refused | ready
+  waitTime     Int?     // minutes estimées, saisi par le staff à l'acceptation
+  staffMessage String?  // message libre (ex. motif de refus)
+  createdAt    DateTime @default(now())     // heure de réception (tri staff)
+  updatedAt    DateTime @updatedAt
+}

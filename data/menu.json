@@ -1,0 +1,1038 @@
+{
+  "sharedChoiceGroups": {
+    "viande": {
+      "id": "viande",
+      "label": "Viande",
+      "min": 1,
+      "max": 1,
+      "choices": [
+        { "id": "viande-hachee", "label": "Viande hachée", "price": 0 },
+        { "id": "poulet-pane", "label": "Poulet pané", "price": 0 },
+        { "id": "poulet-grille", "label": "Poulet grillé", "price": 0 },
+        { "id": "merguez", "label": "Merguez", "price": 0 }
+      ]
+    },
+    "sauce": {
+      "id": "sauce",
+      "label": "Sauce",
+      "min": 1,
+      "max": 1,
+      "choices": [
+        { "id": "andalouse", "label": "Andalouse", "price": 0 },
+        { "id": "samourai", "label": "Samouraï", "price": 0 },
+        { "id": "geant", "label": "Géant", "price": 0 },
+        { "id": "blanche", "label": "Blanche", "price": 0 },
+        { "id": "mayonnaise", "label": "Mayonnaise", "price": 0 },
+        { "id": "mayo-truffe", "label": "Mayonnaise truffe", "price": 0 },
+        { "id": "pili-pili", "label": "Pili pili", "price": 0 },
+        { "id": "poivre", "label": "Poivre", "price": 0 },
+        { "id": "curry", "label": "Curry", "price": 0 },
+        { "id": "ketchup", "label": "Ketchup", "price": 0 },
+        { "id": "jammie", "label": "Jammie", "price": 0 },
+        { "id": "algerienne", "label": "Algérienne", "price": 0 },
+        { "id": "americaine", "label": "Américaine", "price": 0 },
+        { "id": "cocktail", "label": "Cocktail", "price": 0 },
+        { "id": "barbecue", "label": "Barbecue", "price": 0 },
+        { "id": "curry-ketchup", "label": "Curry ketchup", "price": 0 },
+        { "id": "biggy", "label": "Biggy", "price": 0 },
+        { "id": "ail", "label": "Ail", "price": 0 },
+        { "id": "barbecue-piquante", "label": "Barbecue piquante", "price": 0 },
+        { "id": "brazil", "label": "Brazil", "price": 0 },
+        { "id": "curry-jaune", "label": "Curry jaune", "price": 0 },
+        { "id": "harissa", "label": "Harissa", "price": 0 },
+        { "id": "moutarde", "label": "Moutarde", "price": 0 },
+        { "id": "salsa", "label": "Salsa", "price": 0 },
+        { "id": "cheddar", "label": "Sauce cheddar", "price": 0 },
+        { "id": "tartare", "label": "Tartare", "price": 0 }
+      ]
+    },
+    "accompagnement": {
+      "id": "accompagnement",
+      "label": "Accompagnement",
+      "min": 1,
+      "max": 1,
+      "choices": [
+        { "id": "frites", "label": "Frites", "price": 0 },
+        { "id": "potatoes", "label": "Potatoes", "price": 0 }
+      ]
+    },
+    "supplements": {
+      "id": "supplements",
+      "label": "Suppléments",
+      "min": 0,
+      "max": 2,
+      "choices": [
+        { "id": "raclette", "label": "Fromage raclette", "price": 1.3 },
+        { "id": "bacon", "label": "Bacon", "price": 1.3 },
+        { "id": "jalapenos", "label": "Jalapenos", "price": 1.3 },
+        { "id": "galette", "label": "Galette", "price": 1.5 },
+        { "id": "oeuf", "label": "Œuf", "price": 1.5 },
+        { "id": "aubergine", "label": "Aubergine", "price": 1.5 },
+        { "id": "cheddar", "label": "Fromage cheddar", "price": 1.5 },
+        { "id": "poivron", "label": "Poivron", "price": 1.5 }
+      ]
+    },
+    "supplement-assiette": {
+      "id": "supplement-assiette",
+      "label": "Supplément",
+      "min": 0,
+      "max": 1,
+      "choices": [
+        { "id": "raclette", "label": "Fromage raclette", "price": 1.5 }
+      ]
+    }
+  },
+  "categories": [
+    {
+      "id": "salades",
+      "label": "Salades",
+      "items": [
+        {
+          "id": "salade-cesar",
+          "name": "Salade César",
+          "description": "Salade, maïs, carotte, tomate, poulet, parmesan, croûtons et sauce César.",
+          "price": 10.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "salade-chevre",
+          "name": "Salade de chèvre",
+          "description": "Salade, tomates, concombre, fromage de chèvre, miel, noix et sauce vinaigrette.",
+          "price": 8.0,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "salade-thon",
+          "name": "Salade de thon",
+          "description": "Salade, tomates, concombre, thon, feta, olives, œufs et vinaigrette.",
+          "price": 7.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "salade-campagnarde",
+          "name": "Salade campagnarde",
+          "description": "Salade, tomates, concombre, pommes de terre, lardons et vinaigrette.",
+          "price": 7.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "entrees-chaudes",
+      "label": "Entrées chaudes",
+      "items": [
+        {
+          "id": "ailes-poulet-piquantes",
+          "name": "Ailes de poulet piquantes",
+          "description": "",
+          "price": 7.9,
+          "image": null,
+          "badges": ["spicy"],
+          "options": []
+        },
+        {
+          "id": "tenders",
+          "name": "Tenders",
+          "description": "",
+          "price": 6.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "tex-mex-potatoes",
+          "name": "Tex mex potatoes",
+          "description": "Potatoes, sauce nachos, lardons et jalapeños.",
+          "price": 7.0,
+          "image": null,
+          "badges": ["spicy"],
+          "options": []
+        },
+        {
+          "id": "nuggets",
+          "name": "Nuggets",
+          "description": "",
+          "price": 6.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "jalapenos-onion-rings",
+          "name": "Jalapeños et oignon rings",
+          "description": "Jalapeños (2 pièces) et oignon rings (4 pièces).",
+          "price": 6.0,
+          "image": null,
+          "badges": ["spicy"],
+          "options": []
+        },
+        {
+          "id": "croquettes-fromage",
+          "name": "Croquettes de fromage",
+          "description": "",
+          "price": 6.0,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "calamars-frits",
+          "name": "Calamars frits",
+          "description": "Servi avec sauce tartare.",
+          "price": 6.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "falafel-hommos-salade",
+          "name": "Falafel, hommos et salade",
+          "description": "",
+          "price": 6.0,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "frites",
+      "label": "Frites",
+      "items": [
+        {
+          "id": "frites-patate-douce",
+          "name": "Paquet de frites de patate douce",
+          "description": "",
+          "price": 5.5,
+          "image": null,
+          "badges": ["veggie"],
+          "options": [],
+          "choiceGroupRefs": [{ "ref": "sauce", "min": 0 }]
+        },
+        {
+          "id": "paquet-frites",
+          "name": "Paquet de frites",
+          "description": "",
+          "price": 3.5,
+          "image": null,
+          "badges": ["veggie"],
+          "options": [],
+          "choiceGroupRefs": [{ "ref": "sauce", "min": 0 }]
+        },
+        {
+          "id": "paquet-potatoes",
+          "name": "Paquet de potatoes",
+          "description": "",
+          "price": 4.5,
+          "image": null,
+          "badges": ["veggie"],
+          "options": [],
+          "choiceGroupRefs": [{ "ref": "sauce", "min": 0 }]
+        }
+      ]
+    },
+    {
+      "id": "burritos",
+      "label": "Burritos",
+      "items": [
+        {
+          "id": "burrito-poulet-pane",
+          "name": "Burrito poulet pané",
+          "description": "Salade, tomates, oignons et sauce fromagère. Servi avec sauce et accompagnement au choix.",
+          "price": 10.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "burrito-pita",
+          "name": "Burrito pita",
+          "description": "Salade, tomates, oignons et sauce fromagère. Servi avec sauce et accompagnement au choix.",
+          "price": 10.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "burrito-kefta",
+          "name": "Burrito kefta",
+          "description": "Salade, tomates, oignons et sauce fromagère. Servi avec sauce et accompagnement au choix.",
+          "price": 10.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        }
+      ]
+    },
+    {
+      "id": "hot-dog",
+      "label": "Hot dog",
+      "items": [
+        {
+          "id": "hotdog-newyorkais",
+          "name": "Hot dog new-yorkais",
+          "description": "Sauce barbecue, bacon, oignons frits et cheddar.",
+          "price": 8.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }]
+        },
+        {
+          "id": "hotdog-chicago",
+          "name": "Hot dog Chicago",
+          "description": "Sauce maison, viande hachée, oignons caramélisés, cornichons et cheddar.",
+          "price": 8.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }]
+        },
+        {
+          "id": "hotdog-mexicain",
+          "name": "Hot dog mexicain",
+          "description": "Sauce piquante, bacon, jalapeños, oignons frits et cheddar.",
+          "price": 8.5,
+          "image": null,
+          "badges": ["spicy"],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }]
+        },
+        {
+          "id": "hotdog-bresilien",
+          "name": "Hot dog brésilien",
+          "description": "Sauce sucrée et ketchup, oignons caramélisés, bacon, cheddar et aubergines.",
+          "price": 8.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }]
+        },
+        {
+          "id": "hotdog-newyorkais-simple",
+          "name": "Hot dog new-yorkais simple",
+          "description": "",
+          "price": 7.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "hotdog-mexicain-simple",
+          "name": "Hot dog mexicain simple",
+          "description": "",
+          "price": 7.0,
+          "image": null,
+          "badges": ["spicy"],
+          "options": []
+        },
+        {
+          "id": "hotdog-bresilien-simple",
+          "name": "Hot dog brésilien simple",
+          "description": "",
+          "price": 7.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "hotdog-chicago-simple",
+          "name": "Hot dog Chicago simple",
+          "description": "",
+          "price": 8.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "tacos",
+      "label": "Tacos",
+      "items": [
+        {
+          "id": "tacos-au-choix",
+          "name": "Tacos au choix",
+          "description": "Oignons caramélisés, salade, maïs, carotte, sauce fromagère et mozzarella.",
+          "price": 9.0,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["viande", "sauce"]
+        },
+        {
+          "id": "tacos-newyorkais",
+          "name": "Tacos new-yorkais",
+          "description": "Sauce barbecue, oignons caramélisés, salade, maïs, carotte, sauce fromagère, mozzarella et bacon.",
+          "price": 9.0,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["viande"]
+        },
+        {
+          "id": "tacos-manhattan",
+          "name": "Tacos Manhattan",
+          "description": "Sauce géant, oignons caramélisés, salade, maïs, carotte, bacon, sauce fromagère et mozzarella.",
+          "price": 9.0,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["viande"]
+        },
+        {
+          "id": "tacos-mexicain",
+          "name": "Tacos mexicain",
+          "description": "Sauce mexicaine, oignons caramélisés, salade, maïs, carotte, jalapeños, sauce fromagère et mozzarella.",
+          "price": 9.0,
+          "image": null,
+          "badges": ["spicy"],
+          "options": [],
+          "choiceGroupRefs": ["viande"]
+        }
+      ]
+    },
+    {
+      "id": "beef-burgers",
+      "label": "Beef Burgers",
+      "items": [
+        {
+          "id": "brooklyn-supreme-burger",
+          "name": "Brooklyn suprême burger",
+          "description": "150 g de bœuf, sauce au poivre, roquette, tomates, oignons caramélisés, bacon grillé et cheddar.",
+          "price": 11.99,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "manhattan-burger",
+          "name": "Manhattan burger",
+          "description": "150 g de bœuf, sauce géant, œufs, salade, tomates, oignons caramélisés, bacon, fromage et raclette.",
+          "price": 12.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "burger-espagnol",
+          "name": "Burger espagnol",
+          "description": "150 g de bœuf, sauce andalouse sucrée, galette de pommes de terre, chorizo, salade, tomates, oignons caramélisés et cheddar.",
+          "price": 11.99,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "burger-newyorkais",
+          "name": "Burger new-yorkais",
+          "description": "150 g de bœuf, sauce barbecue, œufs, lardons, tomates, oignons caramélisés, bacon grillé et cheddar.",
+          "price": 11.99,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "burger-mexicain",
+          "name": "Burger mexicain",
+          "description": "150 g de bœuf, sauce piquante et nachos, salade, tomates, oignons caramélisés, jalapeños et nachos.",
+          "price": 11.99,
+          "image": null,
+          "badges": ["spicy"],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "chicago-burger",
+          "name": "Chicago burger",
+          "description": "150 g de bœuf, sauce barbecue, roquette, salade, tomates, oignons caramélisés et cheddar.",
+          "price": 11.99,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "harlem-burger",
+          "name": "Harlem burger",
+          "description": "150 g de bœuf, sauce maison, roquette, tomates, oignons, fromage de chèvre, noix et miel.",
+          "price": 11.99,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "burger-marocain",
+          "name": "Burger marocain",
+          "description": "150 g de bœuf, sauce algérienne, salade, tomates, oignons, cannelle, cheddar et aubergines grillées.",
+          "price": 11.99,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "burger-oriental",
+          "name": "Burger oriental",
+          "description": "Merguez, sauce piquante, salade, poivrons grillés, cheddar, tomates et oignons caramélisés.",
+          "price": 11.99,
+          "image": null,
+          "badges": ["spicy"],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "brooklyn-supreme-simple",
+          "name": "Brooklyn suprême simple",
+          "description": "150 g de bœuf, sauce au poivre, salade, tomate, oignons caramélisés, bacon halal et cheddar.",
+          "price": 8.5,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "manhattan-simple",
+          "name": "Manhattan simple",
+          "description": "Sauce géant.",
+          "price": 8.5,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "espagnol-simple",
+          "name": "L'espagnol simple",
+          "description": "Galette de pommes de terre et sauce andalouse.",
+          "price": 7.5,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "newyorkais-simple",
+          "name": "New-yorkais simple",
+          "description": "Sauce barbecue.",
+          "price": 7.5,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "mexicain-simple",
+          "name": "Le mexicain simple",
+          "description": "Sauce piquante.",
+          "price": 7.5,
+          "image": null,
+          "badges": ["spicy"],
+          "options": []
+        },
+        {
+          "id": "chicago-simple",
+          "name": "Chicago simple",
+          "description": "Sauce barbecue.",
+          "price": 7.5,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "harlem-simple",
+          "name": "Harlem simple",
+          "description": "Fromage de chèvre.",
+          "price": 7.5,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "marocain-simple",
+          "name": "Le marocain simple",
+          "description": "Sauce algérienne et aubergine.",
+          "price": 7.5,
+          "image": null,
+          "badges": [],
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "chicken-burgers",
+      "label": "Chicken Burgers",
+      "items": [
+        {
+          "id": "chicken-indien",
+          "name": "L'Indien",
+          "description": "Sauce curry, poulet pané, salade, tomate, oignons caramélisés et cheddar.",
+          "price": 11.99,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "chicken-anglais",
+          "name": "L'Anglais",
+          "description": "Sauce BBQ, poulet pané, salade, tomate, oignons caramélisés, fromage, roquette et cornichon.",
+          "price": 13.0,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "chicken-exotique",
+          "name": "L'Exotique",
+          "description": "Sauce sucrée, poulet pané, salade, tomate, ananas, cheddar et oignon rings.",
+          "price": 11.99,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "chicken-pepper",
+          "name": "Chicken pepper",
+          "description": "Poulet pané croustillant, sauce poivre, salade, tomate, oignons caramélisés, bacon halal et tranche de cheddar.",
+          "price": 13.0,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        }
+      ]
+    },
+    {
+      "id": "fish-burgers",
+      "label": "Fish Burgers",
+      "items": [
+        {
+          "id": "fish-canadien",
+          "name": "Canadien",
+          "description": "Poisson 150 g, sauce maison, salade, tomate, oignons, tarama et cheddar.",
+          "price": 11.99,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        },
+        {
+          "id": "fish-norvegien",
+          "name": "Norvégien",
+          "description": "Saumon 150 g, sauce maison, salade, tomate, oignons et cheddar.",
+          "price": 11.99,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplements"]
+        }
+      ]
+    },
+    {
+      "id": "special-burgers",
+      "label": "Special burgers",
+      "items": [
+        {
+          "id": "mixte-brook-burger",
+          "name": "Mixte brook burger",
+          "description": "1 bœuf, 1 poulet, sauce piquante, salade, tomate, oignon rings et fromage raclette.",
+          "price": 12.99,
+          "image": null,
+          "badges": ["spicy"],
+          "options": []
+        },
+        {
+          "id": "big-brook-burger",
+          "name": "Big brook burger",
+          "description": "2 bœuf de 100 g, sauce maison, salade, tomate, oignon rings et fromage raclette.",
+          "price": 12.99,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "vegetarien-burger",
+          "name": "Végétarien burger",
+          "description": "Sauce maison, falafel, salade, tomate, oignons caramélisés, aubergines et fromage raclette.",
+          "price": 12.5,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "burgers-simple-sans-menu",
+      "label": "Burgers simple (sans menu)",
+      "items": [
+        {
+          "id": "anglais-simple",
+          "name": "L'Anglais simple",
+          "description": "Pain brioché, sauce barbecue, salade, tomate, oignons caramélisés, cheddar et poulet pané.",
+          "price": 10.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "nos-plats",
+      "label": "Nos Plats",
+      "items": [
+        {
+          "id": "assiette-mixte",
+          "name": "Assiette Mixte",
+          "description": "Toujours accompagnée de salade et de riz.",
+          "price": 16.0,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
+        },
+        {
+          "id": "assiette-poulet-grille",
+          "name": "Assiette Poulet Grillé",
+          "description": "Toujours accompagnée de salade et de riz.",
+          "price": 15.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
+        },
+        {
+          "id": "assiette-poulet-pane",
+          "name": "Assiette Poulet Pané",
+          "description": "Toujours accompagnée de salade et de riz.",
+          "price": 15.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
+        },
+        {
+          "id": "assiette-merguez",
+          "name": "Assiette Merguez",
+          "description": "Toujours accompagnée de salade et de riz.",
+          "price": 15.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
+        },
+        {
+          "id": "assiette-pitta",
+          "name": "Assiette Pitta",
+          "description": "Toujours accompagnée de salade et de riz.",
+          "price": 14.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
+        },
+        {
+          "id": "assiette-calamar",
+          "name": "Assiette Calamar",
+          "description": "Toujours accompagnée de salade et de riz.",
+          "price": 14.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
+        },
+        {
+          "id": "assiette-kefta",
+          "name": "Assiette Kefta",
+          "description": "Toujours accompagnée de salade et de riz.",
+          "price": 13.5,
+          "image": null,
+          "badges": [],
+          "options": [],
+          "choiceGroupRefs": ["accompagnement", { "ref": "sauce", "min": 0 }, "supplement-assiette"]
+        }
+      ]
+    },
+    {
+      "id": "menus-enfant",
+      "label": "Menus enfant",
+      "items": [
+        {
+          "id": "menu-enfant-cheeseburger",
+          "name": "Menu enfant cheeseburger",
+          "description": "Cheeseburger, servi avec frites et Capri-Sun.",
+          "price": 7.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "menu-enfant-nuggets",
+          "name": "Menu enfant nuggets",
+          "description": "Nuggets, servis avec frites et Capri-Sun.",
+          "price": 7.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "menu-enfant-tenders",
+          "name": "Menu enfant tenders",
+          "description": "Tenders, servis avec frites et Capri-Sun.",
+          "price": 7.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "menu-enfant-hotdog",
+          "name": "Menu enfant hot dog",
+          "description": "Hot dog, servi avec frites et Capri-Sun.",
+          "price": 7.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "desserts",
+      "label": "Desserts",
+      "items": [
+        {
+          "id": "moelleux-chocolat",
+          "name": "Moelleux chocolat",
+          "description": "",
+          "price": 4.9,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "freakshake",
+      "label": "FreakShake",
+      "items": [
+        {
+          "id": "freakshake-oreo",
+          "name": "FreakShake Oréo",
+          "description": "",
+          "price": 5.0,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "freakshake-fraise-choco-blanc",
+          "name": "FreakShake Fraise Chocolat blanc",
+          "description": "",
+          "price": 5.0,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        },
+        {
+          "id": "freakshake-banane-nutella",
+          "name": "FreakShake Banane Nutella",
+          "description": "",
+          "price": 5.0,
+          "image": null,
+          "badges": ["veggie"],
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": "boissons",
+      "label": "Boissons",
+      "items": [
+        {
+          "id": "coca-cola",
+          "name": "Coca-Cola",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "coca-cola-zero",
+          "name": "Coca-Cola zéro",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "pepsi",
+          "name": "Pepsi",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "ice-tea",
+          "name": "Ice Tea",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "ice-tea-peche",
+          "name": "Ice Tea pêche",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "fanta",
+          "name": "Fanta",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "fanta-vert",
+          "name": "Fanta vert",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "fanta-rouge",
+          "name": "Fanta rouge",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "oasis-tropical",
+          "name": "Oasis tropical",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "oasis-cassis",
+          "name": "Oasis cassis",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "tropico",
+          "name": "Tropico",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "schweppes-agrume",
+          "name": "Schweppes agrume",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "pales-peche",
+          "name": "Pales pêche",
+          "description": "Canette 33 cl.",
+          "price": 2.2,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "pales-grenadine",
+          "name": "Pales grenadine",
+          "description": "Canette 33 cl.",
+          "price": 2.2,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "pales-mojito",
+          "name": "Pales mojito",
+          "description": "Canette 33 cl.",
+          "price": 2.2,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "pales-cola",
+          "name": "Pales cola",
+          "description": "Canette 33 cl.",
+          "price": 2.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "eau-spa",
+          "name": "Eau plate Spa",
+          "description": "Bouteille 50 cl.",
+          "price": 1.5,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "eau-petillante-spa",
+          "name": "Eau pétillante Spa",
+          "description": "Bouteille 50 cl.",
+          "price": 2.2,
+          "image": null,
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "capri-sun",
+          "name": "Capri-Sun",
+          "description": "Gourde 20 cl.",
+          "price": 1.0,
+          "image": null,
+          "badges": [],
+          "options": []
+        }
+      ]
+    }
+  ]
+}
