@@ -1,16 +1,38 @@
 "use client";
 
-// Panier (bottom sheet) : récapitulatif des lignes, ajustement des quantités,
-// suppression, total, et passage à l'identification.
+// Panier (bottom sheet) : recapitulatif des lignes, ajustement des quantites,
+// suppression, total, et passage a l'identification.
 
-import type { CartLine } from "@/lib/types";
+import { useEffect, useRef, useState } from "react";
+import type { CartLine, MenuItem } from "@/lib/types";
 import { formatPrice } from "@/lib/format";
 import { lineExtras, lineTotal } from "@/store/cart";
 import { useI18n } from "@/i18n/client";
 
+function FoodIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
+      <path d="M7 2v20" />
+      <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
+    </svg>
+  );
+}
+
 export default function CartSheet({
   lines,
   total,
+  suggestions = [],
+  onAddSuggestion,
   onClose,
   onUpdateQty,
   onRemove,
@@ -19,6 +41,8 @@ export default function CartSheet({
 }: {
   lines: CartLine[];
   total: number;
+  suggestions?: MenuItem[];
+  onAddSuggestion?: (item: MenuItem) => void;
   onClose: () => void;
   onUpdateQty: (lineId: string, qty: number) => void;
   onRemove: (lineId: string) => void;
@@ -26,17 +50,54 @@ export default function CartSheet({
   onCheckout: () => void;
 }) {
   const { t, locale } = useI18n();
+
+  // Verrouille le défilement de la page derrière le panier.
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
+  // Swipe vers le bas (depuis le bandeau du haut) pour fermer le panier.
+  const [dragY, setDragY] = useState(0);
+  const startY = useRef<number | null>(null);
+  function onHandleStart(e: React.TouchEvent) {
+    startY.current = e.touches[0].clientY;
+  }
+  function onHandleMove(e: React.TouchEvent) {
+    if (startY.current == null) return;
+    const dy = e.touches[0].clientY - startY.current;
+    setDragY(dy > 0 ? dy : 0); // on ne suit que vers le bas
+  }
+  function onHandleEnd() {
+    if (dragY > 90) onClose(); // seuil dépassé -> fermeture
+    setDragY(0);
+    startY.current = null;
+  }
+
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60"
+      className="fixed inset-0 z-50 flex animate-fade-in flex-col justify-end bg-black/60 md:items-center md:justify-center md:p-6"
       onClick={onClose}
     >
       <div
-        className="flex max-h-[90dvh] flex-col rounded-t-3xl bg-neutral-900"
+        className="flex max-h-[90dvh] animate-sheet-up flex-col rounded-t-3xl bg-neutral-900 md:max-h-[85dvh] md:w-full md:max-w-lg md:animate-modal-in md:rounded-3xl md:shadow-2xl"
         onClick={(e) => e.stopPropagation()}
+        style={{
+          transform: dragY ? `translateY(${dragY}px)` : undefined,
+          transition: dragY ? "none" : "transform 0.2s ease-out",
+        }}
       >
-        <div className="p-5 pb-2">
-          <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-neutral-700" />
+        {/* Bandeau du haut : zone de "poignée" — glisser vers le bas pour fermer. */}
+        <div
+          className="touch-none p-5 pb-2"
+          onTouchStart={onHandleStart}
+          onTouchMove={onHandleMove}
+          onTouchEnd={onHandleEnd}
+        >
+          <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-neutral-700 md:hidden" />
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold">{t("cart.title")}</h2>
             {lines.length > 0 && (
@@ -53,7 +114,7 @@ export default function CartSheet({
         </div>
 
         {/* Lignes */}
-        <div className="flex-1 overflow-y-auto px-5">
+        <div className="flex-1 overflow-y-auto overscroll-contain px-5">
           {lines.length === 0 ? (
             <p className="py-10 text-center text-neutral-500">
               {t("cart.empty")}
@@ -65,37 +126,56 @@ export default function CartSheet({
                   key={l.lineId}
                   className="rounded-xl border border-neutral-800 bg-neutral-950 p-3"
                 >
-                  <div className="flex justify-between gap-2">
-                    <span className="font-semibold">{l.name}</span>
-                    <span className="font-semibold text-brand">
-                      {formatPrice(lineTotal(l), locale)}
-                    </span>
-                  </div>
+                  <div className="flex gap-3">
+                    {/* Vignette produit ou icone de remplacement */}
+                    <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-neutral-800">
+                      {l.image ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={l.image}
+                          alt={l.name}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center">
+                          <FoodIcon className="h-7 w-7 text-neutral-500" />
+                        </div>
+                      )}
+                    </div>
 
-                  {lineExtras(l).length > 0 && (
-                    <p className="mt-0.5 text-sm text-neutral-400">
-                      {lineExtras(l).map((e) => e.label).join(", ")}
-                    </p>
-                  )}
-                  {l.note && (
-                    <p className="mt-0.5 text-sm italic text-neutral-500">
-                      “{l.note}”
-                    </p>
-                  )}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex justify-between gap-2">
+                        <span className="font-semibold leading-tight">{l.name}</span>
+                        <span className="shrink-0 font-semibold text-brand">
+                          {formatPrice(lineTotal(l), locale)}
+                        </span>
+                      </div>
+                      {lineExtras(l).length > 0 && (
+                        <p className="mt-0.5 text-sm text-neutral-400">
+                          {lineExtras(l).map((e) => e.label).join(", ")}
+                        </p>
+                      )}
+                      {l.note && (
+                        <p className="mt-0.5 text-sm italic text-neutral-500">
+                          &ldquo;{l.note}&rdquo;
+                        </p>
+                      )}
+                    </div>
+                  </div>
 
                   <div className="mt-2 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => onUpdateQty(l.lineId, l.qty - 1)}
-                        className="h-8 w-8 rounded-full bg-neutral-800 text-lg font-bold"
+                        className="h-11 w-11 rounded-full bg-neutral-800 text-lg font-bold"
                         aria-label={t("item.decrease")}
                       >
-                        −
+                        &minus;
                       </button>
                       <span className="w-5 text-center font-bold">{l.qty}</span>
                       <button
                         onClick={() => onUpdateQty(l.lineId, l.qty + 1)}
-                        className="h-8 w-8 rounded-full bg-neutral-800 text-lg font-bold"
+                        className="h-11 w-11 rounded-full bg-neutral-800 text-lg font-bold"
                         aria-label={t("item.increase")}
                       >
                         +
@@ -113,6 +193,40 @@ export default function CartSheet({
             </ul>
           )}
         </div>
+
+        {/* Upsell : complements populaires a ajouter en un tap. */}
+        {lines.length > 0 && suggestions.length > 0 && (
+          <div className="border-t border-neutral-800 px-5 py-3">
+            <p className="mb-2 text-sm font-semibold text-neutral-300">
+              {t("cart.suggestions")}
+            </p>
+            <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {suggestions.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => onAddSuggestion?.(s)}
+                  className="flex shrink-0 items-center gap-2 rounded-full border border-neutral-700 bg-neutral-950 py-1 pl-1 pr-2 text-sm transition active:scale-[0.97]"
+                >
+                  <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full bg-neutral-800">
+                    {s.image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={s.image} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center">
+                        <FoodIcon className="h-4 w-4 text-neutral-500" />
+                      </div>
+                    )}
+                  </div>
+                  <span className="font-medium text-neutral-200">{s.name}</span>
+                  <span className="font-semibold text-brand">{formatPrice(s.price, locale)}</span>
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand text-lg font-bold leading-none text-neutral-950">
+                    +
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Pied : total + actions */}
         <div className="border-t border-neutral-800 p-5">

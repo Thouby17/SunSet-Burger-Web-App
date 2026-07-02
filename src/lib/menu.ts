@@ -7,7 +7,7 @@
 
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import type { Menu, MenuItem, MenuOption } from "./types";
+import type { ChoiceGroup, Menu, MenuItem, MenuOption } from "./types";
 import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
 import { localize, type Localized } from "@/i18n/localize";
 
@@ -59,9 +59,28 @@ function resolveChoiceGroup(
   };
 }
 
+// En prod, data/menu.json est statique (figé au déploiement). On met en cache
+// le JSON brut ET le menu déjà résolu par langue, au niveau module, pour éviter
+// de relire/parser/traduire le menu à chaque appel (et il est appelé plusieurs
+// fois par requête : page, suivi, et 1× par ligne lors d'une commande).
+// En dev, pas de cache (toute modif de data/menu.json est prise en compte).
+const IS_PROD = process.env.NODE_ENV === "production";
+let _rawMenuCache: RawMenu | null = null;
+const _resolvedMenuCache = new Map<Locale, Menu>();
+
+async function loadRawMenu(): Promise<RawMenu> {
+  if (_rawMenuCache && IS_PROD) return _rawMenuCache;
+  _rawMenuCache = JSON.parse(await readFile(MENU_PATH, "utf-8")) as RawMenu;
+  return _rawMenuCache;
+}
+
 /** Charge le menu résolu dans la langue voulue (groupes partagés inclus). */
 export async function getMenu(locale: Locale = DEFAULT_LOCALE): Promise<Menu> {
-  const raw = JSON.parse(await readFile(MENU_PATH, "utf-8")) as RawMenu;
+  if (IS_PROD) {
+    const cached = _resolvedMenuCache.get(locale);
+    if (cached) return cached;
+  }
+  const raw = await loadRawMenu();
   const shared = raw.sharedChoiceGroups ?? {};
 
   const categories = raw.categories.map((cat) => ({
@@ -100,7 +119,17 @@ export async function getMenu(locale: Locale = DEFAULT_LOCALE): Promise<Menu> {
     }),
   }));
 
-  return { categories };
+  // Groupes partagés résolus (une seule fois, quel que soit le nombre de plats
+  // qui les référencent) : sert notamment à l'admin (édition des prix) pour ne
+  // pas afficher "Sauce" en double pour chaque plat qui la propose.
+  const sharedChoiceGroups: Record<string, ChoiceGroup> = {};
+  for (const [id, g] of Object.entries(shared)) {
+    sharedChoiceGroups[id] = resolveChoiceGroup(g, locale);
+  }
+
+  const menu: Menu = { categories, sharedChoiceGroups };
+  if (IS_PROD) _resolvedMenuCache.set(locale, menu);
+  return menu;
 }
 
 /** Retrouve un plat par son id (résolu dans la langue voulue). */

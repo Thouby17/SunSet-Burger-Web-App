@@ -1,0 +1,15 @@
+{
+  "id": "/admin",
+  "name": "SunSet Burger Admin",
+  "short_name": "Admin",
+  "description": "Tableau de bord ventes — SunSet Burger",
+  "start_url": "/admin",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f1f3f7",
+  "theme_color": "#f1f3f7",
+  "icons": [
+    { "src": "/icon-app.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-app.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

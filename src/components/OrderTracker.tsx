@@ -8,9 +8,11 @@ import Link from "next/link";
 import BackButton from "./BackButton";
 import type { OrderDTO } from "@/lib/types";
 import { formatPrice, modeKey, relabelOption, statusKey, STATUS_EMOJI } from "@/lib/format";
-import { ensureNotifyPermission, playBeep, showNotification } from "@/lib/notify";
+import { ensureNotifyPermission, alertOrderUpdate, showNotification } from "@/lib/notify";
+import { enablePush } from "@/lib/pushClient";
 import { useI18n } from "@/i18n/client";
 import { LOCALE_BCP47 } from "@/i18n/config";
+import { removeMyOrderTokens } from "@/store/myOrders";
 
 const POLL_MS = 5000;
 
@@ -34,10 +36,12 @@ export default function OrderTracker({
       .replace(":", "h");
   }
 
-  // On demande l'autorisation de notifier dès l'arrivée sur la page.
+  // On demande l'autorisation de notifier dès l'arrivée sur la page, et on
+  // s'abonne au Web Push (notif écran verrouillé) pour CETTE commande.
   useEffect(() => {
     ensureNotifyPermission();
-  }, []);
+    enablePush({ role: "client", token });
+  }, [token]);
 
   // Détecte la transition vers "prête" et déclenche son + notification.
   useEffect(() => {
@@ -45,7 +49,7 @@ export default function OrderTracker({
     const prev = prevStatus.current;
     prevStatus.current = order.status;
     if (prev && prev !== order.status && order.status === "ready") {
-      playBeep();
+      alertOrderUpdate();
       showNotification(
         t("track.notifyReadyTitle", { id: order.id }),
         t("track.readyNote"),
@@ -62,6 +66,7 @@ export default function OrderTracker({
         const res = await fetch(`/api/orders/track/${token}`, { cache: "no-store" });
         if (res.status === 404) {
           if (active) setNotFound(true);
+          removeMyOrderTokens([token]); // jeton périmé : on l'oublie sur l'appareil
           return;
         }
         const data = (await res.json()) as OrderDTO;

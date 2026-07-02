@@ -1,39 +1,102 @@
-// Validation et normalisation des numéros de mobile belges.
+// Validation / normalisation / affichage des numéros de téléphone, internationaux.
+// S'appuie sur libphonenumber-js (la référence) : chaque numéro est validé selon
+// le format réel du pays choisi, puis stocké en forme canonique E.164 ("+32467…").
 //
-// Formats acceptés (les espaces / points / tirets sont tolérés) :
-//   - national       : 04XX XX XX XX   (ex. 0467 44 07 18)
-//   - international   : +324XX XX XX XX (ex. +32467 44 07 18)
-//   - international 2 : 00324XX XX XX XX (tolérance, même numéro écrit autrement)
-//
-// Tout est ramené à une forme canonique unique : "+324XXXXXXXX".
-// Les numéros fixes ou étrangers sont refusés (commande = mobile belge).
+// ⚠️ On importe la variante "/max" (métadonnée COMPLÈTE) et non le défaut "/min".
+// La métadonnée "min" ne valide que par plages de longueur : elle accepte à tort
+// des numéros incomplets (ex. BE "048633061" à 9 chiffres). "/max" applique les
+// vrais motifs nationaux -> un numéro incomplet est correctement rejeté, et le
+// type (mobile/fixe) est détecté. Coût : bundle un peu plus gros, acceptable ici.
 
-/** Forme canonique "+324XXXXXXXX" si le numéro est un mobile belge valide, sinon null. */
-export function normalizeBeMobile(raw: string): string | null {
-  const cleaned = raw.replace(/[\s.\-/()]/g, "");
+import {
+  parsePhoneNumberFromString,
+  getCountryCallingCode,
+  getCountries,
+  getExampleNumber,
+  type CountryCode,
+} from "libphonenumber-js/max";
+import examples from "libphonenumber-js/examples.mobile.json";
 
-  // 04 + 8 chiffres (national)
-  let m = cleaned.match(/^0(4\d{8})$/);
-  if (m) return "+32" + m[1];
+export type { CountryCode };
 
-  // +32 / 0032 + 4 + 8 chiffres (international)
-  m = cleaned.match(/^(?:\+32|0032)(4\d{8})$/);
-  if (m) return "+32" + m[1];
-
-  return null;
+export interface Country {
+  code: CountryCode;
+  name: string; // nom localisé ("Belgique" en fr, "België" en nl…)
+  dial: string; // ex. "+32"
 }
 
-/** true si le numéro est un mobile belge valide. */
-export function isValidBeMobile(raw: string): boolean {
-  return normalizeBeMobile(raw) !== null;
+export const DEFAULT_COUNTRY: CountryCode = "BE";
+
+// Pays mis en avant en tête de liste (clientèle principale du restaurant).
+const PRIORITY: CountryCode[] = ["BE", "FR", "NL", "LU", "DE", "MA", "TR"];
+
+/**
+ * TOUS les pays supportés par libphonenumber, avec leur nom localisé selon
+ * `locale` et leur indicatif. Quelques pays prioritaires en tête, le reste
+ * trié alphabétiquement. Le nom utilise `Intl.DisplayNames` (repli : code ISO).
+ */
+export function listCountries(locale: string): Country[] {
+  let display: Intl.DisplayNames | null = null;
+  try {
+    display = new Intl.DisplayNames([locale], { type: "region" });
+  } catch {
+    display = null;
+  }
+  const all: Country[] = getCountries().map((code) => ({
+    code,
+    name: display?.of(code) ?? code,
+    dial: "+" + getCountryCallingCode(code),
+  }));
+  const prio = PRIORITY.map((c) => all.find((x) => x.code === c)).filter(
+    (c): c is Country => Boolean(c),
+  );
+  const rest = all
+    .filter((c) => !PRIORITY.includes(c.code))
+    .sort((a, b) => a.name.localeCompare(b.name, locale));
+  return [...prio, ...rest];
 }
 
 /**
- * Affichage lisible à partir de la forme canonique :
- * "+32467440718" -> "+32 467 44 07 18".
+ * Exemple de numéro au format national d'un pays ("0470 12 34 56" pour BE),
+ * utilisé comme placeholder afin que l'invite respecte le format du pays choisi.
+ * S'appuie sur les numéros d'exemple officiels de libphonenumber.
  */
-export function formatBeMobile(canonical: string): string {
-  const m = canonical.match(/^\+32(4\d{2})(\d{2})(\d{2})(\d{2})$/);
-  if (!m) return canonical;
-  return `+32 ${m[1]} ${m[2]} ${m[3]} ${m[4]}`;
+export function phoneExample(country: CountryCode): string {
+  try {
+    const ex = getExampleNumber(country, examples);
+    return ex ? ex.formatNational() : "";
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Forme canonique E.164 ("+32467440718") si le numéro est valide, sinon null.
+ * - `input` peut être un numéro national (avec `country`) ou déjà en +indicatif.
+ * - sans `country`, l'entrée doit être au format international (+…).
+ */
+export function normalizePhone(input: string, country?: CountryCode): string | null {
+  if (!input || !input.trim()) return null;
+  try {
+    const p = parsePhoneNumberFromString(input, country);
+    return p && p.isValid() ? p.number : null;
+  } catch {
+    return null;
+  }
+}
+
+/** true si le numéro est valide pour le pays donné (ou international si +…). */
+export function isValidPhone(input: string, country?: CountryCode): boolean {
+  return normalizePhone(input, country) !== null;
+}
+
+/** Affichage international lisible ("+32 467 44 07 18") à partir de l'E.164. */
+export function formatPhone(value: string): string {
+  if (!value) return "";
+  try {
+    const p = parsePhoneNumberFromString(value);
+    return p ? p.formatInternational() : value;
+  } catch {
+    return value;
+  }
 }

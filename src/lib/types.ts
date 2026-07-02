@@ -79,6 +79,21 @@ export interface HoursSlot {
   close: string; // "HH:MM"
 }
 
+/** Un établissement (point de commande). Même marque, même menu, mais
+ *  adresse / téléphone / horaires propres, et commandes isolées. */
+export interface LocationConfig {
+  /** Identifiant stable (slug), ex. "anderlecht". Sert de clé partout. */
+  id: string;
+  /** Nom affiché de l'établissement, ex. "Anderlecht". */
+  name: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  hours: Record<string, HoursSlot[] | string>;
+  /** Modes de commande proposés. Défaut : ["dine_in", "takeaway"]. */
+  modes?: OrderMode[];
+}
+
 /** Configuration du restaurant (data/config.json). */
 export interface RestaurantConfig {
   restaurantName: string;
@@ -86,16 +101,14 @@ export interface RestaurantConfig {
   currency: string;
   defaultWaitTime: number;
   phoneDisclaimer: string;
-  contact?: {
-    phone?: string;
-    email?: string;
-    address?: string;
-  };
-  hours: Record<string, HoursSlot[] | string>;
+  /** N° de TVA (affiché sur la page contact). Optionnel. */
+  vat?: string;
+  /** Établissements (au moins un). L'app est multi-points : le client choisit. */
+  locations: LocationConfig[];
 }
 
 /** Mode de retrait choisi par le client. */
-export type OrderMode = "dine_in" | "takeaway";
+export type OrderMode = "dine_in" | "takeaway" | "delivery";
 
 /** Statut d'une commande dans son cycle de vie. */
 export type OrderStatus = "pending" | "accepted" | "refused" | "ready";
@@ -121,6 +134,7 @@ export interface CartLine {
   lineId: string;
   menuItemId: string;
   name: string;
+  image: string | null;
   unitBasePrice: number;
   options: SelectedOption[];
   choices: SelectedChoice[];
@@ -143,14 +157,17 @@ export interface OrderLine {
 export interface OrderDTO {
   id: number;
   token: string; // jeton de suivi public
+  location: string; // établissement (id) qui doit préparer la commande
   mode: OrderMode;
   customerName: string;
   phone: string;
+  address: string | null; // adresse de livraison (mode "delivery")
   items: OrderLine[];
   total: number;
   status: OrderStatus;
   waitTime: number | null;
   staffMessage: string | null;
+  source: string; // "client" | "staff"
   createdAt: string;
   updatedAt: string; // dernière mise à jour (sert de référence à l'acceptation)
 }

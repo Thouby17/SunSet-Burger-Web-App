@@ -26,3 +26,9 @@ npm-debug.log*
 # typescript
 next-env.d.ts
 *.tsbuildinfo
+
+# vercel
+.vercel
+
+# secrets / notes locales (URL de connexion Neon, etc.)
+postgresql neondb.txt

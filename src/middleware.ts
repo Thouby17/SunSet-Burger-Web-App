@@ -1,31 +1,54 @@
-// Protection par mot de passe de l'écran staff et de ses endpoints sensibles.
+// Protection par mot de passe des écrans staff/admin et des endpoints sensibles.
 //
-// Principe : la page /staff/login pose un cookie httpOnly `staff_auth` contenant
-// le mot de passe ; ce middleware vérifie ce cookie pour :
-//   - la page /staff
-//   - GET  /api/orders        (liste complète = données clients)
-//   - PATCH /api/orders/[id]   (actions staff)
-// Restent PUBLICS : POST /api/orders (créer) et GET /api/orders/[id] (suivi client).
+// Deux rôles :
+//   - STAFF  (cookie `staff_auth` = STAFF_PASSWORD)  -> écran cuisine, menu, historique
+//   - ADMIN  (cookie `admin_auth` = ADMIN_PASSWORD)  -> tableau de bord ventes,
+//            suppression de commandes. L'admin a AUSSI accès aux écrans staff.
+//
+// Restent PUBLICS : POST /api/orders (créer), GET /api/orders/track/[token]
+// (suivi client) et /api/push/* (abonnement notifications).
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-function isAuthed(req: NextRequest): boolean {
+function isStaff(req: NextRequest): boolean {
   const expected = process.env.STAFF_PASSWORD;
-  if (!expected) return false; // pas de mot de passe configuré => on bloque par sécurité
+  if (!expected) return false;
   return req.cookies.get("staff_auth")?.value === expected;
+}
+
+function isAdmin(req: NextRequest): boolean {
+  const expected = process.env.ADMIN_PASSWORD;
+  if (!expected) return false;
+  return req.cookies.get("admin_auth")?.value === expected;
 }
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const method = req.method;
 
-  // La page de login reste accessible.
-  if (pathname === "/staff/login") return NextResponse.next();
+  // Pages ET API de connexion : toujours accessibles (sinon impossible de se
+  // connecter — /api/admin/login serait bloqué par le filtre admin ci-dessous).
+  if (
+    pathname === "/staff/login" ||
+    pathname === "/admin/login" ||
+    pathname === "/api/staff/login" ||
+    pathname === "/api/admin/login"
+  ) {
+    return NextResponse.next();
+  }
 
-  // --- Pages /staff et /staff/* (ex. /staff/historique) ---
+  // --- Espace ADMIN (dashboard + suppression) ---
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+    if (isAdmin(req)) return NextResponse.next();
+    const url = req.nextUrl.clone();
+    url.pathname = "/admin/login";
+    return NextResponse.redirect(url);
+  }
+
+  // --- Pages /staff et /staff/* (staff OU admin) ---
   if (pathname === "/staff" || pathname.startsWith("/staff/")) {
-    if (isAuthed(req)) return NextResponse.next();
+    if (isStaff(req) || isAdmin(req)) return NextResponse.next();
     const url = req.nextUrl.clone();
     url.pathname = "/staff/login";
     return NextResponse.redirect(url);
@@ -34,15 +57,23 @@ export function middleware(req: NextRequest) {
   // Suivi public par jeton : toujours accessible.
   if (pathname.startsWith("/api/orders/track/")) return NextResponse.next();
 
-  // --- API sensibles ---
-  // - GET /api/orders          : liste complète (données clients)
-  // - GET/PATCH /api/orders/[id] : détail + actions staff (id séquentiel)
-  // Restent publics : POST /api/orders (créer) et /api/orders/track/[token].
-  const isOrdersList = pathname === "/api/orders" && method === "GET";
-  const isOrderItem = /^\/api\/orders\/[^/]+$/.test(pathname); // GET ou PATCH
+  // --- API réservées à l'ADMIN ---
+  //   - DELETE /api/orders/[id]  (suppression définitive)
+  //   - /api/admin/*             (statistiques, etc.)
+  const isOrderItem = /^\/api\/orders\/[^/]+$/.test(pathname);
+  if (pathname.startsWith("/api/admin/") || (isOrderItem && method === "DELETE")) {
+    if (isAdmin(req)) return NextResponse.next();
+    return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
+  }
 
-  if (isOrdersList || isOrderItem) {
-    if (isAuthed(req)) return NextResponse.next();
+  // --- API réservées au STAFF (ou admin) ---
+  //   - GET /api/orders                  (liste = données clients)
+  //   - GET/PATCH /api/orders/[id]       (détail + actions staff)
+  //   - GET/POST /api/availability       (gestion des dispos)
+  const isOrdersList = pathname === "/api/orders" && method === "GET";
+  const isAvailability = pathname === "/api/availability";
+  if (isOrdersList || isOrderItem || isAvailability) {
+    if (isStaff(req) || isAdmin(req)) return NextResponse.next();
     return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
   }
 
@@ -50,6 +81,14 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // On limite l'exécution du middleware aux routes concernées.
-  matcher: ["/staff", "/staff/:path*", "/api/orders", "/api/orders/:path*"],
+  matcher: [
+    "/staff",
+    "/staff/:path*",
+    "/admin",
+    "/admin/:path*",
+    "/api/orders",
+    "/api/orders/:path*",
+    "/api/availability",
+    "/api/admin/:path*",
+  ],
 };

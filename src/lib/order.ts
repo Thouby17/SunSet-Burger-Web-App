@@ -3,8 +3,9 @@
 //    envoyés par le client),
 //  - sérialisation d'une commande Prisma vers le DTO renvoyé par l'API.
 
-import { findMenuItem, findOption } from "./menu";
-import type { OrderDTO, OrderLine, OrderMode, OrderStatus } from "./types";
+import { getMenu, findOption } from "./menu";
+import { getPriceOverrides, applyPriceOverridesToMenu } from "./pricing";
+import type { MenuItem, OrderDTO, OrderLine, OrderMode, OrderStatus } from "./types";
 
 /** Forme brute d'une ligne envoyée par le client. */
 export interface IncomingLine {
@@ -22,13 +23,27 @@ export interface IncomingLine {
  */
 export async function buildOrderLines(
   incoming: IncomingLine[],
+  location: string,
 ): Promise<{ lines: OrderLine[]; total: number }> {
   const lines: OrderLine[] = [];
 
+  // Libellés figés en FR (langue de référence) ; ré-traduits à l'affichage via
+  // getOrderLabelMap(). On charge le menu UNE fois et on indexe par id (au lieu
+  // de relire/retraduire le menu pour chaque ligne du panier).
+  const [rawMenu, priceOverrides] = await Promise.all([
+    getMenu("fr"),
+    getPriceOverrides(location),
+  ]);
+  // Menu avec prix surchargés (plats + suppléments + choix) : tout le recalcul
+  // se base dessus, donc les surcharges admin sont prises en compte dans le total.
+  const menu = applyPriceOverridesToMenu(rawMenu, priceOverrides);
+  const itemById = new Map<string, MenuItem>();
+  for (const cat of menu.categories) {
+    for (const it of cat.items) itemById.set(it.id, it);
+  }
+
   for (const raw of incoming) {
-    // Libellés figés en FR (langue de référence). À l'affichage, ils sont
-    // ré-traduits dans la langue du lecteur via getOrderLabelMap().
-    const item = await findMenuItem(raw.menuItemId, "fr");
+    const item = itemById.get(raw.menuItemId);
     if (!item) {
       throw new Error(`Plat inconnu : ${raw.menuItemId}`);
     }
@@ -94,14 +109,17 @@ export async function buildOrderLines(
 interface OrderRecord {
   id: number;
   token: string;
+  location: string;
   mode: string;
   customerName: string;
   phone: string;
+  address: string | null;
   items: string;
   total: number;
   status: string;
   waitTime: number | null;
   staffMessage: string | null;
+  source: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -111,14 +129,17 @@ export function serializeOrder(o: OrderRecord): OrderDTO {
   return {
     id: o.id,
     token: o.token,
+    location: o.location,
     mode: o.mode as OrderMode,
     customerName: o.customerName,
     phone: o.phone,
+    address: o.address,
     items: JSON.parse(o.items) as OrderLine[],
     total: o.total,
     status: o.status as OrderStatus,
     waitTime: o.waitTime,
     staffMessage: o.staffMessage,
+    source: o.source,
     createdAt: o.createdAt.toISOString(),
     updatedAt: o.updatedAt.toISOString(),
   };

@@ -13,7 +13,7 @@ export default function LangSwitcher({ className = "" }: { className?: string })
     <div
       role="group"
       aria-label={t("lang.label")}
-      className={`inline-flex items-center gap-0.5 rounded-full bg-neutral-800 p-0.5 ${className}`}
+      className={`inline-flex items-center gap-0.5 rounded-full bg-neutral-800 p-1 ${className}`}
     >
       {LOCALES.map((l) => (
         <button
@@ -21,10 +21,10 @@ export default function LangSwitcher({ className = "" }: { className?: string })
           type="button"
           onClick={() => setLocale(l)}
           aria-pressed={locale === l}
-          className={`rounded-full px-2.5 py-1 text-xs font-bold transition ${
+          className={`rounded-full px-3 py-2 text-sm font-bold transition ${
             locale === l
               ? "bg-brand text-neutral-950"
-              : "text-neutral-300 hover:text-white"
+              : "text-neutral-300 hover:text-neutral-100"
           }`}
         >
           {LOCALE_LABELS[l]}

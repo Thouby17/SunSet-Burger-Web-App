@@ -4,19 +4,24 @@
   "currency": "EUR",
   "defaultWaitTime": 20,
   "phoneDisclaimer": "Demandé uniquement pour vous contacter en cas de besoin.",
-  "contact": {
-    "phone": "+32 493 84 44 69",
-    "email": "",
-    "address": "Av. Van Volxem 330, 1190 Forest"
-  },
-  "hours": {
-    "comment": "Horaires par jour (format 24h HH:MM). Plusieurs créneaux possibles. Vide = fermé ce jour-là.",
-    "monday": [],
-    "tuesday": [{ "open": "17:00", "close": "23:30" }],
-    "wednesday": [{ "open": "17:00", "close": "23:30" }],
-    "thursday": [{ "open": "17:00", "close": "23:30" }],
-    "friday": [{ "open": "17:00", "close": "23:30" }],
-    "saturday": [{ "open": "17:00", "close": "23:30" }],
-    "sunday": [{ "open": "17:00", "close": "23:30" }]
-  }
+  "locations": [
+    {
+      "id": "sunset",
+      "name": "SunSet Burger — Forest",
+      "phone": "+32 493 84 44 69",
+      "email": "",
+      "address": "Av. Van Volxem 330, 1190 Forest",
+      "modes": ["dine_in", "takeaway"],
+      "hours": {
+        "comment": "Format 24h HH:MM. Fermeture <= ouverture = passe minuit (ex. 18:00→03:00). 24:00 = minuit pile. Vide = fermé.",
+        "monday": [],
+        "tuesday": [{ "open": "17:00", "close": "23:30" }],
+        "wednesday": [{ "open": "17:00", "close": "23:30" }],
+        "thursday": [{ "open": "17:00", "close": "23:30" }],
+        "friday": [{ "open": "17:00", "close": "23:30" }],
+        "saturday": [{ "open": "17:00", "close": "23:30" }],
+        "sunday": [{ "open": "17:00", "close": "23:30" }]
+      }
+    }
+  ]
 }

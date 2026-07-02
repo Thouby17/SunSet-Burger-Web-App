@@ -2,9 +2,10 @@
 //   GET   : statut d'une commande (suivi client, polling)
 //   PATCH : action staff (accepter / refuser / prête)
 
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { prisma } from "@/lib/db";
 import { serializeOrder } from "@/lib/order";
+import { notifyClient } from "@/lib/push";
 import type { OrderStatus } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -99,7 +100,49 @@ export async function PATCH(req: Request, { params }: Params) {
 
   try {
     const updated = await prisma.order.update({ where: { id: orderId }, data });
+
+    // Notifie le client (push écran verrouillé) quand sa commande est acceptée
+    // ou prête. Envoi APRÈS la réponse (`after`) pour ne pas ralentir l'action staff.
+    if (updated.status === "accepted" || updated.status === "ready") {
+      const payload =
+        updated.status === "ready"
+          ? {
+              title: "🍔 Commande prête !",
+              body: `Votre commande #${updated.id} est prête.`,
+            }
+          : {
+              title: "✅ Commande acceptée",
+              body:
+                updated.waitTime != null
+                  ? `Commande #${updated.id} acceptée — prête dans ~${updated.waitTime} min.`
+                  : `Votre commande #${updated.id} a été acceptée.`,
+            };
+      after(() =>
+        notifyClient(updated.token, {
+          ...payload,
+          url: `/suivi/${updated.token}`,
+          tag: `order-${updated.id}`,
+        }).catch(() => {}),
+      );
+    }
+
     return NextResponse.json(serializeOrder(updated));
+  } catch {
+    return NextResponse.json({ error: "Commande introuvable." }, { status: 404 });
+  }
+}
+
+// DELETE : suppression définitive d'une commande (réservé à l'admin — le
+// middleware vérifie le cookie admin_auth avant d'atteindre ce handler).
+export async function DELETE(_req: Request, { params }: Params) {
+  const { id } = await params;
+  const orderId = Number(id);
+  if (!Number.isInteger(orderId)) {
+    return NextResponse.json({ error: "Identifiant invalide." }, { status: 400 });
+  }
+  try {
+    await prisma.order.delete({ where: { id: orderId } });
+    return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: "Commande introuvable." }, { status: 404 });
   }

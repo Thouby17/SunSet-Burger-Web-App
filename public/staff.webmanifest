@@ -1,0 +1,15 @@
+{
+  "id": "/staff",
+  "name": "SunSet Burger Staff",
+  "short_name": "Staff",
+  "description": "Écran cuisine — SunSet Burger",
+  "start_url": "/staff",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f1f3f7",
+  "theme_color": "#f1f3f7",
+  "icons": [
+    { "src": "/icon-app.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-app.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

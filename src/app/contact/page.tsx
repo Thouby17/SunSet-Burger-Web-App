@@ -1,6 +1,6 @@
-// Page /contact : coordonnées du restaurant + horaires (lues depuis la config).
+// Page /contact : coordonnées + horaires de CHAQUE établissement (app multi-points).
 
-import { getConfig, isOpen } from "@/lib/config";
+import { getConfig, getEffectiveHours, isLocationOpenNow } from "@/lib/config";
 import type { HoursSlot } from "@/lib/types";
 import BackButton from "@/components/BackButton";
 import { getT } from "@/i18n/server";
@@ -28,74 +28,98 @@ function formatSlots(
 
 export default async function ContactPage() {
   const config = await getConfig();
-  const open = isOpen(config);
-  const c = config.contact ?? {};
   const t = await getT();
 
+  // Horaires EFFECTIFS (surcharge admin incluse) + état d'ouverture, par point.
+  const locData = await Promise.all(
+    config.locations.map(async (loc) => ({
+      loc,
+      hours: await getEffectiveHours(loc),
+      open: await isLocationOpenNow(loc),
+    })),
+  );
+
   return (
-    <main className="mx-auto max-w-md px-5 py-6">
+    <main className="mx-auto max-w-md px-5 py-6 md:max-w-3xl">
       <header className="mb-6 flex items-center gap-3">
         <BackButton />
         <h1 className="text-2xl font-extrabold text-brand">{t("contact.title")}</h1>
       </header>
 
-      <div
-        className={`mb-6 inline-flex rounded-full px-4 py-1.5 text-sm font-medium ${
-          open ? "bg-green-500/15 text-green-400" : "bg-red-500/15 text-red-400"
-        }`}
-      >
-        {open ? t("contact.openNow") : t("contact.closedNow")}
+      <div className="grid gap-8 md:grid-cols-2">
+        {locData.map(({ loc, hours, open }) => {
+          return (
+            <section key={loc.id}>
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <h2 className="text-xl font-bold">{loc.name}</h2>
+                <span
+                  className={`shrink-0 rounded-full px-3 py-1 text-sm font-medium ${
+                    open ? "bg-green-500/15 text-green-400" : "bg-red-500/15 text-red-400"
+                  }`}
+                >
+                  {open ? t("contact.openNow") : t("contact.closedNow")}
+                </span>
+              </div>
+
+              {/* Coordonnées */}
+              <div className="mb-3 flex flex-col gap-3">
+                {loc.phone && (
+                  <a
+                    href={`tel:${loc.phone.replace(/\s/g, "")}`}
+                    className="flex items-center justify-between rounded-2xl border border-neutral-800 bg-neutral-900 p-4"
+                  >
+                    <span className="text-neutral-400">{t("contact.phone")}</span>
+                    <span className="font-semibold text-neutral-100">{loc.phone}</span>
+                  </a>
+                )}
+                {loc.email && (
+                  <a
+                    href={`mailto:${loc.email}`}
+                    className="flex items-center justify-between rounded-2xl border border-neutral-800 bg-neutral-900 p-4"
+                  >
+                    <span className="text-neutral-400">{t("contact.email")}</span>
+                    <span className="font-semibold text-neutral-100">{loc.email}</span>
+                  </a>
+                )}
+                {loc.address && (
+                  <a
+                    href={`https://maps.google.com/?q=${encodeURIComponent(loc.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-800 bg-neutral-900 p-4"
+                  >
+                    <span className="text-neutral-400">{t("contact.address")}</span>
+                    <span className="text-right font-semibold text-neutral-100">{loc.address}</span>
+                  </a>
+                )}
+              </div>
+
+              {/* Horaires */}
+              <div className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
+                  {t("contact.hours")}
+                </h3>
+                <ul className="flex flex-col gap-1.5 text-sm">
+                  {DAYS.map((d) => (
+                    <li key={d.key} className="flex justify-between">
+                      <span className="text-neutral-400">{t(d.labelKey)}</span>
+                      <span className="text-neutral-200">
+                        {formatSlots(hours[d.key], t("contact.closedDay"))}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          );
+        })}
       </div>
 
-      {/* Coordonnées */}
-      <section className="mb-6 flex flex-col gap-3">
-        {c.phone && (
-          <a
-            href={`tel:${c.phone.replace(/\s/g, "")}`}
-            className="flex items-center justify-between rounded-2xl border border-neutral-800 bg-neutral-900 p-4"
-          >
-            <span className="text-neutral-400">{t("contact.phone")}</span>
-            <span className="font-semibold text-neutral-100">{c.phone}</span>
-          </a>
-        )}
-        {c.email && (
-          <a
-            href={`mailto:${c.email}`}
-            className="flex items-center justify-between rounded-2xl border border-neutral-800 bg-neutral-900 p-4"
-          >
-            <span className="text-neutral-400">{t("contact.email")}</span>
-            <span className="font-semibold text-neutral-100">{c.email}</span>
-          </a>
-        )}
-        {c.address && (
-          <a
-            href={`https://maps.google.com/?q=${encodeURIComponent(c.address)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between gap-3 rounded-2xl border border-neutral-800 bg-neutral-900 p-4"
-          >
-            <span className="text-neutral-400">{t("contact.address")}</span>
-            <span className="text-right font-semibold text-neutral-100">{c.address}</span>
-          </a>
-        )}
-      </section>
-
-      {/* Horaires */}
-      <section className="rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-neutral-500">
-          {t("contact.hours")}
-        </h2>
-        <ul className="flex flex-col gap-1.5 text-sm">
-          {DAYS.map((d) => (
-            <li key={d.key} className="flex justify-between">
-              <span className="text-neutral-400">{t(d.labelKey)}</span>
-              <span className="text-neutral-200">
-                {formatSlots(config.hours[d.key], t("contact.closedDay"))}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {config.vat && (
+        <p className="mt-8 text-center text-xs text-neutral-400">
+          {t("contact.vat")} {config.vat}
+        </p>
+      )}
     </main>
   );
 }

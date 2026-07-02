@@ -3,11 +3,51 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
-  @apply bg-neutral-950 text-neutral-100 antialiased;
+  @apply text-neutral-100 antialiased;
+  /* Fond clair légèrement gris (les cartes blanches s'y détachent par l'ombre
+     et la bordure), look moderne et épuré. */
+  background-color: #f1f3f7;
+}
+
+/* Titres en serif éditorial (look "menu de resto"). Les titres de l'app sont
+   des h1/h2/h3 : on leur applique la police d'affichage globalement. */
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+/* Confort tactile : pas de flash gris au tap sur mobile + boutons réactifs. */
+button,
+a,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Accessibilité : anneau de focus visible au clavier sur tout élément interactif. */
+:focus-visible {
+  outline: 2px solid #e8730c;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Respecte la préférence système "réduire les animations". */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Masque les flèches des inputs number sur l'écran staff (plus propre). */

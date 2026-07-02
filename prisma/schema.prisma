@@ -18,14 +18,61 @@ datasource db {
 model Order {
   id           Int      @id @default(autoincrement()) // numéro de commande lisible (#id), usage interne/staff
   token        String   @unique @default(cuid())      // jeton aléatoire pour le suivi public (lien non devinable)
+  location     String   @default("principal") // établissement (id) qui doit préparer la commande — isole les cuisines. ⚠️ Doit correspondre à l'id du 1er établissement dans data/config.json
   mode         String   // "dine_in" (sur place) | "takeaway" (à emporter)
-  customerName String   // prénom du client
-  phone        String   // téléphone (contact en cas de besoin)
+  customerName String   // prénom du client (ou nom/table saisi par le staff)
+  phone        String   // téléphone (facultatif pour une commande saisie au comptoir)
+  address      String?  // adresse de livraison (mode "delivery" — non utilisé ici)
   items        String   // JSON encodé : [{ menuItemId, name, qty, note, options:[{label,price}], unitPrice, lineTotal }]
   total        Float    // total recalculé côté serveur
   status       String   @default("pending") // pending | accepted | refused | ready
   waitTime     Int?     // minutes estimées, saisi par le staff à l'acceptation
   staffMessage String?  // message libre (ex. motif de refus)
+  source       String   @default("client") // "client" (en ligne) | "staff" (saisie au comptoir)
   createdAt    DateTime @default(now())     // heure de réception (tri staff)
   updatedAt    DateTime @updatedAt
+}
+
+/** Plat momentanément indisponible, par établissement (rupture de stock…). */
+model DisabledItem {
+  id         Int    @id @default(autoincrement())
+  location   String // établissement concerné
+  menuItemId String // id du plat (data/menu.json)
+
+  @@unique([location, menuItemId])
+}
+
+/** Prix modifié d'un plat, par établissement (surcharge le prix de data/menu.json). */
+model PriceOverride {
+  id         Int      @id @default(autoincrement())
+  location   String // établissement concerné
+  menuItemId String // id du plat (data/menu.json)
+  price      Float // nouveau prix de base (en €)
+  updatedAt  DateTime @updatedAt
+
+  @@unique([location, menuItemId])
+}
+
+/** Horaires modifiés d'un établissement (surcharge les horaires de data/config.json).
+ *  `hours` est l'objet horaires complet encodé en JSON (mêmes clés que la config). */
+model HoursOverride {
+  id        Int      @id @default(autoincrement())
+  location  String   @unique // établissement concerné
+  hours     String // JSON : { monday: [{open,close}], … }
+  updatedAt DateTime @updatedAt
+}
+
+/** Abonnement Web Push (notification écran verrouillé), staff ou client. */
+model PushSubscription {
+  id        Int      @id @default(autoincrement())
+  endpoint  String   @unique // URL d'envoi fournie par le navigateur
+  p256dh    String // clé publique du client (chiffrement)
+  auth      String // secret d'authentification du client
+  role      String // "staff" | "client"
+  location  String? // staff : cuisine ciblée
+  token     String? // client : jeton de la commande suivie
+  createdAt DateTime @default(now())
+
+  @@index([role, location])
+  @@index([token])
 }

@@ -8,7 +8,8 @@
 import { useState } from "react";
 import type { OrderDTO } from "@/lib/types";
 import { formatPrice, modeKey, relabelOption, statusKey, STATUS_EMOJI } from "@/lib/format";
-import { formatBeMobile } from "@/lib/phone";
+import { formatPhone } from "@/lib/phone";
+import { printOrderTicket } from "@/lib/printTicket";
 import { useI18n } from "@/i18n/client";
 import { LOCALE_BCP47 } from "@/i18n/config";
 
@@ -37,6 +38,8 @@ export default function StaffOrderCard({
   defaultWaitTime,
   onAction,
   labelMap,
+  restaurantName = "",
+  locationName = "",
 }: {
   order: OrderDTO;
   defaultWaitTime: number;
@@ -45,6 +48,8 @@ export default function StaffOrderCard({
     body: { action: string; waitTime?: number; message?: string },
   ) => void;
   labelMap?: Record<string, string>;
+  restaurantName?: string;
+  locationName?: string;
 }) {
   const { t, locale } = useI18n();
   const [wait, setWait] = useState(String(defaultWaitTime));
@@ -54,6 +59,53 @@ export default function StaffOrderCard({
       hour: "2-digit",
       minute: "2-digit",
     });
+
+  // Date + heure courte (jj/mm hh:mm) pour le ticket imprimé.
+  const dateTimeShort = (iso: string | Date) =>
+    new Date(iso).toLocaleString(LOCALE_BCP47[locale], {
+      day: "2-digit",
+      month: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+  /** Compose et imprime le ticket de cette commande. */
+  function handlePrint() {
+    printOrderTicket({
+      restaurantName,
+      locationName,
+      orderId: order.id,
+      modeLabel: t(modeKey(order.mode)),
+      receivedValue: dateTimeShort(order.createdAt),
+      customerName: order.customerName,
+      phone: order.phone ? formatPhone(order.phone) : undefined,
+      address:
+        order.mode === "delivery" && order.address ? order.address : undefined,
+      items: order.items.map((l) => ({
+        qty: l.qty,
+        name: l.name,
+        options: l.options
+          .map((o) => relabelOption(o.id, o.label, labelMap))
+          .join(", "),
+        note: l.note || undefined,
+        price: formatPrice(l.lineTotal, locale),
+      })),
+      total: formatPrice(order.total, locale),
+      estimated:
+        order.waitTime != null ? `${order.waitTime} ${t("card.min")}` : undefined,
+      printedAt: dateTimeShort(new Date()),
+      labels: {
+        order: t("ticket.order"),
+        received: t("ticket.received"),
+        customer: t("ticket.customer"),
+        phone: t("ticket.phone"),
+        address: t("ticket.address"),
+        estimated: t("ticket.estimated"),
+        total: t("ticket.total"),
+        printedAt: t("ticket.printedAt"),
+      },
+    });
+  }
 
   /** "à l'instant", "il y a 3 min"… (traduit) */
   const elapsedLabel = (iso: string) => {
@@ -98,32 +150,62 @@ export default function StaffOrderCard({
             {t(modeKey(order.mode))}
           </span>
         </div>
-        <div className="text-right text-sm text-neutral-400">
-          <div>
-            {clockTime(order.createdAt)}
-            {waiting && (
-              <span
-                className={`ml-1 ${
-                  urgent ? "text-red-400" : warn ? "text-amber-400" : ""
-                }`}
-              >
-                · {elapsedLabel(order.createdAt)}
-              </span>
-            )}
-          </div>
-          <div className="font-medium text-neutral-300">
-            {STATUS_EMOJI[order.status]} {t(statusKey(order.status))}
+        <div className="flex items-start gap-2">
+          <button
+            onClick={handlePrint}
+            title={t("card.print")}
+            aria-label={t("card.print")}
+            className="rounded-lg bg-neutral-800 px-2 py-1 text-neutral-300 transition hover:text-neutral-100 active:scale-90"
+          >
+            🖨️
+          </button>
+          <div className="text-right text-sm text-neutral-400">
+            <div>
+              {clockTime(order.createdAt)}
+              {waiting && (
+                <span
+                  className={`ml-1 ${
+                    urgent ? "text-red-400" : warn ? "text-amber-400" : ""
+                  }`}
+                >
+                  · {elapsedLabel(order.createdAt)}
+                </span>
+              )}
+            </div>
+            <div className="font-medium text-neutral-300">
+              {STATUS_EMOJI[order.status]} {t(statusKey(order.status))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Client */}
       <div className="mt-1 text-sm text-neutral-300">
-        {order.customerName} ·{" "}
-        <a href={`tel:${order.phone}`} className="underline underline-offset-2">
-          {formatBeMobile(order.phone)}
-        </a>
+        {order.customerName}
+        {order.phone && (
+          <>
+            {" · "}
+            <a href={`tel:${order.phone}`} className="underline underline-offset-2">
+              {formatPhone(order.phone)}
+            </a>
+          </>
+        )}
       </div>
+
+      {/* Adresse de livraison (cliquable -> Google Maps) */}
+      {order.mode === "delivery" && order.address && (
+        <div className="mt-1 text-sm text-neutral-300">
+          🛵{" "}
+          <a
+            href={`https://maps.google.com/?q=${encodeURIComponent(order.address)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2"
+          >
+            {order.address}
+          </a>
+        </div>
+      )}
 
       {/* Items */}
       <ul className="mt-3 flex flex-col gap-1.5 border-t border-neutral-800 pt-3 text-sm">

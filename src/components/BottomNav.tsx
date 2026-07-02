@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useI18n } from "@/i18n/client";
 import type { MessageKey } from "@/i18n/messages";
-import LangSwitcher from "./LangSwitcher";
+import CartNavButton from "./CartNavButton";
 
 type IconProps = { className?: string };
 
@@ -55,26 +55,24 @@ export default function BottomNav() {
   if (pathname.startsWith("/staff")) return null;
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-neutral-800 bg-neutral-950/95 backdrop-blur">
-      <div className="mx-auto flex max-w-md items-stretch justify-around">
-        <div className="flex items-center pl-2 pr-1">
-          <LangSwitcher />
-        </div>
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-neutral-800 bg-neutral-950/95 backdrop-blur lg:hidden">
+      <div className="mx-auto flex max-w-xl items-stretch justify-around">
         {items.map(({ href, labelKey, Icon }) => {
           const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
           return (
             <Link
               key={href}
               href={href}
-              className={`flex flex-1 flex-col items-center gap-0.5 py-2 text-center text-[11px] leading-tight transition ${
+              className={`flex flex-1 flex-col items-center gap-1 py-3 text-center text-xs font-medium leading-tight transition ${
                 active ? "text-brand" : "text-neutral-400 hover:text-neutral-200"
               }`}
             >
-              <Icon className="h-6 w-6" />
+              <Icon className="h-7 w-7" />
               {t(labelKey)}
             </Link>
           );
         })}
+        <CartNavButton variant="bottom" />
       </div>
     </nav>
   );

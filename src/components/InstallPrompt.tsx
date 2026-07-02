@@ -11,7 +11,7 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/i18n/client";
 
-const DISMISS_KEY = "sunset-burger-install-dismissed";
+const DISMISS_KEY = "restaurant-app-install-dismissed";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -60,6 +60,11 @@ export default function InstallPrompt() {
     const isIOS =
       /iphone|ipad|ipod/i.test(ua) ||
       (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const isAndroid = /android/i.test(ua);
+
+    // Pas un mobile → ne pas afficher (desktop Chrome peut aussi émettre beforeinstallprompt)
+    if (!isIOS && !isAndroid) return;
+
     if (isIOS) {
       setPlatform("ios");
       return;

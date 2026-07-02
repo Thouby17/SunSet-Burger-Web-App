@@ -7,7 +7,61 @@
 import { useCallback, useEffect, useState } from "react";
 import type { CartLine, SelectedChoice, SelectedOption } from "@/lib/types";
 
-const STORAGE_KEY = "sunset-burger-cart";
+const STORAGE_KEY = "restaurant-app-cart";
+
+/** Clé localStorage du panier d'un établissement donné (panier par point de vente). */
+function cartKey(locationId?: string): string {
+  return locationId ? `${STORAGE_KEY}:${locationId}` : STORAGE_KEY;
+}
+
+// Le panier vit dans un hook par-composant (OrderFlow). Pour que la barre de
+// navigation (TopNav/BottomNav) affiche le compteur sans partager le state, on
+// émet un événement global à chaque changement ; la nav relit alors localStorage.
+const CART_EVENT = "cart:changed";
+function emitCartChanged() {
+  if (typeof window !== "undefined") window.dispatchEvent(new Event(CART_EVENT));
+}
+
+/** Établissement actif (cookie `location`), lu côté client. */
+function activeLocationId(): string | undefined {
+  if (typeof document === "undefined") return undefined;
+  const m = document.cookie.match(/(?:^|;\s*)location=([^;]+)/);
+  return m ? decodeURIComponent(m[1]) : undefined;
+}
+
+/** Nombre d'articles du panier d'un établissement, lu directement dans localStorage. */
+function readCartCount(locationId?: string): number {
+  if (typeof localStorage === "undefined") return 0;
+  try {
+    const raw = localStorage.getItem(cartKey(locationId));
+    if (!raw) return 0;
+    return (JSON.parse(raw) as CartLine[]).reduce((s, l) => s + (l.qty || 0), 0);
+  } catch {
+    return 0;
+  }
+}
+
+/**
+ * Compteur du panier de l'établissement ACTIF, pour la barre de navigation.
+ * Se met à jour via l'événement `cart:changed` (mutations) + `storage` (autres
+ * onglets) + `focus`. Indépendant du hook `useCart` d'OrderFlow.
+ */
+export function useCartCount(): number {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const read = () => setCount(readCartCount(activeLocationId()));
+    read();
+    window.addEventListener(CART_EVENT, read);
+    window.addEventListener("storage", read);
+    window.addEventListener("focus", read);
+    return () => {
+      window.removeEventListener(CART_EVENT, read);
+      window.removeEventListener("storage", read);
+      window.removeEventListener("focus", read);
+    };
+  }, []);
+  return count;
+}
 
 /** Suppléments + choix d'une ligne réunis pour l'affichage (label + prix). */
 export function lineExtras(line: CartLine): { label: string; price: number }[] {
@@ -42,32 +96,53 @@ export function toOrderLines(lines: CartLine[]) {
   }));
 }
 
-export function useCart() {
+export function useCart(locationId?: string) {
+  const storageKey = cartKey(locationId);
   const [lines, setLines] = useState<CartLine[]>([]);
   const [loaded, setLoaded] = useState(false);
 
-  // Chargement initial depuis localStorage.
+  // (Re)chargement depuis localStorage à l'arrivée ET à chaque changement
+  // d'établissement : chaque point de vente a son propre panier indépendant.
   useEffect(() => {
+    setLoaded(false);
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setLines(JSON.parse(raw) as CartLine[]);
+      const raw = localStorage.getItem(storageKey);
+      setLines(raw ? (JSON.parse(raw) as CartLine[]) : []);
     } catch {
-      // panier corrompu -> on repart à vide
+      setLines([]); // panier corrompu -> on repart à vide
     }
     setLoaded(true);
-  }, []);
+    emitCartChanged(); // synchronise la nav (ex. au changement d'établissement)
+  }, [storageKey]);
 
-  // Sauvegarde à chaque changement (après le chargement initial).
-  useEffect(() => {
-    if (!loaded) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
-  }, [lines, loaded]);
+  // Persistance au moment de la mutation (et non via un effet sur `lines`) :
+  // évite, lors d'un changement d'établissement, d'écrire l'ancien panier sous
+  // la nouvelle clé avant que le rechargement ait eu lieu.
+  const commit = useCallback(
+    (updater: (prev: CartLine[]) => CartLine[]) => {
+      setLines((prev) => {
+        const next = updater(prev);
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(next));
+        } catch {
+          /* localStorage indisponible — on ignore */
+        }
+        return next;
+      });
+      // Prévient la nav (compteur du panier) APRÈS le rendu courant : éviter un
+      // dispatch synchrone dans l'updater, qui déclencherait un setState de la
+      // nav pendant le rendu d'un autre composant (avertissement React).
+      queueMicrotask(emitCartChanged);
+    },
+    [storageKey],
+  );
 
   /** Ajoute une ligne au panier (un plat + ses suppléments + une note). */
   const addLine = useCallback(
     (params: {
       menuItemId: string;
       name: string;
+      image: string | null;
       unitBasePrice: number;
       options: SelectedOption[];
       choices: SelectedChoice[];
@@ -81,24 +156,30 @@ export function useCart() {
             : `${Date.now()}-${Math.random()}`,
         ...params,
       };
-      setLines((prev) => [...prev, newLine]);
+      commit((prev) => [...prev, newLine]);
     },
-    [],
+    [commit],
   );
 
-  const updateQty = useCallback((lineId: string, qty: number) => {
-    setLines((prev) =>
-      prev
-        .map((l) => (l.lineId === lineId ? { ...l, qty } : l))
-        .filter((l) => l.qty > 0),
-    );
-  }, []);
+  const updateQty = useCallback(
+    (lineId: string, qty: number) => {
+      commit((prev) =>
+        prev
+          .map((l) => (l.lineId === lineId ? { ...l, qty } : l))
+          .filter((l) => l.qty > 0),
+      );
+    },
+    [commit],
+  );
 
-  const removeLine = useCallback((lineId: string) => {
-    setLines((prev) => prev.filter((l) => l.lineId !== lineId));
-  }, []);
+  const removeLine = useCallback(
+    (lineId: string) => {
+      commit((prev) => prev.filter((l) => l.lineId !== lineId));
+    },
+    [commit],
+  );
 
-  const clear = useCallback(() => setLines([]), []);
+  const clear = useCallback(() => commit(() => []), [commit]);
 
   const total = lines.reduce((sum, l) => sum + lineTotal(l), 0);
   const count = lines.reduce((sum, l) => sum + l.qty, 0);

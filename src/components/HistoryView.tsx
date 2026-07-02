@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { OrderDTO } from "@/lib/types";
 import { formatPrice, modeKey, relabelOption, statusKey, STATUS_EMOJI } from "@/lib/format";
-import { formatBeMobile } from "@/lib/phone";
+import { formatPhone } from "@/lib/phone";
 import { useI18n } from "@/i18n/client";
 import { LOCALE_BCP47 } from "@/i18n/config";
 import type { MessageKey } from "@/i18n/messages";
@@ -24,8 +24,12 @@ function todayStr(): string {
 
 export default function HistoryView({
   labelMap,
+  locationId,
+  locationName,
 }: {
   labelMap?: Record<string, string>;
+  locationId: string;
+  locationName: string;
 }) {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -59,9 +63,10 @@ export default function HistoryView({
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/orders?from=${from}&to=${to}`, {
-        cache: "no-store",
-      });
+      const res = await fetch(
+        `/api/orders?from=${from}&to=${to}&location=${encodeURIComponent(locationId)}`,
+        { cache: "no-store" },
+      );
       if (res.status === 401) {
         router.push("/staff/login");
         return;
@@ -70,7 +75,7 @@ export default function HistoryView({
     } finally {
       setLoading(false);
     }
-  }, [from, to, router]);
+  }, [from, to, router, locationId]);
 
   // Chargement initial (aujourd'hui).
   useEffect(() => {
@@ -112,7 +117,7 @@ export default function HistoryView({
         dateTimeLabel(o.createdAt),
         t(modeKey(o.mode)),
         o.customerName,
-        formatBeMobile(o.phone),
+        formatPhone(o.phone),
         t(statusKey(o.status)),
         o.total.toFixed(2),
         itemsSummary(o),
@@ -127,7 +132,7 @@ export default function HistoryView({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `commandes_${from}_${to}.csv`;
+    a.download = `commandes_${locationId}_${from}_${to}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -137,10 +142,13 @@ export default function HistoryView({
       <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-extrabold">
           {t("history.title")} <span className="text-brand">{t("staff.staffSuffix")}</span>
+          <span className="ml-3 rounded-full bg-neutral-800 px-3 py-1 align-middle text-sm font-semibold text-neutral-200">
+            {locationName}
+          </span>
         </h1>
         <Link
           href="/staff"
-          className="rounded-full bg-neutral-800 px-3 py-1.5 text-sm text-neutral-300 hover:text-white"
+          className="rounded-full bg-neutral-800 px-3 py-1.5 text-sm text-neutral-300 hover:text-neutral-100"
         >
           {t("history.liveScreen")}
         </Link>
@@ -231,7 +239,7 @@ export default function HistoryView({
                   <td className="px-3 py-2 text-neutral-300">
                     {o.customerName}
                     <span className="block text-xs text-neutral-500">
-                      {formatBeMobile(o.phone)}
+                      {formatPhone(o.phone)}
                     </span>
                   </td>
                   <td className="px-3 py-2">

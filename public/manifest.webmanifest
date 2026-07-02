@@ -1,0 +1,15 @@
+{
+  "id": "/",
+  "name": "SunSet Burger — Commander",
+  "short_name": "SunSet Burger",
+  "description": "Commandez à distance vos burgers SunSet. Paiement sur place.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f1f3f7",
+  "theme_color": "#f1f3f7",
+  "icons": [
+    { "src": "/icon-app.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-app.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
