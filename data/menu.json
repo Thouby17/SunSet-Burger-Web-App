@@ -2,67 +2,191 @@
   "sharedChoiceGroups": {
     "portions-tenders": {
       "id": "portions-tenders",
-      "label": { "fr": "Nombre de pièces", "nl": "Aantal stuks", "en": "Number of pieces" },
+      "label": {
+        "fr": "Nombre de pièces",
+        "nl": "Aantal stuks",
+        "en": "Number of pieces"
+      },
       "min": 1,
       "max": 1,
       "choices": [
-        { "id": "4-pieces", "label": { "fr": "4 pièces", "nl": "4 stuks", "en": "4 pieces" }, "price": 0 },
-        { "id": "8-pieces", "label": { "fr": "8 pièces", "nl": "8 stuks", "en": "8 pieces" }, "price": 7.5 }
+        {
+          "id": "4-pieces",
+          "label": {
+            "fr": "4 pièces",
+            "nl": "4 stuks",
+            "en": "4 pieces"
+          },
+          "price": 0
+        },
+        {
+          "id": "8-pieces",
+          "label": {
+            "fr": "8 pièces",
+            "nl": "8 stuks",
+            "en": "8 pieces"
+          },
+          "price": 7.5
+        }
       ]
     },
     "portions-wings": {
       "id": "portions-wings",
-      "label": { "fr": "Nombre de pièces", "nl": "Aantal stuks", "en": "Number of pieces" },
+      "label": {
+        "fr": "Nombre de pièces",
+        "nl": "Aantal stuks",
+        "en": "Number of pieces"
+      },
       "min": 1,
       "max": 1,
       "choices": [
-        { "id": "5-pieces", "label": { "fr": "5 pièces", "nl": "5 stuks", "en": "5 pieces" }, "price": 0 },
-        { "id": "10-pieces", "label": { "fr": "10 pièces", "nl": "10 stuks", "en": "10 pieces" }, "price": 7.0 }
+        {
+          "id": "5-pieces",
+          "label": {
+            "fr": "5 pièces",
+            "nl": "5 stuks",
+            "en": "5 pieces"
+          },
+          "price": 0
+        },
+        {
+          "id": "10-pieces",
+          "label": {
+            "fr": "10 pièces",
+            "nl": "10 stuks",
+            "en": "10 pieces"
+          },
+          "price": 7
+        }
       ]
     },
     "sauce-incluse": {
       "id": "sauce-incluse",
-      "label": { "fr": "Sauce", "nl": "Saus", "en": "Sauce" },
+      "label": {
+        "fr": "Sauce",
+        "nl": "Saus",
+        "en": "Sauce"
+      },
       "min": 1,
       "max": 1,
       "choices": [
-        { "id": "barbecue", "label": "Barbecue", "price": 0 },
-        { "id": "spicy-mango", "label": "Spicy mango", "price": 0 },
-        { "id": "buffalo", "label": "Buffalo", "price": 0 },
-        { "id": "habanero", "label": "Habanero", "price": 0 }
+        {
+          "id": "barbecue",
+          "label": "Barbecue",
+          "price": 0
+        },
+        {
+          "id": "spicy-mango",
+          "label": "Spicy mango",
+          "price": 0
+        },
+        {
+          "id": "buffalo",
+          "label": "Buffalo",
+          "price": 0
+        },
+        {
+          "id": "habanero",
+          "label": "Habanero",
+          "price": 0
+        }
       ]
     },
     "frites-taille": {
       "id": "frites-taille",
-      "label": { "fr": "Taille", "nl": "Maat", "en": "Size" },
+      "label": {
+        "fr": "Taille",
+        "nl": "Maat",
+        "en": "Size"
+      },
       "min": 1,
       "max": 1,
       "choices": [
-        { "id": "petit", "label": { "fr": "Petit paquet", "nl": "Klein pak", "en": "Small portion" }, "price": 0 },
-        { "id": "grand", "label": { "fr": "Grand paquet", "nl": "Groot pak", "en": "Large portion" }, "price": 1.0 }
+        {
+          "id": "petit",
+          "label": {
+            "fr": "Petit paquet",
+            "nl": "Klein pak",
+            "en": "Small portion"
+          },
+          "price": 0
+        },
+        {
+          "id": "grand",
+          "label": {
+            "fr": "Grand paquet",
+            "nl": "Groot pak",
+            "en": "Large portion"
+          },
+          "price": 1
+        }
       ]
     },
     "sauces-supp": {
       "id": "sauces-supp",
-      "label": { "fr": "Sauces supplémentaires", "nl": "Extra sauzen", "en": "Extra sauces" },
+      "label": {
+        "fr": "Sauces supplémentaires",
+        "nl": "Extra sauzen",
+        "en": "Extra sauces"
+      },
       "min": 0,
       "max": 8,
       "choices": [
-        { "id": "ketchup", "label": "Ketchup", "price": 0.5 },
-        { "id": "mayonnaise", "label": "Mayonnaise", "price": 0.5 },
-        { "id": "curry-mango", "label": "Curry mango", "price": 0.5 },
-        { "id": "sweet-chili", "label": "Sweet chili", "price": 0.5 },
-        { "id": "barbecue", "label": "Barbecue", "price": 0.5 },
-        { "id": "poivre", "label": { "fr": "Poivre", "nl": "Peper", "en": "Pepper" }, "price": 0.5 },
-        { "id": "samourai", "label": "Samouraï", "price": 0.5 },
-        { "id": "ranch", "label": "Ranch", "price": 0.5 }
+        {
+          "id": "ketchup",
+          "label": "Ketchup",
+          "price": 0.5
+        },
+        {
+          "id": "mayonnaise",
+          "label": "Mayonnaise",
+          "price": 0.5
+        },
+        {
+          "id": "curry-mango",
+          "label": "Curry mango",
+          "price": 0.5
+        },
+        {
+          "id": "sweet-chili",
+          "label": "Sweet chili",
+          "price": 0.5
+        },
+        {
+          "id": "barbecue",
+          "label": "Barbecue",
+          "price": 0.5
+        },
+        {
+          "id": "poivre",
+          "label": {
+            "fr": "Poivre",
+            "nl": "Peper",
+            "en": "Pepper"
+          },
+          "price": 0.5
+        },
+        {
+          "id": "samourai",
+          "label": "Samouraï",
+          "price": 0.5
+        },
+        {
+          "id": "ranch",
+          "label": "Ranch",
+          "price": 0.5
+        }
       ]
     }
   },
   "categories": [
     {
       "id": "sides",
-      "label": { "fr": "Sides — 100% maison", "nl": "Sides — 100% huisgemaakt", "en": "Sides — 100% homemade" },
+      "label": {
+        "fr": "Sides — 100% maison",
+        "nl": "Sides — 100% huisgemaakt",
+        "en": "Sides — 100% homemade"
+      },
       "items": [
         {
           "id": "mega-tenders",
@@ -72,11 +196,14 @@
             "nl": "Verse, huisgemaakte kiptenders op basis van kwaliteitskipfilet. Geserveerd met saus naar keuze.",
             "en": "Fresh, homemade chicken tenders made from quality chicken breast. Served with your choice of sauce."
           },
-          "price": 12.0,
-          "image": null,
+          "price": 12,
+          "image": "/menu/mega-tenders.webp",
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["portions-tenders", "sauce-incluse"]
+          "choiceGroupRefs": [
+            "portions-tenders",
+            "sauce-incluse"
+          ]
         },
         {
           "id": "mega-wings",
@@ -87,26 +214,37 @@
             "en": "Homemade fried chicken wings made from fresh quality chicken. Served with your choice of sauce."
           },
           "price": 12.5,
-          "image": null,
+          "image": "/menu/mega-wings.webp",
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["portions-wings", "sauce-incluse"]
+          "choiceGroupRefs": [
+            "portions-wings",
+            "sauce-incluse"
+          ]
         }
       ]
     },
     {
       "id": "salades",
-      "label": { "fr": "Salades", "nl": "Salades", "en": "Salads" },
+      "label": {
+        "fr": "Salades",
+        "nl": "Salades",
+        "en": "Salads"
+      },
       "items": [
         {
           "id": "salade-cesar",
-          "name": { "fr": "Salade César", "nl": "Caesarsalade", "en": "Caesar Salad" },
+          "name": {
+            "fr": "Salade César",
+            "nl": "Caesarsalade",
+            "en": "Caesar Salad"
+          },
           "description": {
             "fr": "Suprême de poulet frit, poivrons sautés, courgettes et aubergines grillées, tomates cerises, croûtons, vinaigrette grecque à l'ail et ciboulette, sur salade fraîche.",
             "nl": "Gebakken kipfilet, gebakken paprika, gegrilde courgette en aubergine, kerstomaatjes, croutons, Griekse vinaigrette met look en bieslook, op verse salade.",
             "en": "Fried chicken breast, sautéed peppers, grilled zucchini and eggplant, cherry tomatoes, croutons, Greek garlic-and-chive vinaigrette, on fresh salad."
           },
-          "price": 12.0,
+          "price": 12,
           "image": null,
           "badges": [],
           "options": []
@@ -138,11 +276,13 @@
             "nl": "Ambachtelijke briochebun, vers gefrituurde kipfilet, huisgemaakte burgersaus, krokante aardappelkoek, cheddar, gefrituurde ui en knapperige sla. Geserveerd met frietjes.",
             "en": "Artisanal brioche bun, freshly fried chicken fillet, homemade burger sauce, crispy potato rösti, cheddar, fried onions and crisp lettuce. Served with fries."
           },
-          "price": 16.0,
-          "image": null,
+          "price": 16,
+          "image": "/menu/crispy-chicken.webp",
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "guaca-chicken",
@@ -156,7 +296,9 @@
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "hot-chicks",
@@ -168,9 +310,13 @@
           },
           "price": 14.5,
           "image": null,
-          "badges": ["spicy"],
+          "badges": [
+            "spicy"
+          ],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "the-sunset",
@@ -184,7 +330,9 @@
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         }
       ]
     },
@@ -200,11 +348,13 @@
             "nl": "Ambachtelijke bun, rundsburger, huisgemaakte burgersaus, dubbele plak cheddar, gekarameliseerde ui, tomaten, verse sla en pickles. Geserveerd met frietjes.",
             "en": "Artisanal bun, beef patty, homemade burger sauce, double cheddar slice, caramelised onions, tomatoes, fresh lettuce and pickles. Served with fries."
           },
-          "price": 16.0,
-          "image": null,
+          "price": 16,
+          "image": "/menu/smash-it.webp",
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "le-suisse",
@@ -214,11 +364,13 @@
             "nl": "Ambachtelijke bun, rundsburger, huisgemaakte burgersaus, raclettekaas, pastrami, huisgemaakte vijgenconfituur en rucola. Geserveerd met frietjes.",
             "en": "Artisanal bun, beef patty, homemade burger sauce, raclette cheese, pastrami, homemade fig confit and rocket. Served with fries."
           },
-          "price": 15.0,
-          "image": null,
+          "price": 15,
+          "image": "/menu/le-suisse.webp",
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "le-pepps",
@@ -228,11 +380,13 @@
             "nl": "Ambachtelijke bun, rundsburger, huisgemaakte burgersaus, cheddar, krokante bacon, ei, gesmoorde paprika, uienconfituur en rucola. Geserveerd met frietjes.",
             "en": "Artisanal bun, beef patty, homemade burger sauce, cheddar, crispy bacon, egg, braised peppers, onion confit and rocket. Served with fries."
           },
-          "price": 15.0,
-          "image": null,
+          "price": 15,
+          "image": "/menu/le-pepps.webp",
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "le-classico",
@@ -242,11 +396,13 @@
             "nl": "Ambachtelijke bun, rundsburger, huisgemaakte burgersaus, cheddar, knapperige sla, tomaten, gekarameliseerde ui en pickles. Geserveerd met frietjes.",
             "en": "Artisanal bun, beef patty, homemade burger sauce, cheddar, crisp lettuce, tomatoes, caramelised onions and pickles. Served with fries."
           },
-          "price": 13.0,
-          "image": null,
+          "price": 13,
+          "image": "/menu/le-classico.webp",
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "the-smoke",
@@ -256,11 +412,13 @@
             "nl": "Ambachtelijke bun, dubbele rundsburger, huisgemaakte barbecuesaus, dubbele plak krokante gerookte pastrami, cheddar, gekarameliseerde ui en pickles. Geserveerd met frietjes.",
             "en": "Artisanal bun, double beef patty, homemade barbecue sauce, double slice of crispy smoked pastrami, cheddar, caramelised onions and pickles. Served with fries."
           },
-          "price": 16.0,
+          "price": 16,
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "cheeese",
@@ -270,11 +428,13 @@
             "nl": "Ambachtelijke bun, rundsburger, huisgemaakte burgersaus, cheddar, emmentaler en raclette, gekarameliseerde ui, tomaten, rucola en pickles. Geserveerd met frietjes.",
             "en": "Artisanal bun, beef patty, homemade burger sauce, cheddar, emmental and raclette, caramelised onions, tomatoes, rocket and pickles. Served with fries."
           },
-          "price": 16.0,
+          "price": 16,
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "le-salsa",
@@ -284,11 +444,15 @@
             "nl": "Ambachtelijke bun, rundsburger, huisgemaakte habanerosaus, verse guacamole van de dag, cheddar, gesmoorde en gekarameliseerde ui, tomaten en knapperige sla. Geserveerd met frietjes.",
             "en": "Artisanal bun, beef patty, homemade habanero sauce, fresh guacamole of the day, cheddar, braised and caramelised onions, tomatoes and crisp lettuce. Served with fries."
           },
-          "price": 15.0,
+          "price": 15,
           "image": null,
-          "badges": ["spicy"],
+          "badges": [
+            "spicy"
+          ],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "veggie-burger",
@@ -298,11 +462,15 @@
             "nl": "Ambachtelijke bun, huisgemaakte aardappelkoek, huisgemaakte mayonaise, geroosterde paprika, aubergine alla parmigiana, met look gegrilde courgette, uienconfituur, coleslaw, augurken, tomaten en knapperige sla. Geserveerd met frietjes.",
             "en": "Artisanal bun, homemade potato rösti, homemade mayonnaise, roasted peppers, eggplant parmigiana, garlic-grilled zucchini, onion confit, coleslaw, gherkins, tomatoes and crisp lettuce. Served with fries."
           },
-          "price": 15.0,
+          "price": 15,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "litalien",
@@ -316,7 +484,9 @@
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "le-chevre",
@@ -326,11 +496,13 @@
             "nl": "Ambachtelijke bun, rundsburger, huisgemaakte barbecuesaus, gekarameliseerde ui, warme geitenkaas, gekarameliseerde appelschijfjes, rucola en walnoten. Geserveerd met frietjes.",
             "en": "Artisanal bun, beef patty, homemade barbecue sauce, caramelised onions, warm goat cheese, caramelised apple slices, rocket and walnuts. Served with fries."
           },
-          "price": 15.0,
+          "price": 15,
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         },
         {
           "id": "fish-and-chips",
@@ -340,21 +512,31 @@
             "nl": "Ambachtelijke bun, licht gepaneerde tongscharfilet, huisgemaakte citroen-tartaarsaus, cheddar, gekarameliseerde ui, pickles en huisgemaakte coleslaw. Geserveerd met frietjes.",
             "en": "Artisanal bun, lightly breaded lemon sole fillet, homemade lemon tartar sauce, cheddar, caramelised onions, pickles and homemade coleslaw. Served with fries."
           },
-          "price": 15.0,
+          "price": 15,
           "image": null,
           "badges": [],
           "options": [],
-          "choiceGroupRefs": ["sauces-supp"]
+          "choiceGroupRefs": [
+            "sauces-supp"
+          ]
         }
       ]
     },
     {
       "id": "accompagnements",
-      "label": { "fr": "Accompagnements", "nl": "Bijgerechten", "en": "Sides" },
+      "label": {
+        "fr": "Accompagnements",
+        "nl": "Bijgerechten",
+        "en": "Sides"
+      },
       "items": [
         {
           "id": "frites",
-          "name": { "fr": "Paquet de frites", "nl": "Pak frietjes", "en": "Portion of fries" },
+          "name": {
+            "fr": "Paquet de frites",
+            "nl": "Pak frietjes",
+            "en": "Portion of fries"
+          },
           "description": {
             "fr": "Frites maison, taille au choix.",
             "nl": "Huisgemaakte frietjes, maat naar keuze.",
@@ -362,9 +544,14 @@
           },
           "price": 2.5,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": [],
-          "choiceGroupRefs": ["frites-taille", "sauces-supp"]
+          "choiceGroupRefs": [
+            "frites-taille",
+            "sauces-supp"
+          ]
         }
       ]
     },
@@ -380,36 +567,60 @@
             "nl": "American Apple Pie: ouderwetse taart met kaneelappelen, overgoten met gezouten-botercaramel.",
             "en": "American Apple Pie: old-fashioned tart filled with cinnamon-spiced apples, topped with salted-butter caramel."
           },
-          "price": 5.0,
-          "image": null,
-          "badges": ["veggie"],
+          "price": 5,
+          "image": "/menu/apple-pie.webp",
+          "badges": [
+            "veggie"
+          ],
           "options": []
         },
         {
           "id": "tiramisu-speculoos",
           "name": "Tiramisu spéculoos",
-          "description": { "fr": "Fait maison.", "nl": "Huisgemaakt.", "en": "Homemade." },
+          "description": {
+            "fr": "Fait maison.",
+            "nl": "Huisgemaakt.",
+            "en": "Homemade."
+          },
           "price": 5.4,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": []
         },
         {
           "id": "tiramisu-framboise",
-          "name": { "fr": "Tiramisu framboise", "nl": "Tiramisu framboos", "en": "Raspberry tiramisu" },
-          "description": { "fr": "Fait maison.", "nl": "Huisgemaakt.", "en": "Homemade." },
+          "name": {
+            "fr": "Tiramisu framboise",
+            "nl": "Tiramisu framboos",
+            "en": "Raspberry tiramisu"
+          },
+          "description": {
+            "fr": "Fait maison.",
+            "nl": "Huisgemaakt.",
+            "en": "Homemade."
+          },
           "price": 5.4,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": []
         },
         {
           "id": "tiramisu-oreo",
           "name": "Tiramisu Oreo",
-          "description": { "fr": "Fait maison.", "nl": "Huisgemaakt.", "en": "Homemade." },
+          "description": {
+            "fr": "Fait maison.",
+            "nl": "Huisgemaakt.",
+            "en": "Homemade."
+          },
           "price": 5.4,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": []
         }
       ]
@@ -424,16 +635,24 @@
           "description": "",
           "price": 6.5,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": []
         },
         {
           "id": "milkshake-caramel-beurre-sale",
-          "name": { "fr": "Milkshake caramel beurre salé", "nl": "Milkshake gezouten karamel", "en": "Salted caramel milkshake" },
+          "name": {
+            "fr": "Milkshake caramel beurre salé",
+            "nl": "Milkshake gezouten karamel",
+            "en": "Salted caramel milkshake"
+          },
           "description": "",
           "price": 6.5,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": []
         },
         {
@@ -442,34 +661,54 @@
           "description": "",
           "price": 6.5,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": []
         },
         {
           "id": "milkshake-vanille",
-          "name": { "fr": "Milkshake vanille", "nl": "Milkshake vanille", "en": "Vanilla milkshake" },
+          "name": {
+            "fr": "Milkshake vanille",
+            "nl": "Milkshake vanille",
+            "en": "Vanilla milkshake"
+          },
           "description": "",
           "price": 6.5,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": []
         },
         {
           "id": "milkshake-fraise",
-          "name": { "fr": "Milkshake fraise", "nl": "Milkshake aardbei", "en": "Strawberry milkshake" },
+          "name": {
+            "fr": "Milkshake fraise",
+            "nl": "Milkshake aardbei",
+            "en": "Strawberry milkshake"
+          },
           "description": "",
           "price": 6.5,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": []
         },
         {
           "id": "milkshake-banane",
-          "name": { "fr": "Milkshake banane", "nl": "Milkshake banaan", "en": "Banana milkshake" },
+          "name": {
+            "fr": "Milkshake banane",
+            "nl": "Milkshake banaan",
+            "en": "Banana milkshake"
+          },
           "description": "",
           "price": 6.5,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": []
         },
         {
@@ -478,7 +717,9 @@
           "description": "",
           "price": 6.5,
           "image": null,
-          "badges": ["veggie"],
+          "badges": [
+            "veggie"
+          ],
           "options": []
         }
       ]
@@ -489,9 +730,13 @@
       "items": [
         {
           "id": "mojito-fraise",
-          "name": { "fr": "Mojito fraise", "nl": "Mojito aardbei", "en": "Strawberry mojito" },
+          "name": {
+            "fr": "Mojito fraise",
+            "nl": "Mojito aardbei",
+            "en": "Strawberry mojito"
+          },
           "description": "",
-          "price": 6.0,
+          "price": 6,
           "image": null,
           "badges": [],
           "options": []
@@ -500,25 +745,33 @@
           "id": "mojito-virgin",
           "name": "Mojito virgin",
           "description": "",
-          "price": 6.0,
+          "price": 6,
           "image": null,
           "badges": [],
           "options": []
         },
         {
           "id": "mojito-peche",
-          "name": { "fr": "Mojito pêche", "nl": "Mojito perzik", "en": "Peach mojito" },
+          "name": {
+            "fr": "Mojito pêche",
+            "nl": "Mojito perzik",
+            "en": "Peach mojito"
+          },
           "description": "",
-          "price": 6.0,
+          "price": 6,
           "image": null,
           "badges": [],
           "options": []
         },
         {
           "id": "mojito-violette",
-          "name": { "fr": "Mojito violette", "nl": "Mojito viooltje", "en": "Violet mojito" },
+          "name": {
+            "fr": "Mojito violette",
+            "nl": "Mojito viooltje",
+            "en": "Violet mojito"
+          },
           "description": "",
-          "price": 6.0,
+          "price": 6,
           "image": null,
           "badges": [],
           "options": []
@@ -527,7 +780,7 @@
           "id": "mojito-mango",
           "name": "Mojito mango",
           "description": "",
-          "price": 6.0,
+          "price": 6,
           "image": null,
           "badges": [],
           "options": []
@@ -536,58 +789,178 @@
     },
     {
       "id": "boissons",
-      "label": { "fr": "Boissons", "nl": "Dranken", "en": "Drinks" },
+      "label": {
+        "fr": "Boissons",
+        "nl": "Dranken",
+        "en": "Drinks"
+      },
       "items": [
-        { "id": "coca-cola", "name": "Coca-Cola", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
-        { "id": "coca-cola-zero", "name": "Coca-Cola zéro", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
-        { "id": "fanta-orange", "name": "Fanta orange", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
-        { "id": "oasis", "name": "Oasis", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
+        {
+          "id": "coca-cola",
+          "name": "Coca-Cola",
+          "description": "",
+          "price": 3,
+          "image": "/menu/coca-cola.webp",
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "coca-cola-zero",
+          "name": "Coca-Cola zéro",
+          "description": "",
+          "price": 3,
+          "image": "/menu/coca-cola-zero.webp",
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "fanta-orange",
+          "name": "Fanta orange",
+          "description": "",
+          "price": 3,
+          "image": "/menu/fanta-orange.webp",
+          "badges": [],
+          "options": []
+        },
+        {
+          "id": "oasis",
+          "name": "Oasis",
+          "description": "",
+          "price": 3,
+          "image": "/menu/oasis.webp",
+          "badges": [],
+          "options": []
+        },
         {
           "id": "ice-tea-peche",
-          "name": { "fr": "Ice tea pêche", "nl": "Ice tea perzik", "en": "Peach iced tea" },
-          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+          "name": {
+            "fr": "Ice tea pêche",
+            "nl": "Ice tea perzik",
+            "en": "Peach iced tea"
+          },
+          "description": "",
+          "price": 3,
+          "image": "/menu/ice-tea-peche.webp",
+          "badges": [],
+          "options": []
         },
-        { "id": "sprite", "name": "Sprite", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
+        {
+          "id": "sprite",
+          "name": "Sprite",
+          "description": "",
+          "price": 3,
+          "image": "/menu/sprite.webp",
+          "badges": [],
+          "options": []
+        },
         {
           "id": "eau-petillante",
-          "name": { "fr": "Eau pétillante", "nl": "Bruiswater", "en": "Sparkling water" },
-          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+          "name": {
+            "fr": "Eau pétillante",
+            "nl": "Bruiswater",
+            "en": "Sparkling water"
+          },
+          "description": "",
+          "price": 3,
+          "image": "/menu/eau-petillante.webp",
+          "badges": [],
+          "options": []
         },
-        { "id": "hawai", "name": "Hawaï", "description": "", "price": 3.0, "image": null, "badges": [], "options": [] },
+        {
+          "id": "hawai",
+          "name": "Hawaï",
+          "description": "",
+          "price": 3,
+          "image": "/menu/hawai.webp",
+          "badges": [],
+          "options": []
+        },
         {
           "id": "eau-plate",
-          "name": { "fr": "Eau plate", "nl": "Plat water", "en": "Still water" },
-          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+          "name": {
+            "fr": "Eau plate",
+            "nl": "Plat water",
+            "en": "Still water"
+          },
+          "description": "",
+          "price": 3,
+          "image": "/menu/eau-plate.webp",
+          "badges": [],
+          "options": []
         },
         {
           "id": "soofty-fraise",
-          "name": { "fr": "Soofty fraise", "nl": "Soofty aardbei", "en": "Soofty strawberry" },
-          "description": "", "price": 3.5, "image": null, "badges": [], "options": []
+          "name": {
+            "fr": "Soofty fraise",
+            "nl": "Soofty aardbei",
+            "en": "Soofty strawberry"
+          },
+          "description": "",
+          "price": 3.5,
+          "image": "/menu/soofty-fraise.webp",
+          "badges": [],
+          "options": []
         },
         {
           "id": "soofty-peche",
-          "name": { "fr": "Soofty pêche", "nl": "Soofty perzik", "en": "Soofty peach" },
-          "description": "", "price": 3.5, "image": null, "badges": [], "options": []
+          "name": {
+            "fr": "Soofty pêche",
+            "nl": "Soofty perzik",
+            "en": "Soofty peach"
+          },
+          "description": "",
+          "price": 3.5,
+          "image": "/menu/soofty-peche.webp",
+          "badges": [],
+          "options": []
         },
         {
           "id": "ice-tea-petillant",
-          "name": { "fr": "Ice tea pétillant", "nl": "Bruisende ice tea", "en": "Sparkling iced tea" },
-          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+          "name": {
+            "fr": "Ice tea pétillant",
+            "nl": "Bruisende ice tea",
+            "en": "Sparkling iced tea"
+          },
+          "description": "",
+          "price": 3,
+          "image": "/menu/ice-tea-petillant.webp",
+          "badges": [],
+          "options": []
         },
         {
           "id": "oasis-fraise-framboise",
-          "name": { "fr": "Oasis fraise framboise", "nl": "Oasis aardbei framboos", "en": "Oasis strawberry raspberry" },
-          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+          "name": {
+            "fr": "Oasis fraise framboise",
+            "nl": "Oasis aardbei framboos",
+            "en": "Oasis strawberry raspberry"
+          },
+          "description": "",
+          "price": 3,
+          "image": "/menu/oasis-fraise-framboise.webp",
+          "badges": [],
+          "options": []
         },
         {
           "id": "soofty-lychee",
           "name": "Soofty lychee",
-          "description": "", "price": 3.5, "image": null, "badges": [], "options": []
+          "description": "",
+          "price": 3.5,
+          "image": "/menu/soofty-lychee.webp",
+          "badges": [],
+          "options": []
         },
         {
           "id": "fanta-fraise-kiwi",
-          "name": { "fr": "Fanta fraise-kiwi", "nl": "Fanta aardbei-kiwi", "en": "Fanta strawberry-kiwi" },
-          "description": "", "price": 3.0, "image": null, "badges": [], "options": []
+          "name": {
+            "fr": "Fanta fraise-kiwi",
+            "nl": "Fanta aardbei-kiwi",
+            "en": "Fanta strawberry-kiwi"
+          },
+          "description": "",
+          "price": 3,
+          "image": null,
+          "badges": [],
+          "options": []
         }
       ]
     },
@@ -603,7 +976,7 @@
             "nl": "Rundsburger, burgersaus, cheddar, sla, tomaten, gekarameliseerde ui en pickles.",
             "en": "Beef patty, burger sauce, cheddar, lettuce, tomatoes, caramelised onions and pickles."
           },
-          "price": 11.0,
+          "price": 11,
           "image": null,
           "badges": [],
           "options": []
